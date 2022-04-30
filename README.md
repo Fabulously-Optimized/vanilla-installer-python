@@ -1,2 +1,2 @@
-# vanilla-installer
-Soon
+# 🧰 Fabulously Optimized · VanillaInstaller
+Coming soon:tm:

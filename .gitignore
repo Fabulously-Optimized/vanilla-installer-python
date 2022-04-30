@@ -1,3 +1,10 @@
+# General stuff
+data/* # Settings etc.
+theme.txt # Theme settings
+
+# IDE
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
