@@ -60,3 +60,5 @@ def toggle(popup: bool=True):
     if popup:
         if tkinter.messagebox.askyesno(title='Theme Toggle', message='The changes will apply after restarting.\nExit program now? (You need to start the program again for yourself.'):
             exit()
+            
+init()

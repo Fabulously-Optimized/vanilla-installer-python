@@ -6,8 +6,8 @@ import tkinter.messagebox
 # LOCAL
 import theme
 
-theme.init() # check for the "theme.txt" file
-font = 'Consolas' if os.name == 'nt' else 'FreeMono' 
+font = 'Yu Gothic UI' if os.name == 'nt' else 'URW Gothic' 
+print(font)
 
 win = tkinter.Tk()
 win.title('🧰 Fabulously Optimized · VanillaInstaller')

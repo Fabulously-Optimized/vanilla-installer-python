@@ -1,6 +1,7 @@
 # General stuff
 data/* # Settings etc.
 theme.txt # Theme settings
+tests/
 
 # IDE
 .vscode/
