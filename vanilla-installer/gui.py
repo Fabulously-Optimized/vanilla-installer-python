@@ -111,7 +111,7 @@ tkinter.Button(win,
 ).pack(side='left')
 
 def info():
-    webbrowser.open('https://github.com/Fabulously-Optimized/vanilla-installer/blob/README.md')
+    webbrowser.open('https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/README.md')
 
 # Info Button
 tkinter.Button(win,
