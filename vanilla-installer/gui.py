@@ -50,58 +50,15 @@ win.iconphoto(False, tkinter.PhotoImage(file='media/icon.png'))
 
 # ============================================================
 
-# Title Label
-tkinter.Label(win,
-    fg=theme.load()['fg'],
-    bg=theme.load()['bg'],
-    text='VanillaInstaller',
-    font=(font, 30, 'bold'),
-    pady=10,
-    relief='flat',
-    borderwidth=0,
-).pack()
-
-# Minecraft path label
-folder_display = tkinter.Label(win,
-    fg=theme.load()['accent'],
-    bg=theme.load()['bg'],
-    text='cd/fontejd/',
-    font=(font, 20),
-    pady=10,
-    relief='flat',
-    borderwidth=0,
-)
-folder_display.pack()
-
-# Changing the Minecraft path
-def display_folder():
-    folder_display['text'] = open(PATH_FILE).read()
-
-def folder_selection():
-    path = filedialog.askdirectory(initialdir='/',title="Select Minecraft folder")
-    open(PATH_FILE, 'w').write(path)
-    
-    display_folder()
-
-tkinter.Button(win,
-    fg=theme.load()['fg'],
-    bg=theme.load()['dark'],
-    text='Change Minecraft Folder',
-    font=(font, 20),
-    relief='flat',
-    command=folder_selection,
-    highlightthickness=0,
-    borderwidth=0,
-    activeforeground=theme.load()['fg'],
-    activebackground=theme.load()['accent']
-).pack()
+action_row = tkinter.Frame(win, width=400, relief='flat', bd=0, bg=theme.load()['bg'], background=theme.load()['bg'], borderwidth=0)
+action_row.pack()
 
 # Theme Switch
-tkinter.Button(win,
+tkinter.Button(action_row,
     fg=theme.load()['fg'],
     bg=theme.load()['dark'],
     text='Dark Theme' if theme.is_dark() else 'Light Theme',
-    font=(font, 24),
+    font=(font, 20),
     relief='flat',
     command=theme.toggle,
     borderwidth=0,
@@ -114,11 +71,11 @@ def info():
     webbrowser.open('https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/README.md')
 
 # Info Button
-tkinter.Button(win,
+tkinter.Button(action_row,
     fg=theme.load()['accent'],
     bg=theme.load()['dark'],
     text='Info',
-    font=(font, 24),
+    font=(font, 20),
     relief='flat',
     command=info,
     borderwidth=0,
@@ -128,11 +85,11 @@ tkinter.Button(win,
 ).pack(side='left')
 
 # Exit
-tkinter.Button(win,
+tkinter.Button(action_row,
     fg=theme.load()['critical'],
     bg=theme.load()['dark'],
     text='Exit',
-    font=(font, 24),
+    font=(font, 20),
     relief='flat',
     command=sys.exit,
     borderwidth=0,
@@ -141,5 +98,74 @@ tkinter.Button(win,
     activebackground=theme.load()['accent']
 ).pack(side='left')
 
-display_folder()
+# Title Label
+title_label = tkinter.Label(win,
+    fg=theme.load()['fg'],
+    bg=theme.load()['bg'],
+    text='VanillaInstaller',
+    font=(font, 30, 'bold'),
+    pady=20,
+    relief='flat',
+    borderwidth=0,
+).pack()
+
+# Minecraft path label
+path_label = tkinter.Label(win,
+    fg=theme.load()['accent'],
+    bg=theme.load()['bg'],
+    text='cd/fontejd/',
+    font=(font, 20),
+    pady=10,
+    relief='flat',
+    borderwidth=0,
+)
+path_label.pack()
+
+# Changing the Minecraft path
+def display_path():
+    path_label['text'] = open(PATH_FILE).read()
+
+def path_selection():
+    path = filedialog.askdirectory(initialdir='/',title="Select Minecraft path")
+    
+    if isinstance(path, str): # avoid errors with tuples
+        open(PATH_FILE, 'w').write(path)
+    
+    display_path()
+
+path_button = tkinter.Button(win,
+    fg=theme.load()['fg'],
+    bg=theme.load()['dark'],
+    text='Change Minecraft Path',
+    font=(font, 20),
+    relief='flat',
+    command=path_selection,
+    highlightthickness=0,
+    borderwidth=0,
+    activeforeground=theme.load()['fg'],
+    activebackground=theme.load()['accent']
+)
+path_button.pack()
+
+def run():
+    path_label.destroy()
+    path_button.destroy()
+    run_button.destroy()
+
+run_button = tkinter.Button(win,
+    fg=theme.load()['bg'],
+    bg=theme.load()['ok'],
+    text='RUN',
+    pady=10,
+    font=(font, 26, 'bold'),
+    relief='flat',
+    command=run,
+    highlightthickness=0,
+    borderwidth=0,
+    activeforeground=theme.load()['fg'],
+    activebackground=theme.load()['accent']
+)
+run_button.pack()
+
+display_path()
 win.mainloop()

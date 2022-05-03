@@ -1,5 +1,5 @@
 # General stuff
-data/* # Settings etc.
+*.txt # Settings etc.
 tests/
 
 # IDE
