@@ -1,6 +1,4 @@
 # 🧰 Fabulously Optimized · VanillaInstaller
-Coming soon:tm:
-
 ## Links
 - **Support**: Troubleshooting, compatibility notices & more
     > [docs/support.md](docs/support.md)
@@ -8,6 +6,8 @@ Coming soon:tm:
     > [docs/credits.md](docs/credits.md)
 - **Information for developers**
     > [docs/for-devs.md](docs/for-devs.md)
+- **FO issue**
+    > [#110](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)
 
 ## Installation
 ### Binaries (easy, recommended)
