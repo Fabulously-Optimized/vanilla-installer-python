@@ -8,7 +8,7 @@ FILE = 'data/theme.txt'
 def init():
     """Checks if the theme file exists and creates it if not. Also checks the theme of the OS and edits the file accordingly.
     """
-    if not os.path.exists('theme.txt'):
+    if not os.path.exists(FILE):
         open(FILE, 'w').write('dark' if darkdetect.isDark() else 'light')
 
 def is_dark(to: bool=None) -> bool:
@@ -20,21 +20,22 @@ def is_dark(to: bool=None) -> bool:
     Returns:
         bool: theme
     """
-    if to: # change
-        open(FILE, 'w').write('dark' if to else 'light')
+    if to is not None: # change
+        open(FILE, 'w').write('dark' if to == True else 'light')
     return open(FILE).read() == 'dark'
 
 def load() -> dict:
     """Returns the current theme dictionary.
 
     Returns:
-        _type_: _description_
+        dict: The colors palette.
     """
     if is_dark():
         return {
             'fg': 'white',
             'bg': '#0E0F13',
-            'light': '#008AE6',
+            'dark': '#202023',
+            'accent': '#008AE6',
             'warn': '#fc9d19',
             'critical': '#fc3b19',
             'ok': '#28ff02'
@@ -43,7 +44,8 @@ def load() -> dict:
         return {
             'fg': 'black',
             'bg': 'white',
-            'light': '#008AE6',
+            'dark': '#EEEEEE',
+            'accent': '#008AE6',
             'warn': '#fc9d19',
             'critical': '#fc3b19',
             'ok': '#28ff02'
@@ -55,10 +57,14 @@ def toggle(popup: bool=True):
     Args:
         popup (bool, optional): Wether to show a informational popup which asks to exit the program. Defaults to True.
     """
-    is_dark(not is_dark())
+    is_dark(to=not is_dark())
 
     if popup:
         if tkinter.messagebox.askyesno(title='Theme Toggle', message='The changes will apply after restarting.\nExit program now? (You need to start the program again for yourself.'):
             exit()
             
 init()
+
+if __name__ == '__main__':
+    print('Dark Mode?', is_dark())
+    print('Theme dictionary:', load())
