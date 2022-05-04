@@ -1,4 +1,7 @@
-# Credits
+# Code Credits
+### GitHub
+- https://github.com/max-niederman/fabric-quick-setup/blob/40c959c6cd2295c679576680fab3cda2b15222f5/fabric_quick_setup/cli.py
+
 ## StackOverflow
 ### AskUbuntu
 - https://askubuntu.com/questions/1109704/tkinter-font-not-changing-on-python-3-6-8-on-ubuntu-18-04

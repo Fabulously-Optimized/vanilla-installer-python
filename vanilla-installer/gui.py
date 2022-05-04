@@ -11,6 +11,7 @@ import minecraft_launcher_lib
 from tkinter import filedialog # otherwise, this is not working properly for some reason
 
 # LOCAL
+import main
 import theme
 
 PATH_FILE = 'data/mc-path.txt'
@@ -68,6 +69,8 @@ tkinter.Button(action_row,
 ).pack(side='left')
 
 def info():
+    """Opens the info website
+    """
     webbrowser.open('https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/README.md')
 
 # Info Button
@@ -107,7 +110,8 @@ title_label = tkinter.Label(win,
     pady=20,
     relief='flat',
     borderwidth=0,
-).pack()
+)
+title_label.pack()
 
 # Minecraft path label
 path_label = tkinter.Label(win,
@@ -148,9 +152,15 @@ path_button = tkinter.Button(win,
 path_button.pack()
 
 def run():
+    """Starts the installer.
+    """
+    title_label['font'] = (font, 20, 'italic')
+    title_label['text'] = 'Preparing...'
     path_label.destroy()
     path_button.destroy()
     run_button.destroy()
+    
+    main.run(widget=title_label)
 
 run_button = tkinter.Button(win,
     fg=theme.load()['bg'],
