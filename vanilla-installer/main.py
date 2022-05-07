@@ -18,7 +18,7 @@ def set_dir(path: str):
     """Sets the Minecraft game directory.
 
     Args:
-        path (str): THe path to the Minecraft game directory.
+        path (str): The path to the Minecraft game directory.
     """
     if isinstance(path, str): # only strings can be written
         return open(PATH_FILE, 'w').write(path)
@@ -38,14 +38,17 @@ def get_java() -> str:
     return mll.utils.get_java_executable()
 
 def init() -> None:
-    if not os.path.exists(PATH_FILE): # sets the default Minecraft path automatically
+    # SET INSTALLATION PATH
+    if not os.path.exists(PATH_FILE):
         try:
-            path = mll.utils.get_minecraft_directory()
+            path = mll.utils.get_minecraft_directory().replace('.minecraft', '')
         except Exception as e: # any error could happen, really.
             logging.error(f'Could not get Minecraft path: {e}')
             set_dir()
         else:
             set_dir(path)
+
+    # SET 
 
 def text_update(text: str, widget=None, color: str='fg') -> None:
     widget.master.title(f'{text} » VanillaInstaller')
@@ -97,7 +100,7 @@ def download_pack(widget=None):
     return file_path
 
 def install_pack(zip_file: str, widget=None):
-    os.makedirs(f'{get_dir}/', exist_ok=True)
+    os.makedirs(f'{get_dir()}/', exist_ok=True)
     zipfile.ZipFile(zip_file).extractall()
 
 def run(widget=None) -> None:
