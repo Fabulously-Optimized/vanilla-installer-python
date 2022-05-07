@@ -28,6 +28,12 @@ pip3 install -r requirements.txt
 echo "INFO | Downloading the installer..."
 git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
 
+# Directory selection (default /usr/local/bin)
+read -p "Enter the directory you want (Press Enter to skip): " dir
+if [ -z $dir ]; then
+    dir="/usr/bin/"
+fi
+
 # Making it executable, moving it to the selected directory
 echo "INFO | Installing the installer..."
 cd /tmp/vi/vanilla-installer/
