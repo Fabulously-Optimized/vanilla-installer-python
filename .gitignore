@@ -2,6 +2,7 @@
 *.txt # Settings etc.
 *.jar
 tests/
+temp/
 
 # IDE
 .vscode/

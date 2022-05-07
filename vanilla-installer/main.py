@@ -1,9 +1,18 @@
 PATH_FILE = 'data/mc-path.txt'
+FOLDER_LOC = ''
+TEMP_FOLDER = 'temp/'
 
+# IMPORTS
 import os
+import zipfile
 import logging
 import requests
+import webbrowser
+import subprocess
 import minecraft_launcher_lib as mll
+
+# LOCAL
+import theme
 
 def set_dir(path: str):
     """Sets the Minecraft game directory.
@@ -11,7 +20,8 @@ def set_dir(path: str):
     Args:
         path (str): THe path to the Minecraft game directory.
     """
-    return open(PATH_FILE, 'w').write(path)
+    if isinstance(path, str): # only strings can be written
+        return open(PATH_FILE, 'w').write(path)
 
 def get_dir() -> str:
     """Returns the Minecraft game directory.
@@ -38,16 +48,20 @@ def init() -> None:
             set_dir(path)
 
 def text_update(text: str, widget=None, color: str='fg') -> None:
+    widget.master.title(f'{text} » VanillaInstaller')
     if widget:
         widget['text'] = text
-        widget['fg'] = color
+        widget['fg'] = theme.load()[color]
     else:
         logging.info(text)
+
+def download_minecraft(): # currently manual
+    webbrowser.open('https://www.minecraft.net/download')
 
 def download_fabric(widget=None): # https://github.com/max-niederman/fabric-quick-setup/blob/40c959c6cd2295c679576680fab3cda2b15222f5/fabric_quick_setup/cli.py#L69 (nice)
     installers = requests.get('https://meta.fabricmc.net/v2/versions/installer').json()
     download = requests.get(installers[0]['url'])
-    file_path = 'temp/' + download.url.split('/')[-1]
+    file_path = TEMP_FOLDER + download.url.split('/')[-1]
     
     text_update(f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...', widget)
     open(file_path, 'wb').write(download.content)
@@ -56,10 +70,10 @@ def download_fabric(widget=None): # https://github.com/max-niederman/fabric-quic
 
 def install_fabric(installer_jar: str, mc_version: str, mc_dir: str, widget=None): # installs the Fabric launcher jar
     text_update('Installing Fabric...', widget)
-    ran = os.system(f'{get_java()} -jar {installer_jar} client -mcversion {mc_version} -dir {mc_dir}')
+    ran = subprocess.call(f'{get_java()} -jar {installer_jar} client -mcversion {mc_version} -dir {mc_dir}'.split())
     
     if ran == 0:
-        text_update(f'Installed Fabric: {ran}', widget)
+        text_update(f'Installed Fabric {mc_version}', widget, 'success')
     else:
         text_update(f'Could not install Fabric: {ran}', widget, 'error')
 
@@ -68,7 +82,7 @@ def download_pack(widget=None):
 
     pack_json = requests.get('https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/releases/latest').json()
     pack_file = ''
-     
+
     for asset in pack_json['assets']:
         url = asset['browser_download_url']
         if 'MultiMC' in url:
@@ -77,17 +91,28 @@ def download_pack(widget=None):
     
     download = requests.get(pack_file)
     text_update(f'Downloading Pack ({int(download.headers["Content-Length"])//1000} KB)...', widget)
-    open(file_path, 'wb').write(download.content)
-
-    os.makedirs(f'{get_dir}/', exist_ok=True)
+    file_path = TEMP_FOLDER + pack_file.split('/')[-1]
     
+    open(file_path, 'wb').write(download.content)
+    return file_path
+
+def install_pack(zip_file: str, widget=None):
+    os.makedirs(f'{get_dir}/', exist_ok=True)
+    zipfile.ZipFile(zip_file).extractall()
 
 def run(widget=None) -> None:
     """Starts the installation process.
     """
     text_update('Starting Fabric Download...', widget)
     installer_jar = download_fabric(widget=widget)
+    
     text_update('Starting Fabric Installation...', widget)
     install_fabric(installer_jar=installer_jar, mc_version=newest_version(), mc_dir=get_dir(), widget=widget)
+    
+    text_update('Starting Pack Download...', widget)
+    pack_zip = download_pack(widget)
+
+    text_update('Starting Pack Installation...', widget)
+    install_pack(zip_file=pack_zip, widget=widget)
 
 init() # start initialization

@@ -2,28 +2,15 @@
 import os
 import sys
 import tkinter
-import logging
 import argparse
 import webbrowser
 import tkinter.messagebox
-import minecraft_launcher_lib
 
 from tkinter import filedialog # otherwise, this is not working properly for some reason
 
 # LOCAL
 import main
 import theme
-
-PATH_FILE = 'data/mc-path.txt'
-
-if not os.path.exists(PATH_FILE):
-    try:
-        path = minecraft_launcher_lib.utils.get_minecraft_directory()
-    except Exception as e: # any error could happen, really.
-        logging.error(f'Could not get Minecraft path: {e}')
-        open(PATH_FILE, 'w').write('') # empty file
-    else:
-        open(PATH_FILE, 'w').write(path)
 
 # ARGUMENTS
 parser = argparse.ArgumentParser()
@@ -39,7 +26,7 @@ else:
     win = tkinter.Tk(baseName='VanillaInstaller', className='VanillaInstaller')
     #win.wm_attributes('-type', 'splash')
 
-win.title('🧰 Fabulously Optimized · VanillaInstaller')
+win.title(f'{"" if args.safegui else "🧰 " }Fabulously Optimized · VanillaInstaller')
 win.config(bg=theme.load()['bg'])
 
 if not args.safegui:
@@ -89,7 +76,7 @@ tkinter.Button(action_row,
 
 # Exit
 tkinter.Button(action_row,
-    fg=theme.load()['critical'],
+    fg=theme.load()['error'],
     bg=theme.load()['dark'],
     text='Exit',
     font=(font, 20),
@@ -117,7 +104,7 @@ title_label.pack()
 path_label = tkinter.Label(win,
     fg=theme.load()['accent'],
     bg=theme.load()['bg'],
-    text='cd/fontejd/',
+    text='Error', # this text should be changed automatically
     font=(font, 20),
     pady=10,
     relief='flat',
@@ -127,13 +114,11 @@ path_label.pack()
 
 # Changing the Minecraft path
 def display_path():
-    path_label['text'] = open(PATH_FILE).read()
+    path_label['text'] = main.get_dir()
 
 def path_selection():
     path = filedialog.askdirectory(initialdir='/',title="Select Minecraft path")
-    
-    if isinstance(path, str): # avoid errors with tuples
-        open(PATH_FILE, 'w').write(path)
+    main.set_dir(path)
     
     display_path()
 
@@ -164,7 +149,7 @@ def run():
 
 run_button = tkinter.Button(win,
     fg=theme.load()['bg'],
-    bg=theme.load()['ok'],
+    bg=theme.load()['success'],
     text='RUN',
     pady=10,
     font=(font, 26, 'bold'),

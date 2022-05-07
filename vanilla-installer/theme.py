@@ -37,8 +37,8 @@ def load() -> dict:
             'dark': '#202023',
             'accent': '#008AE6',
             'warn': '#fc9d19',
-            'critical': '#fc3b19',
-            'ok': '#28ff02'
+            'error': '#fc3b19',
+            'success': '#28ff02'
         }
     else:
         return {
@@ -47,8 +47,8 @@ def load() -> dict:
             'dark': '#EEEEEE',
             'accent': '#008AE6',
             'warn': '#fc9d19',
-            'critical': '#fc3b19',
-            'ok': '#28ff02'
+            'error': '#fc3b19',
+            'success': '#28ff02'
         }
 
 def toggle(popup: bool=True):
