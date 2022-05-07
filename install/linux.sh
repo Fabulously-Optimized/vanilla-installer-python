@@ -11,16 +11,16 @@ fi
 echo "INFO | Installing dependencies..."
 cd /usr/bin/
 if [ls apt -eq apt]; then
-    apt-get install python-tk >/dev/null
-fi
-if [ls pacman -eq pacman]; then
-    pacman -S python-tk >/dev/null
-fi
-if [ls dnf -eq dnf]; then
-     dnf install python-tk >/dev/null
-fi
-if [ls zypper -eq zypper]; then
-    zypper install python-tk >/dev/null
+    apt-get install python-tk
+else
+  if [ls pacman -eq pacman]; then
+      pacman -S python-tk
+else
+  if [ls dnf -eq dnf]; then
+     dnf install python-tk
+else
+  if [ls zypper -eq zypper]; then
+      zypper install python-tk
 fi
 pip3 install -r requirements.txt
 
