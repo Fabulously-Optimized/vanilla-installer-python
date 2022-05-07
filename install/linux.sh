@@ -28,7 +28,7 @@ pip3 install -r requirements.txt
 echo "INFO | Downloading the installer..."
 git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
 
-# Directory selection (default /usr/local/bin)
+# Directory selection (default /usr/bin)
 read -p "Enter the directory you want (Press Enter to skip): " dir
 if [ -z $dir ]; then
     dir="/usr/bin/"
