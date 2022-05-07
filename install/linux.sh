@@ -37,7 +37,7 @@ cp gui.py $dir
 # Cleaning up
 echo "INFO | Removing unnecessary files..."
 cd /tmp/
-rm -r vi
+rm -rf vi
 
 # Running the script
 if [ $? -eq 0 ]; then # Success output
