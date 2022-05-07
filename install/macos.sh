@@ -14,7 +14,7 @@ pip3 install -r requirements.txt
 
 # Downloading the installer
 echo "INFO | Downloading the installer..."
-tmp=$(mktemp)
+tmp=$(mktemp -d)
 git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
 
 # Making it executable, moving it to the selected directory
@@ -25,8 +25,6 @@ cp gui.py $dir
 
 # Cleaning up
 echo "INFO | Removing unnecessary files..."
-cd /$tmp/
-cd ..
 rm -r $tmp
 
 # Running the script
