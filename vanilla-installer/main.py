@@ -18,7 +18,7 @@ def set_dir(path: str):
     """Sets the Minecraft game directory.
 
     Args:
-        path (str): THe path to the Minecraft game directory.
+        path (str): The path to the Minecraft game directory.
     """
     if isinstance(path, str): # only strings can be written
         return open(PATH_FILE, 'w').write(path)
