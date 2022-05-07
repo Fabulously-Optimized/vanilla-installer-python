@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 # Made by RaptaG (https://github.com/RaptaG)
 
-# Root permission checker
-if [ $EUID -ne 0 ]; then
-  echo "ERROR | Root permissions are needed for the script to work. Please run sudo ./$(basename $0)" >&2
-  exit 1
-fi
-
 # Installing python-tk and the python requirements
 echo "INFO | Installing dependencies..."
 brew install python-tk
@@ -25,7 +19,7 @@ cp gui.py $dir
 
 # Cleaning up
 echo "INFO | Removing unnecessary files..."
-rm -r $tmp
+rm -rf $tmp
 
 # Running the script
 if [ $? -eq 0 ]; then # Success output
