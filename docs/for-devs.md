@@ -20,7 +20,7 @@
         # I wouldn't recommend "git commit"-ing this folder, especially if there isn't any code which could be useful for other developers and contributors.
 
     📂 vanilla-installer
-        # Actual Python scripts.
+        # Actual Python scripts. (GUI, CLI, helpers etc.)
 
 ```
 
