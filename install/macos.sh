@@ -11,7 +11,7 @@ echo "INFO | Downloading the installer..."
 tmp=$(mktemp -d)
 git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
 
-# Directory selection
+# Directory selection (default /usr/local/bin)
 read -p "Enter the directory you want (Press Enter to skip): " dir
 if [ -z $dir ]; then
     dir="/usr/local/bin/"
