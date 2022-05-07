@@ -10,16 +10,16 @@ fi
 # Installing python-tk, according to the distro/OS and the python requirements
 echo "INFO | Installing dependencies..."
 cd /usr/bin/
-if [ls apt apt]; then
+if [ls apt -eq apt]; then
     apt-get install python-tk >/dev/null
 fi
-if [ls pacman pacman]; then
+if [ls pacman -eq pacman]; then
     pacman -S python-tk >/dev/null
 fi
-if [ls dnf dnf]; then
+if [ls dnf -eq dnf]; then
      dnf install python-tk >/dev/null
 fi
-if [ls zypper zypper]; then
+if [ls zypper -eq zypper]; then
     zypper install python-tk >/dev/null
 else
     brew install python-tk
@@ -37,7 +37,7 @@ chmod +x gui.py
 cp gui.py $dir
 
 # Cleaning up
-echo " INFO | Removing unnecessary files..."
+echo "INFO | Removing unnecessary files..."
 cd /tmp/
 rm -r vi
 
