@@ -1,4 +1,4 @@
-# 🧰 Fabulously Optimized · VanillaInstaller
+# 🧰 Fabulously Optimized · Vanilla Installer
 ## Links
 - **Support**: Troubleshooting, compatibility notices & more
     > [docs/support.md](docs/support.md)
@@ -16,6 +16,6 @@ Just [go to the **Releases** tab](releases) and download the correct file.
 
 ### Automatic (advanced)
 ```
-install/debian-based.sh
+linux-mac.sh
 windows.bat
 ```
