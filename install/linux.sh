@@ -7,7 +7,7 @@ if [ $EUID -ne 0 ]; then
   exit 1
 fi
 
-# Installing python-tk, according to the distro/OS and the python requirements
+# Installing python-tk (according to the distro) and the python requirements
 echo "INFO | Installing dependencies..."
 cd /usr/bin/
 if [ls apt -eq apt]; then
@@ -21,8 +21,6 @@ if [ls dnf -eq dnf]; then
 fi
 if [ls zypper -eq zypper]; then
     zypper install python-tk >/dev/null
-else
-    brew install python-tk
 fi
 pip3 install -r requirements.txt
 
