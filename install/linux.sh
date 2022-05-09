@@ -25,41 +25,41 @@ git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
 # Directory selection (default ~/.minecraft/)
 read -p "SELECT | Enter the directory you want (Press Enter to skip): " dir
 if [ -z $dir ]; then
-    dir="$HOME/.minecraft/"
+    dir="$HOME/.minecraft"
 fi
 
 # Making them executable, moving them to the selected directory
 echo "INFO | Installing the FO vanilla installer..."
-cd $dir
-mkdir vanilla-installer
+cd $dir/
+mkdir VanillaInstaller
+cd VanillaInstaller/
+mkdir scripts
 cd /tmp/vi/
-mv data $dir/vanilla-installer/data
-mv vanilla-installer $dir/vanilla-installer/installer
-mv media $dir/vanilla-installer/media
-cd $dir/vanilla-installer/installer/
+mv data $dir/VanillaInstaller/scripts/data
+mv vanilla-installer $dir/VanillaInstaller/scripts/installer
+mv media $dir/VanillaInstaller/scripts/media
+cd $dir/VanillaInstaller/scripts/installer/
 chmod +x gui.py main.py theme.py
 
 # Cleaning up
 echo "INFO | Removing unnecessary files..."
 cd /tmp/
 rm -rf vi
-cd $dir/vi/media/
+cd $dir/VanillaInstaller/scripts/media/
 rm -rf screenshots
 
 # Running the script
 if [ $? -eq 0 ]; then # Success output
     echo "SUCCESS | Done. Starting the script..."
-    cd $dir/vi/installer
+    cd $dir/VanillaInstaller/scripts/installer/
     python3 gui.py
     if [ $? -ne 0 ]; then # Failure output
-        echo "WARNING | Python script terminated!"
-        exit
-    else
-        echo "ERROR | Python script had an issue!"
+        echo "WARNING | Python script had an issue and terminated!"
         exit
     fi
 else
-    echo "ERROR | Dependencies should not be installed. Exiting."
+    echo "ERROR | Dependencies should not be installed. Please run the script again."
+    echo "Exiting..."
     exit
 fi
 exit 1
