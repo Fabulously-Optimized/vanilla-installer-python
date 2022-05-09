@@ -1,3 +1,7 @@
+"""
+Theme & design of the Tkinter GUI application
+"""
+
 import os
 import tkinter
 import darkdetect
@@ -6,7 +10,8 @@ import tkinter.messagebox
 FILE = 'data/theme.txt'
 
 def init():
-    """Checks if the theme file exists and creates it if not. Also checks the theme of the OS and edits the file accordingly.
+    """Checks if the theme file exists and creates it if not.
+    Also checks the theme of the OS and edits the file accordingly.
     """
     if not os.path.exists(FILE):
         open(FILE, 'w').write('dark' if darkdetect.isDark() else 'light')
@@ -36,6 +41,7 @@ def load() -> dict:
             'bg': '#0E0F13',
             'dark': '#202023',
             'accent': '#008AE6',
+            'info': '#ff66ff',
             'warn': '#fc9d19',
             'error': '#fc3b19',
             'success': '#28ff02'
@@ -47,6 +53,7 @@ def load() -> dict:
             'dark': '#EEEEEE',
             'accent': '#008AE6',
             'warn': '#fc9d19',
+            'info': '#ff66ff',
             'error': '#fc3b19',
             'success': '#28ff02'
         }
@@ -55,14 +62,18 @@ def toggle(popup: bool=True):
     """Switches between dark and light theme
 
     Args:
-        popup (bool, optional): Wether to show a informational popup which asks to exit the program. Defaults to True.
+        popup (bool, optional): Wether to show a informational popup
+        which asks to exit the program. Defaults to True.
     """
     is_dark(to=not is_dark())
 
     if popup:
-        if tkinter.messagebox.askyesno(title='Theme Toggle', message='The changes will apply after restarting.\nExit program now? (You need to start the program again for yourself.'):
+        if tkinter.messagebox.askyesno(title='Theme Toggle', message= \
+'''The changes will apply after restarting.
+Exit program now?
+(You need to start the program again manually).'''):
             exit()
-            
+
 init()
 
 if __name__ == '__main__':

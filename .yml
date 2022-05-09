@@ -2,3 +2,31 @@
   uses: JackMcKew/pyinstaller-action-windows@v0.1.2
 - name: PyInstaller Linux
   uses: JackMcKew/pyinstaller-action-linux@0.1.4
+- name: build-deb-action
+  # You may pin to the exact commit or the version.
+  # uses: jiro4989/build-deb-action@c975d37811e6d0992029eb37d3c5d71cd2057790
+  uses: jiro4989/build-deb-action@v2
+  with:
+    # Package name of debian package.
+    package: vanillainstaller
+    # Directory of release files.
+    package_root: builds
+    # Package maintainer name.
+    maintainer: ONLIX
+    # Package version.
+    version: 1.0
+    # Package installed size. GitHub Actions set summarized byte size of `package_root` directory when this parameter is empty.
+    installed_size: # optional, default is 
+    # Package dependencies.
+    depends: # optional, default is none
+    # Package architecture.
+    arch: # optional, default is amd64
+    # Package description.
+    desc: # optional, default is no description
+- name: Build AppImage
+  # You may pin to the exact commit or the version.
+  # uses: AppImageCrafters/build-appimage@2f48abf7a0e74a879ac316eabd3c0db954515eb3
+  uses: AppImageCrafters/build-appimage@v1
+  with:
+    # appimage-builder recipe file
+    recipe: # default is AppImageBuilder.yml

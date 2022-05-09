@@ -3,6 +3,9 @@
 *.jar
 tests/
 temp/
+logs/*
+logs/*.*
+*.log
 
 # IDE
 .vscode/
