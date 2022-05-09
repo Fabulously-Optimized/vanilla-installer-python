@@ -19,3 +19,14 @@ Just [go to the **Releases** tab](releases) and download the correct file.
 install/debian-based.sh
 windows.bat
 ```
+
+## Contributors
+- [@Madis0](https://github.com/Madis0)
+  - Founder of Fabulously Optimized
+
+- [@nsde](https://github.com/nsde)
+  - Lead developer
+  - Python scripts (GUI etc.)
+
+- [@RaptaG](https://github.com/RaptaG)
+  - [Shell scripts](install/) (bat/sh) for Windows, MacOS and Linux
