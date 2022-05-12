@@ -16,6 +16,17 @@ Just [go to the **Releases** tab](releases) and download the correct file.
 
 ### Automatic (advanced)
 
-**Windows: [windows.bat](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/windows.bat) ||
-MacOS: [macos.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/macos.sh) ||
+**Windows: [windows.bat](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/windows.bat)<br />
+MacOS: [macos.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/macos.sh)<br />
 Linux: [linux.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/linux.sh)**
+
+## Contributors
+- [@Madis0](https://github.com/Madis0)
+  - Founder of Fabulously Optimized
+
+- [@nsde](https://github.com/nsde)
+  - Lead developer
+  - Python scripts (GUI etc.)
+
+- [@RaptaG](https://github.com/RaptaG)
+  - [Shell scripts](install/) (sh) for MacOS and Linux
