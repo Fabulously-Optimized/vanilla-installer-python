@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 # Made by RaptaG (https://github.com/RaptaG)
 
-# Installing python-tk and the python requirements
+# Installing python-tk
 echo "INFO | Installing dependencies..."
 brew install python-tk
-pip3 install -r requirements.txt
 
-# Downloading the installer
+# Downloading the installer and the python requirements
 echo "INFO | Downloading the FO Vanilla Installer..."
 tmp=$(mktemp -d)
-git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
+if [ -d $tmp ]; then
+    rm -rf $tmp
+    git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
+else
+    git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
+fi
+cd /$tmp/vi/
+pip3 install -r requirements.txt
 
 # Directory selection (default ~/Library/Application Support/Minecraft/)
 read -p "SELECT | Enter the directory you want (Press Enter to skip): " dir
@@ -43,11 +49,10 @@ if [ $? -eq 0 ]; then # Success output
     python3 gui.py
     if [ $? -ne 0 ]; then # Failure output
         echo "WARNING | Python script had an issue and terminated!"
-        exit
+        exit 1
     fi
 else
     echo "ERROR | Dependencies should not be installed. Please run the script again."
     echo "Exiting..."
-    exit
+    exit 1
 fi
-exit 1
