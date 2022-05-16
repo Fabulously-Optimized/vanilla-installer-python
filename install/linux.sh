@@ -1,26 +1,33 @@
 #!/bin/bash
 # Edits by RaptaG (https://github.com/RaptaG)
 
-# Installing python-tk (according to the distro) and the python requirements
+# Installing python-tk (according to the distro)
 echo "INFO | Installing dependencies..."
 cd /usr/bin/
-if [ls apt -eq apt]; then
+if [ -f apt ]; then
     sudo apt-get install python-tk
 else
-  if [ls pacman -eq pacman]; then
+  if [ -f pacman ]; then
     sudo pacman -S python-tk
 else
-  if [ls dnf -eq dnf]; then
+  if [ -f dnf ]; then
     sudo dnf install python-tk
 else
-  if [ls zypper -eq zypper]; then
+  if [ -f zypper ]; then
     sudo zypper install python-tk
 fi
-pip3 install -r requirements.txt
 
-# Downloading the installer
+# Downloading the installer and the python requirements
 echo "INFO | Downloading the installer..."
-git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
+cd /tmp/
+if [ -d vi ]; then
+	rm -rf vi
+    git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
+else
+	git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
+fi
+cd /tmp/vi/
+pip3 install -r requirements.txt
 
 # Directory selection (default ~/.minecraft/)
 read -p "SELECT | Enter the directory you want (Press Enter to skip): " dir
@@ -55,11 +62,10 @@ if [ $? -eq 0 ]; then # Success output
     python3 gui.py
     if [ $? -ne 0 ]; then # Failure output
         echo "WARNING | Python script had an issue and terminated!"
-        exit
+        exit 1
     fi
 else
     echo "ERROR | Dependencies should not be installed. Please run the script again."
     echo "Exiting..."
-    exit
+    exit 1
 fi
-exit 1
