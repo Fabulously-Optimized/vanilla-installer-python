@@ -7,7 +7,7 @@ brew install python-tk
 
 # Downloading the installer and the python requirements
 echo "INFO | Downloading the FO Vanilla Installer..."
-tmp=$(mktemp -d)
+tmp="$(mktemp -d)"
 if [ -d $tmp ]; then
     rm -rf $tmp
     git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/vi
