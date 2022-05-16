@@ -18,7 +18,7 @@ parser.add_argument('--safegui', type=bool)
 parser.add_argument('--litegui', type=bool)
 args = parser.parse_args()
 
-font = 'Yu Gothic UI' if os.name == 'nt' else 'URW Gothic' 
+font = 'Yu Gothic UI' if os.name == 'nt' else 'URW Gothic'
 
 def run():
     if args.litegui:
@@ -32,8 +32,8 @@ def run():
 
     if not args.safegui:
         win.geometry('500x400')
-        win.minsize(500, 400) 
-        win.maxsize(500, 400) 
+        win.minsize(500, 400)
+        win.maxsize(500, 400)
 
     win.iconphoto(False, tkinter.PhotoImage(file='media/icon.png'))
 

@@ -1,4 +1,4 @@
-# 🧰 Fabulously Optimized · VanillaInstaller
+# 🧰 Fabulously Optimized · Vanilla Installer
 ## Links
 - **Support**: Troubleshooting, compatibility notices & more
     > [docs/support.md](docs/support.md)
@@ -15,10 +15,10 @@ These are quite simple to install.
 Just [go to the **Releases** tab](releases) and download the correct file. 
 
 ### Automatic (advanced)
-```
-install/debian-based.sh
-windows.bat
-```
+
+**Windows: [windows.bat](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/windows.bat)<br />
+MacOS: [macos.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/macos.sh)<br />
+Linux: [linux.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/linux.sh)**
 
 ## Contributors
 - [@Madis0](https://github.com/Madis0)
@@ -29,4 +29,4 @@ windows.bat
   - Python scripts (GUI etc.)
 
 - [@RaptaG](https://github.com/RaptaG)
-  - [Shell scripts](install/) (bat/sh) for Windows, MacOS and Linux
+  - [Shell scripts](install/) (sh) for MacOS and Linux

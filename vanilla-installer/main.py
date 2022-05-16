@@ -10,16 +10,15 @@ import logging
 
 # IMPORTS
 import os
-import subprocess
 import sys
-import webbrowser
 import zipfile
-
-import gui
-import minecraft_launcher_lib as mll
 import requests
+import webbrowser
+import subprocess
+import minecraft_launcher_lib as mll
 
 # LOCAL
+import gui
 import theme
 
 
