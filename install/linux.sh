@@ -62,10 +62,10 @@ if [ $? -eq 0 ]; then # Success output
     python3 gui.py
     if [ $? -ne 0 ]; then # Failure output
         echo "WARNING | The python script had an issue and terminated!"
-        exit 1
+        exit
     fi
 else
     echo "ERROR | Dependencies should not be installed. Please run the script again."
     echo "Exiting..."
-    exit 1
+    exit
 fi
