@@ -14,7 +14,7 @@ if [ -d $tmp ]; then
 else
     git clone https://github.com/Fabulously-Optimized/vanilla-installer /$tmp/fovi
 fi
-cd /$tmp/vi/
+cd /$tmp/fovi/
 pip3 install -r requirements.txt
 
 # Directory selection (default ~/Library/Application Support/Minecraft/)
