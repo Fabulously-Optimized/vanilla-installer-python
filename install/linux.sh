@@ -1,5 +1,5 @@
 #!/bin/bash
-# Edits by RaptaG (https://github.com/RaptaG)
+# RaptaG's remade version (https://github.com/RaptaG)
 
 # Installing python-tk (according to the distro)
 echo "INFO | Installing dependencies..."
@@ -20,13 +20,13 @@ fi
 # Downloading the installer and the python requirements
 echo "INFO | Downloading the installer..."
 cd /tmp/
-if [ -d vi ]; then
-	rm -rf vi
-    git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
+if [ -d fovi ]; then
+	rm -rf fovi
+    git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/fovi
 else
-	git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/vi
+	git clone https://github.com/Fabulously-Optimized/vanilla-installer /tmp/fovi
 fi
-cd /tmp/vi/
+cd /tmp/fovi/
 pip3 install -r requirements.txt
 
 # Directory selection (default ~/.minecraft/)
@@ -41,7 +41,7 @@ cd $dir/
 mkdir VanillaInstaller
 cd VanillaInstaller/
 mkdir scripts
-cd /tmp/vi/
+cd /tmp/fovi/
 mv data $dir/VanillaInstaller/scripts/data
 mv vanilla-installer $dir/VanillaInstaller/scripts/installer
 mv media $dir/VanillaInstaller/scripts/media
@@ -51,7 +51,7 @@ chmod +x gui.py main.py theme.py
 # Cleaning up
 echo "INFO | Removing unnecessary files..."
 cd /tmp/
-rm -rf vi
+rm -rf fovi
 cd $dir/VanillaInstaller/scripts/media/
 rm -rf screenshots
 
@@ -61,7 +61,7 @@ if [ $? -eq 0 ]; then # Success output
     cd $dir/VanillaInstaller/scripts/installer/
     python3 gui.py
     if [ $? -ne 0 ]; then # Failure output
-        echo "WARNING | Python script had an issue and terminated!"
+        echo "WARNING | The python script had an issue and terminated!"
         exit 1
     fi
 else
