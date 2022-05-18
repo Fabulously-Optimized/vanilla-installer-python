@@ -21,7 +21,6 @@ import minecraft_launcher_lib as mll
 import gui
 import theme
 
-
 def set_dir(path: str) -> str:
     """Sets the Minecraft game directory.
 
