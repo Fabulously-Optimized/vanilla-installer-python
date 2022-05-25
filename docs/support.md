@@ -20,12 +20,15 @@ Does the font look pixelated and emojis are not loading?
 
 ![](media/conda-bug.png)
 
-Don't worry! Try:
+Don't worry! Try the following commands (AFTER trying [install/linux.sh](install/linux.sh) and [install/linux.sh](install/linux.sh)):
+
 ```
 python3.10 -m pip install -r requirements.txt
 python3.10 vanilla-installer/gui.py
 ```
 ...whereas `3.10` can be any (supported) version, e.g. for `3.9`: the commands with `python3.9` in the beginning (you get the point). This makes sure *Anaconda* isn't used for executing the program.
+
+Again, you *need* more than just the pip packages - so make sure you've also followed the steps [install/linux.sh](install/linux.sh) and [install/linux.sh](install/linux.sh) correctly!
 
 There we go!
 
