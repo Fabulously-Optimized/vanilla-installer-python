@@ -15,6 +15,9 @@ def init():
     """Checks if the theme file exists and creates it if not.
     Also checks the theme of the OS and edits the file accordingly.
     """
+    if not os.path.exists('data/'):
+        os.mkdir('data/')
+    
     if not os.path.exists(FILE):
         open(FILE, "w").write("dark" if darkdetect.isDark() else "light")
 
