@@ -1,14 +1,19 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
+
 ### Abbreviations
+
 **FO** - Fabulously Optimized
 
 **VI** - Vanilla Installer
 
 ## Installation
+
 You heard that right, you need install the installer.
-### Binaries (recommended for newbies; easy to install)
+
+### Binaries (for newbies; easy to install)
+
 These are quite simple to install.
-Just [go to the **Releases** tab](releases) and download the correct file. 
+Just [head to the **Releases** tab](releases) and download the correct file. 
 
 - Pros
     - Easy to install
@@ -16,11 +21,9 @@ Just [go to the **Releases** tab](releases) and download the correct file.
 - Cons
     - Mostly (more or less) stable versions are released, so you might have to wait a bit for newer features
 
-### Scripts (recommended for advanced users, still reasonably simple)
+### Scripts (for advanced users, still reasonably simple)
 
-Windows: [scripts/windows.bat](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/windows.bat)<br />
-MacOS: [scripts/macos.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/macos.sh)<br />
-Linux: [scripts/linux.sh](https://github.com/RaptaG/vanilla-installer-better-sh-scripts/tree/main/install/linux.sh)
+**[Windows (outdated)](install/windows.bat) || [MacOS](install/macos.sh) || [Linux](install/linux.sh)**
 
 - Pros
     - Can always used with the newest commits
@@ -30,15 +33,14 @@ Linux: [scripts/linux.sh](https://github.com/RaptaG/vanilla-installer-better-sh-
 
 
 ## Links
-- **Support**: Troubleshooting, compatibility notices & more
-    > [docs/support.md](docs/support.md)
-- **Credits**
-    > [docs/credits.md](docs/credits.md)
-- **Information for developers**
-    > [docs/for-devs.md](docs/for-devs.md)
-- **FO issue**
-    > [#110](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)
+
+- **[Support](docs/support.md)**: Troubleshooting, compatibility notices & more
+- **[Credits](docs/credits.md)**: Credits for the source code of VI
+- **[Information for developers](docs/for-devs.md)**: Useful information for developers
+- **[FO issue(#110)](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)**: The issue in FO, which explains the situation
+
 ## Contributors
+
 - [@Madis0](https://github.com/Madis0)
     - Founder of Fabulously Optimized
     - Organization
