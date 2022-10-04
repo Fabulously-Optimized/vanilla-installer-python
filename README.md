@@ -32,7 +32,7 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
 **[Windows](install/windows.bat) || [MacOS](install/macos.sh) || [Linux](install/linux.sh)**
 
 - Pros
-  - Can always used with the newest commits
+  - Can always be used with the newest commits
 
 - Cons
   - Not as easy to install

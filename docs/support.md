@@ -30,6 +30,7 @@ Does the font look pixelated and emojis are not loading?
 Don't worry! Try the following commands (AFTER trying [install/linux.sh](install/linux.sh)):
 
 ```bash
+#!/usr/bin/env/bash
 python3.10 -m pip install -r requirements.txt
 python3.10 vanilla-installer/gui.py
 ```
@@ -47,6 +48,7 @@ There we go!
 [Tkinter](https://en.wikipedia.org/wiki/Tkinter) is an important library which is needed for the program to work. Sadly, on some Linux distributions, it isn't installed by default. But don't worry, try:
 
 ```bash
+#!/usr/bin/env/bash
 sudo apt-get install python-tk
 ```
 
@@ -55,6 +57,7 @@ The issue probably occurs because you haven't installed VanillaInstaller correct
 ### Other GUI-related issues
 
 ```bash
+#!/usr/bin/env/bash
 python3.10 vanilla-installer/gui.py --safegui mode --litegui mode
 ```
 
