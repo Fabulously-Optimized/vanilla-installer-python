@@ -1,0 +1,16 @@
+# Update python dependencies weekly
+
+version: 2
+updates:
+
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Include a list of updated dependencies
+    # with a prefix determined by the dependency group
+    commit-message:
+      prefix: ":arrow_up:"
+      include: "scope"
+

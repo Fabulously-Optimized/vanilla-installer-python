@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env/bash
 # Enhanced by RaptaG (https://github.com/RaptaG)
 
 # Crash checker
