@@ -134,11 +134,9 @@ def download_fabric(
         str: The path to Fabric's installer.
     """
     os.chdir(mc_dir)
-    with tempfile.TemporaryDirectory as tmpdir:
-        
-        installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
-        download = requests.get(installers[0]["url"])
-        file_path = tmpdir + download.url.split("/")[-1]
+    installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
+    download = requests.get(installers[0]["url"])
+    file_path = pathlib.Path.mkdir("temp/") + download.url.split("/")[-1]
 
     text_update(
         f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
@@ -252,6 +250,7 @@ def start_log():
     except Exception:
         # for some reason logging keeps failing, since it's not crucial just pass
         print("ERROR | Unable to start logging, logging to stdout")
+        print("ERROR | Error code: 0xDEADBEEF")
         pass
 
     logging.info("Starting VanillaInstaller")
