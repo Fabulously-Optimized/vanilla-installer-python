@@ -8,6 +8,7 @@ import logging
 import logging.handlers  # pylance moment
 import webbrowser
 import subprocess
+import tempfile
 import pathlib
 import requests
 import minecraft_launcher_lib as mll
@@ -19,10 +20,9 @@ import theme
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
 FOLDER_LOC = ""
-TEMP_FOLDER = str(pathlib.Path("/temp").resolve())
 
 
-def set_dir(path: str) -> str:
+def set_dir(path: str) -> str | None:
     """Sets the Minecraft game directory.
 
     Args:
@@ -111,7 +111,8 @@ def command(text: str) -> str:
     Returns:
         str: The output of the command.
     """
-    output = str(logging.debug(subprocess.check_output(text.split()).decode("utf-8")))
+    command_output = subprocess.check_output(text.split()).decode("utf-8")
+    output = logging.debug(command_output)
     text_update(output, mode="fg")
     return output
 
@@ -133,9 +134,11 @@ def download_fabric(
         str: The path to Fabric's installer.
     """
     os.chdir(mc_dir)
-    installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
-    download = requests.get(installers[0]["url"])
-    file_path = TEMP_FOLDER + download.url.split("/")[-1]
+    with tempfile.TemporaryDirectory as tmpdir:
+        
+        installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
+        download = requests.get(installers[0]["url"])
+        file_path = tmpdir + download.url.split("/")[-1]
 
     text_update(
         f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
@@ -167,13 +170,8 @@ def install_fabric(
         text_update(f"Could not install Fabric: {ran}", widget, "error")
 
 
-def download_pack(widget, mc_dir: str) -> str:
-    """Downloads the files for FO.
-
-    Downloads both the packwiz_install_bootstrap and the packwiz_installer jars.
-
-    Args:
-        mc_dir (str): The path to the .minecraft directory.
+def download_pack(widget) -> str:
+    """Downloads the packwiz_install_bootstrap jar.
 
     Returns:
         str: The path to the packwiz_installer_bootstrap.jar.
@@ -184,11 +182,6 @@ def download_pack(widget, mc_dir: str) -> str:
     )
     file_path_bootstrap = get_dir() + "packwiz-installer-bootstrap.jar"
     open(file_path_bootstrap, "wb").write(download_bootstrap.content)
-    download_jar = requests.get(
-        "https://github.com/packwiz/packwiz-installer/releases/latest/download/packwiz-installer.jar"
-    )
-    file_path_jar = get_dir() + "packwiz-installer.jar"
-    open(file_path_jar, "wb").write(download_jar.content)
     packwiz_installer_bootstrap_path = get_dir() + "packwiz-installer-bootstrap.jar"
     return str(packwiz_installer_bootstrap_path)
 
@@ -228,7 +221,7 @@ def run(widget=None) -> None:
     )
 
     text_update("Starting Pack Download...", widget)
-    packwiz_bootstrap = download_pack(mc_dir=mc_dir, widget=widget)
+    packwiz_bootstrap = download_pack(widget=widget)
 
     text_update("Starting Pack Installation...", widget)
     install_pack(

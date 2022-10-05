@@ -1,7 +1,6 @@
 *.zip
 *.jar
-data/*
-!data/.gitkeep
+data/
 temp/
 tests/
 
