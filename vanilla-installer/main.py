@@ -6,7 +6,7 @@ import os
 import sys
 import logging
 import logging.handlers  # pylance moment
-import webbrowser
+import re
 import subprocess
 import tempfile
 import pathlib
@@ -29,9 +29,11 @@ def set_dir(path: str) -> str | None:
         path (str): The path to the Minecraft game directory.
     """
     if isinstance(path, str):  # only strings can be written
-        open(PATH_FILE, "w", encoding="utf-8").write(path)
+        path_nobackslash = str(rf"{path}".replace("\\", "/"))
+        path_nobackslash = str(rf"{path_nobackslash}".replace(".minecraft", ""))
+        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
         return path
-    return
+    return None
 
 
 def get_dir() -> str:
@@ -73,6 +75,7 @@ def init() -> None:
                 f"Could not get Minecraft path: {error_code}\nUsing default path based on OS"
             )
             # The first two `startswith` are simply a precaution, since Python previously used a different number for different Linux kernels.
+            # The `startswith` for Windows is if they ever change it to `win64` or something, but I doubt that
             # See https://docs.python.org/3.10/library/sys.html#sys.platform for more.
             if sys.platform.startswith("win"):
                 path = os.path.expanduser("~/AppData/Roaming")
@@ -117,33 +120,25 @@ def command(text: str) -> str:
     return output
 
 
-# This function isn't ever called, it's probably better to depreciate it (feedback wanted)
-def download_minecraft() -> None:  # currently manually
-    webbrowser.open("https://www.minecraft.net/download")
-
-
 def download_fabric(
-    widget, mc_dir: str
+    widget,
 ) -> str:  # https://github.com/max-niederman/fabric-quick-setup/blob/40c959c6cd2295c679576680fab3cda2b15222f5/fabric_quick_setup/cli.py#L69 (nice)
     """Downloads Fabric's installer.
-
-    Args:
-        mc_dir (str): The path to the .minecraft directory.
 
     Returns:
         str: The path to Fabric's installer.
     """
-    os.chdir(mc_dir)
+    tmp = tempfile.mkdtemp(prefix=".fovi-")
     installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
     download = requests.get(installers[0]["url"])
-    file_path = pathlib.Path.mkdir("temp/") + download.url.split("/")[-1]
+    file_path = tmp + download.url.split("/")[-1]
 
     text_update(
         f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
         widget,
     )
     open(file_path, "wb").write(download.content)
-
+    
     return file_path
 
 
@@ -166,6 +161,30 @@ def install_fabric(
         text_update(f"Installed Fabric {mc_version}", widget, "success")
     else:
         text_update(f"Could not install Fabric: {ran}", widget, "error")
+    tmp = pathlib.Path(installer_jar).parent.resolve()
+    # This will break if Fabric moves away from semver-like things
+    # Like if they start doing minor.patch this will break
+    # As long as we have MAJOR.Minor.patch we'll be fine
+    tmp_regex = str(re.compile("fabric-installer-\d\.\d\.\d\.jar"))
+    tmp = str(rf"{tmp}".replace(f"{tmp_regex}", ""))
+    try:
+        for existing_file in os.listdir(tmp):
+            os.remove(existing_file)
+    except OSError as error_code:
+        # If an OSError is raised, it's likely that the tmp directory doesn't exist or is empty.
+        # There's pretty much no reason to require it, so pass.
+        logging.warning(
+            f"Temp directory is empty or nonexistent. Skipping deleting all files.\nError details: {error_code}"
+        )
+        pass
+    try:
+        pathlib.Path(tmp).rmdir()
+    except Exception as error_code:
+        # Similar situation to above. After all this is a temp dir, so whatever.
+        logging.exception(
+            f"Could not delete temp directory, leaving in place.\nError details: {error_code}"
+        )
+        pass
 
 
 def download_pack(widget) -> str:
@@ -207,8 +226,8 @@ def install_pack(
 def run(widget=None) -> None:
     """Runs Fabric's installer and then FO's installer."""
     text_update("Starting Fabric Download...", widget)
-    mc_dir = get_dir() + f".minecraft{os.sep}"
-    installer_jar = download_fabric(mc_dir=mc_dir, widget=widget)
+    mc_dir = get_dir() + ".minecraft/"
+    installer_jar = download_fabric(widget=widget)
 
     text_update("Starting Fabric Installation...", widget)
     install_fabric(
@@ -230,7 +249,7 @@ def run(widget=None) -> None:
     )
 
 
-def start_log():
+def start_log() -> None:
     """Starts logging for VanillaInstaller."""
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
@@ -249,6 +268,7 @@ def start_log():
         logger.addHandler(handler)
     except Exception:
         # for some reason logging keeps failing, since it's not crucial just pass
+        # As such this print()s to stdout
         print("ERROR | Unable to start logging, logging to stdout")
         print("ERROR | Error code: 0xDEADBEEF")
         pass

@@ -107,6 +107,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * [https://stackoverflow.com/questions/49187741/tkinter-looks-extremely-ugly-in-linux](https://stackoverflow.com/questions/49187741/tkinter-looks-extremely-ugly-in-linux)
 * [https://stackoverflow.com/questions/11269338/how-to-comment-out-add-comment-in-a-batch-cmd](https://stackoverflow.com/questions/11269338/how-to-comment-out-add-comment-in-a-batch-cmd)
 * [https://stackoverflow.com/questions/446209/possible-values-from-sys-platform](https://stackoverflow.com/questions/446209/possible-values-from-sys-platform)
+* [https://stackoverflow.com/questions/6275695/python-replace-backslashes-to-slashes](https://stackoverflow.com/questions/6275695/python-replace-backslashes-to-slashes)
 
 ### AskUbuntu
 
