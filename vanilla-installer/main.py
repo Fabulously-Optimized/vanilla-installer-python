@@ -36,9 +36,19 @@ def set_dir(path: str) -> str | None:
     if isinstance(path, str):  # only strings can be written
         path_nobackslash = str(rf"{path}".replace("\\", "/"))
         path_nobackslash = str(rf"{path_nobackslash}".replace(".minecraft", ""))
+    # If the path is none, it will cause the script to fail.
+    # In that case, return the default directory.
+    if path_nobackslash is not None:
         open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
-        return path
-    return None
+        return path_nobackslash
+    elif path_nobackslash != "":
+        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
+        return path_nobackslash
+    else:
+        path_nobackslash_minecraft = mll.utils.get_minecraft_directory()
+        path_nobackslash = path_nobackslash_minecraft.replace(".minecraft", "")
+        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
+        return path_nobackslash
 
 
 def get_dir() -> str:

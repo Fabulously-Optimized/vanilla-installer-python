@@ -30,12 +30,12 @@ def is_dark(to_dark: bool = False) -> bool:
     """Change or get the status of dark mode.
 
     Args:
-        to (bool, optional): Status. Defaults to None (just get status, without editing it).
+        to_dark (bool, optional): Status. Defaults to False (just get status, without editing it).
 
     Returns:
         bool: theme
     """
-    if to_dark is not None:
+    if to_dark is not False:
         open(FILE, "w", encoding="utf-8").write("dark" if to_dark is True else "light")
     return open(FILE, encoding="utf-8").read() == "dark"
 

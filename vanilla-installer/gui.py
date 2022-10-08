@@ -37,7 +37,7 @@ def run():
         win.minsize(500, 400)
         win.maxsize(500, 400)
         
-    icon = pathlib.Path("../media/icon.png").resolve()
+    icon = pathlib.Path("media/icon.png").resolve()
     win.iconphoto(False, tkinter.PhotoImage(file=icon))
 
     # ============================================================
@@ -138,7 +138,7 @@ def run():
         path = tkinter.filedialog.askdirectory(
             initialdir="/", title="Select Minecraft path"
         )
-        main.set_dir(path)
+        path = main.set_dir(path)
 
         display_path()
 
