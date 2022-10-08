@@ -35,8 +35,9 @@ def run():
     if not args.safegui:
         win.geometry("500x400")
         win.minsize(500, 400)
-        win.maxsize(500, 400)
-        
+        # Disabled this so you can resize the window if you want
+        # win.maxsize(500, 400)
+
     icon = pathlib.Path("media/icon.png").resolve()
     win.iconphoto(False, tkinter.PhotoImage(file=icon))
 
@@ -69,7 +70,7 @@ def run():
     ).pack(side="left")
 
     def info():
-        """Opens the info website"""
+        """Opens the info website."""
         webbrowser.open(
             "https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/README.md"
         )
@@ -136,7 +137,7 @@ def run():
 
     def path_selection():
         path = tkinter.filedialog.askdirectory(
-            initialdir="/", title="Select Minecraft path"
+            initialdir=main.get_dir(), title="Select Minecraft path"
         )
         path = main.set_dir(path)
 

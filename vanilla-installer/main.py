@@ -145,7 +145,13 @@ def init() -> None:
 
 
 def text_update(text: str, widget=None, mode: str = "info") -> None:
-    """Updates the text."""
+    """Updates the text shown on the GUI window.
+
+    Args:
+        text (str): The text to display
+        widget (optional): The widget. Defaults to None.
+        mode (str, optional): The type of message to log. Defaults to "info".
+    """
     if widget:
         widget.master.title(f"{text} » VanillaInstaller")
         widget["text"] = text
