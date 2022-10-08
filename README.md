@@ -58,5 +58,5 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
   - [Shell installation scripts](install/) (sh) for MacOS and Linux
 
 - [@osfanbuff63](https://github.com/osfanbuff63)
-  - Updated [Batchfile installation script](install/windows.bat) for Windows
   - Updated various files for formatting improvements and various fixes
+  - Documentation improvements

@@ -7,6 +7,14 @@ As this project is written in Python, you will need Python installed. The curren
 ## Project structure
 
 📂 vanilla-installer
+    📂 3.8
+    📂 3.9
+    📂 3.10
+    📂 3.11
+        These all represent code files for different versions of Python.
+        The folders use Windows-style symlinks which aren't handled by GitHub too well, so it's recommended to use a local Git client.
+        The primary files contained in these folders are manifests for [`pipenv`](https://docs.pipenv.org), since you can only have one Python version defined.
+
     📂 data
          Configs, settings and more...
          Can change from user to user.
@@ -26,6 +34,7 @@ As this project is written in Python, you will need Python installed. The curren
 
     📂 vanilla-installer
         Actual Python scripts. (GUI, CLI, helpers etc.)
+        Referred to by symlinks in the 3.x directories.
 
 ## Avoiding 404s
 

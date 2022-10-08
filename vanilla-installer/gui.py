@@ -6,6 +6,7 @@ import tkinter
 import tkinter.filedialog
 import argparse
 import webbrowser
+import pathlib
 
 # LOCAL
 import main
@@ -35,8 +36,9 @@ def run():
         win.geometry("500x400")
         win.minsize(500, 400)
         win.maxsize(500, 400)
-
-    win.iconphoto(False, tkinter.PhotoImage(file="media/icon.png"))
+        
+    icon = pathlib.Path("../media/icon.png").resolve()
+    win.iconphoto(False, tkinter.PhotoImage(file=icon))
 
     # ============================================================
 

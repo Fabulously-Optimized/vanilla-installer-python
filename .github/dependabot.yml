@@ -5,7 +5,7 @@ updates:
 
   # Maintain dependencies for pip
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/3.8"
     schedule:
       interval: "weekly"
     # Include a list of updated dependencies
@@ -13,4 +13,33 @@ updates:
     commit-message:
       prefix: ":arrow_up:"
       include: "scope"
-
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/3.9"
+    schedule:
+      interval: "weekly"
+    # Include a list of updated dependencies
+    # with a prefix determined by the dependency group
+    commit-message:
+      prefix: ":arrow_up:"
+      include: "scope"
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/3.10"
+    schedule:
+      interval: "weekly"
+    # Include a list of updated dependencies
+    # with a prefix determined by the dependency group
+    commit-message:
+      prefix: ":arrow_up:"
+      include: "scope"
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/3.11"
+    schedule:
+      interval: "weekly"
+    # Include a list of updated dependencies
+    # with a prefix determined by the dependency group
+    commit-message:
+      prefix: ":arrow_up:"
+      include: "scope"

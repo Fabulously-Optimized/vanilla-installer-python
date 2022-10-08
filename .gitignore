@@ -3,6 +3,7 @@
 data/
 temp/
 tests/
+%USERPROFILE%
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

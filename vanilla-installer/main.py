@@ -2,6 +2,8 @@
 Most important functions of VanillaInstaller.
 """
 # IMPORTS
+
+# Standard library
 import os
 import sys
 import logging
@@ -10,6 +12,9 @@ import re
 import subprocess
 import tempfile
 import pathlib
+import base64
+
+# External
 import requests
 import minecraft_launcher_lib as mll
 
@@ -63,6 +68,45 @@ def get_java() -> str:
     return mll.utils.get_java_executable()
 
 
+def fo_to_base64(dir: str) -> str:
+    """Converts the Fabulously Optimized logo in PNG format into base64.
+
+    The FO logo will be downloaded over the network. If that fails, the directory specified in `dir` will be searched if specified.
+    If the logo still can't be found, it will fail.
+
+    Args:
+        dir (str): The directory to search for the logo if it cannot be obtained over the network. (e.g. GitHub is down)
+
+    Returns:
+        str: The base64 string for the FO logo.
+    """
+    tmp = tempfile.mkdtemp(prefix=".fovi-")
+    try:
+        download = requests.get("https://avatars.githubusercontent.com/u/92206402")
+        file_path = tmp + download.url.split("/")[-1]
+        open(file_path, "wb").write(download.content)
+        logo = file_path
+    except Exception:
+        logging.warning(
+            "Couldn't get the logo over the network. Looking for it locally..."
+        )
+        if dir:
+            for image_name in os.listdir(dir):
+                if image_name.startswith("fo.png"):
+                    file_path = dir + "/fo.png"
+                    tmp_file_path = tmp + "/fo.png"
+                    moved_path = pathlib.Path(file_path).rename(tmp_file_path)
+                    logo = str(moved_path)
+        else:
+            logging.critical(
+                "Could not get the FO logo over the network and `dir` was not specified."
+            )
+    with open(logo, "rb") as logo_png:
+        logo_b64 = base64.b64encode(logo_png.read())
+        logo_b64_str = str(logo_b64)
+    return logo_b64_str
+
+
 def init() -> None:
     """Initialization for VanillaInstaller."""
     # SET INSTALLATION PATH
@@ -75,7 +119,7 @@ def init() -> None:
                 f"Could not get Minecraft path: {error_code}\nUsing default path based on OS"
             )
             # The first two `startswith` are simply a precaution, since Python previously used a different number for different Linux kernels.
-            # The `startswith` for Windows is if they ever change it to `win64` or something, but I doubt that
+            # The `startswith` for Windows is if they ever change it to `win64` or something, but I doubt that.
             # See https://docs.python.org/3.10/library/sys.html#sys.platform for more.
             if sys.platform.startswith("win"):
                 path = os.path.expanduser("~/AppData/Roaming")
@@ -138,7 +182,7 @@ def download_fabric(
         widget,
     )
     open(file_path, "wb").write(download.content)
-    
+
     return file_path
 
 
