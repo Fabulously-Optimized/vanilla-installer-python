@@ -272,7 +272,9 @@ def install_pack(
     try:
         ran = command(f"{get_java()} -jar {packwiz_installer_bootstrap} {pack_toml}")
         text_update(
-            f"Installed Fabulously Optimized for MC {mc_version}!\nThe installer has finished.", widget, "success"
+            f"Installed Fabulously Optimized for MC {mc_version}!\nThe installer has finished.",
+            widget,
+            "success",
         )
     except Exception:
         text_update(f"Could not install Fabulously Optimized: {ran}", widget, "error")
