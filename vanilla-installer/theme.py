@@ -26,18 +26,21 @@ def init():
         )
 
 
-def is_dark(to_dark: bool = False) -> bool:
+def is_dark(to_dark: bool = None) -> bool:
     """Change or get the status of dark mode.
 
     Args:
-        to_dark (bool, optional): Status. Defaults to False (just get status, without editing it).
+        to_dark (bool, optional): Status. Defaults to None (just get status, without editing it).
 
     Returns:
         bool: theme
     """
-    if to_dark is not False:
-        open(FILE, "w", encoding="utf-8").write("dark" if to_dark is True else "light")
-    return open(FILE, encoding="utf-8").read() == "dark"
+    if to_dark is False:
+        open(FILE, "w", encoding="utf-8").write("light")
+    elif to_dark is True:
+        open(FILE, "w", encoding="utf-8").write("dark")
+    else:
+        return open(FILE, encoding="utf-8").read() == "dark"
 
 
 def load() -> dict:
@@ -70,7 +73,7 @@ def load() -> dict:
 
 
 def toggle(popup: bool = True):
-    """Switches between dark and light theme
+    """Switches between dark and light theme.
 
     Args:
         popup (bool, optional): Wether to show a informational popup

@@ -269,17 +269,12 @@ def install_pack(
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
-    ran = command(f"{get_java()} -jar {packwiz_installer_bootstrap} {pack_toml}")
-
-    if ran == 0:
+    try:
+        ran = command(f"{get_java()} -jar {packwiz_installer_bootstrap} {pack_toml}")
         text_update(
-            f"Installed Fabulously Optimized for MC {mc_version}", widget, "success"
+            f"Installed Fabulously Optimized for MC {mc_version}!\nThe installer has finished.", widget, "success"
         )
-    elif ran is str(None):
-        text_update(
-            f"Installed Fabulously Optimized for MC {mc_version}", widget, "success"
-        )
-    else:
+    except Exception:
         text_update(f"Could not install Fabulously Optimized: {ran}", widget, "error")
 
 
