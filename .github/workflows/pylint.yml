@@ -1,6 +1,6 @@
 name: Pylint
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -14,6 +14,7 @@ jobs:
           "3.10",
           "3.11.0-rc.2"
         ]
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -32,7 +33,7 @@ jobs:
         python -m pip install pipenv pylint
         cd ${{ matrix.python-version }}
         pipenv install
-        pipenv run pylint ../vanilla-installer --rcfile pylint.toml
+        pipenv run pylint $(cd .. && git ls-files *.py) --rcfile pylint.toml
     # This is temporary until 3.11 is fully released and can be referenced by `3.11`.
     - name: Install dependencies and analyze the code (3.11)
       if: matrix.python-version == '3.11.0-rc.2'
@@ -41,4 +42,4 @@ jobs:
         python -m pip install pipenv pylint
         cd 3.11
         pipenv install
-        pipenv run pylint ../vanilla-installer --rcfile pylint.toml
+        pipenv run pylint $(cd .. && git ls-files *.py) --rcfile pylint.toml

@@ -21,9 +21,8 @@ def init():
         os.mkdir("data/")
 
     if not os.path.exists(FILE):
-        open(FILE, "w", encoding="utf-8").write(
-            "dark" if darkdetect.isDark() is True else "light"
-        )
+        with open(FILE, "w", encoding="utf-8") as file:
+            file.write("dark" if darkdetect.isDark() is True else "light")
 
 
 def is_dark(to_dark: bool = None) -> bool:

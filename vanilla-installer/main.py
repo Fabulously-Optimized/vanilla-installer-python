@@ -20,7 +20,6 @@ import minecraft_launcher_lib as mll
 
 
 # LOCAL
-import gui
 import theme
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
@@ -33,22 +32,27 @@ def set_dir(path: str) -> str | None:
     Args:
         path (str): The path to the Minecraft game directory.
     """
-    if isinstance(path, str):  # only strings can be written
+    if path:  # only strings can be written
         path_nobackslash = str(rf"{path}".replace("\\", "/"))
         path_nobackslash = str(rf"{path_nobackslash}".replace(".minecraft", ""))
+    else:
+        logging.critical("path must be passed!")
+        return Exception
     # If the path is none, it will cause the script to fail.
     # In that case, return the default directory.
     if path_nobackslash is not None:
-        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
+        with open(PATH_FILE, "w", encoding="utf-8") as file:
+            file.write(path_nobackslash)
         return path_nobackslash
-    elif path_nobackslash != "":
-        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
+    if path_nobackslash != "":
+        with open(PATH_FILE, "w", encoding="utf-8") as file:
+            file.write(path_nobackslash)
         return path_nobackslash
-    else:
-        path_nobackslash_minecraft = mll.utils.get_minecraft_directory()
-        path_nobackslash = path_nobackslash_minecraft.replace(".minecraft", "")
-        open(PATH_FILE, "w", encoding="utf-8").write(path_nobackslash)
-        return path_nobackslash
+    path_nobackslash_minecraft = mll.utils.get_minecraft_directory()
+    path_nobackslash = path_nobackslash_minecraft.replace(".minecraft", "")
+    with open(PATH_FILE, "w", encoding="utf-8") as file:
+        file.write(path_nobackslash)
+    return path_nobackslash
 
 
 def get_dir() -> str:
@@ -57,7 +61,15 @@ def get_dir() -> str:
     Returns:
         str: Path
     """
-    return open(PATH_FILE, encoding="utf-8").read()
+    try:
+        path = open(PATH_FILE, encoding="utf-8").read()
+    except OSError:
+        logging.exception("No mc_path.txt found. Calling set_dir.")
+        default_dir = str(
+            mll.utils.get_minecraft_directory()
+        )  # Without this, it gives an error every time
+        path = set_dir(default_dir)
+    return path
 
 
 def newest_version() -> str:
@@ -79,7 +91,7 @@ def get_java() -> str:
 
 
 def fo_to_base64(png_dir: str) -> str:
-    """Converts the Fabulously Optimized logo in PNG format into base64.
+    """Converts the Fabulously Optimized logo from PNG format into base64.
 
     The FO logo will be downloaded over the network. If that fails, the directory specified in `dir` will be searched if specified.
     If the logo still can't be found, it will fail.
@@ -94,7 +106,8 @@ def fo_to_base64(png_dir: str) -> str:
     try:
         download = requests.get("https://avatars.githubusercontent.com/u/92206402")
         file_path = tmp + download.url.split("/")[-1]
-        open(file_path, "wb").write(download.content)
+        with open(file_path, "wb") as file:
+            file.write(download.content)
         logo = file_path
     except Exception:
         logging.warning(
@@ -197,7 +210,8 @@ def download_fabric(
         f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
         widget,
     )
-    open(file_path, "wb").write(download.content)
+    with open(file_path, "wb") as file:
+        file.write(download.content)
     return file_path
 
 
@@ -330,8 +344,6 @@ def start_log() -> None:
     logger = logging.getLogger("VanillaInstaller")
 
 
-init()  # start initialization
-start_log()  # start logging in case of issues
-
 if __name__ == "__main__":
-    gui.run()
+    init()  # start initialization
+    start_log()  # start logging in case of issues

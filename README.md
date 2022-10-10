@@ -1,10 +1,9 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
 
-<a href="https://gitmoji.dev">
-  <img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Uses Gitmoji">
-</a>
-
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+<a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Uses Gitmoji"></a>
+<a href="https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest"><img alt="Download on GitHub" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/available/github_vector.svg"></a>
+<a href="https://discord.gg/yxaXtaQqdB"><img alt="Chat with us on Discord!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/discord-plural_vector.svg"></a>
+<a href=https://github.com/psf/black><img alt="Code style: black" height="40" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 ## Abbreviations
 
@@ -58,5 +57,5 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
   - [Shell installation scripts](install/) (sh) for MacOS and Linux
 
 - [@osfanbuff63](https://github.com/osfanbuff63)
-  - Updated various files for formatting improvements and various fixes
+  - Updated various files for formatting improvements and fixes
   - Documentation improvements

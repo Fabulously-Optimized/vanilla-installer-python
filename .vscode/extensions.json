@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "ms-python.python",
-        "EditorConfig.EditorConfig"
+        "editorconfig.editorconfig",
+        "seatonjiang.gitmoji-vscode"
     ]
 }

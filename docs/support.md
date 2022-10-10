@@ -52,7 +52,7 @@ There we go!
 sudo apt-get install python-tk
 ```
 
-The issue probably occurs because you haven't installed VanillaInstaller correctly. Try running `sh install/debian-based.sh` (only works on Debian-based Linux distributions, as the name suggests). This command should install all needed dependencies for VanillaInstaller automatically.
+The issue probably occurs because you haven't installed VanillaInstaller correctly. Try running `sh install/linux.sh`, as this command should install all needed dependencies for VanillaInstaller automatically.
 
 ### Other GUI-related issues
 
@@ -62,3 +62,7 @@ python3.10 vanilla-installer/gui.py --safegui mode --litegui mode
 ```
 
 Make sure to choose the correct version - or replace `python3.10` with `python3`, `python` or just `py`.
+
+### Anything else?
+
+If you have a question that isn't covered above, feel free to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB)
