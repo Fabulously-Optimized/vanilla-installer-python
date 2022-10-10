@@ -78,7 +78,7 @@ def get_java() -> str:
     return mll.utils.get_java_executable()
 
 
-def fo_to_base64(dir: str) -> str:
+def fo_to_base64(png_dir: str) -> str:
     """Converts the Fabulously Optimized logo in PNG format into base64.
 
     The FO logo will be downloaded over the network. If that fails, the directory specified in `dir` will be searched if specified.
@@ -100,8 +100,8 @@ def fo_to_base64(dir: str) -> str:
         logging.warning(
             "Couldn't get the logo over the network. Looking for it locally..."
         )
-        if dir:
-            for image_name in os.listdir(dir):
+        if png_dir:
+            for image_name in os.listdir(png_dir):
                 if image_name.startswith("fo.png"):
                     file_path = dir + "/fo.png"
                     tmp_file_path = tmp + "/fo.png"
@@ -198,7 +198,6 @@ def download_fabric(
         widget,
     )
     open(file_path, "wb").write(download.content)
-    
     return file_path
 
 
@@ -236,7 +235,6 @@ def install_fabric(
         logging.warning(
             f"Temp directory is empty or nonexistent. Skipping deleting all files.\nError details: {error_code}"
         )
-        pass
     try:
         pathlib.Path(tmp).rmdir()
     except Exception as error_code:
@@ -244,7 +242,6 @@ def install_fabric(
         logging.exception(
             f"Could not delete temp directory, leaving in place.\nError details: {error_code}"
         )
-        pass
 
 
 def download_pack(widget) -> str:
@@ -328,7 +325,6 @@ def start_log() -> None:
         # As such this print()s to stdout
         print("ERROR | Unable to start logging, logging to stdout")
         print("ERROR | Error code: 0xDEADBEEF")
-        pass
 
     logging.info("Starting VanillaInstaller")
     logger = logging.getLogger("VanillaInstaller")

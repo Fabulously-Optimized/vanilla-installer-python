@@ -17,8 +17,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--safegui", type=bool)
 parser.add_argument("--litegui", type=bool)
 args = parser.parse_args()
-
-font = "Yu Gothic UI" if os.name == "nt" else "URW Gothic"
+FONT = "Yu Gothic UI" if os.name == "nt" else "URW Gothic"
 
 
 def run():
@@ -60,7 +59,7 @@ def run():
         fg=theme.load()["fg"],
         bg=theme.load()["dark"],
         text="Dark Theme" if theme.is_dark() else "Light Theme",
-        font=(font, 20),
+        font=(FONT, 20),
         relief="flat",
         command=theme.toggle,
         borderwidth=0,
@@ -81,7 +80,7 @@ def run():
         fg=theme.load()["accent"],
         bg=theme.load()["dark"],
         text="Info",
-        font=(font, 20),
+        font=(FONT, 20),
         relief="flat",
         command=info,
         borderwidth=0,
@@ -96,7 +95,7 @@ def run():
         fg=theme.load()["error"],
         bg=theme.load()["dark"],
         text="Exit",
-        font=(font, 20),
+        font=(FONT, 20),
         relief="flat",
         command=sys.exit,
         borderwidth=0,
@@ -111,7 +110,7 @@ def run():
         fg=theme.load()["fg"],
         bg=theme.load()["bg"],
         text="VanillaInstaller",
-        font=(font, 30, "bold"),
+        font=(FONT, 30, "bold"),
         pady=20,
         relief="flat",
         borderwidth=0,
@@ -124,7 +123,7 @@ def run():
         fg=theme.load()["accent"],
         bg=theme.load()["bg"],
         text="Error",  # this text should be changed automatically
-        font=(font, 20),
+        font=(FONT, 20),
         pady=10,
         relief="flat",
         borderwidth=0,
@@ -148,7 +147,7 @@ def run():
         fg=theme.load()["fg"],
         bg=theme.load()["dark"],
         text="Change Minecraft Path",
-        font=(font, 20),
+        font=(FONT, 20),
         relief="flat",
         command=path_selection,
         highlightthickness=0,
@@ -160,7 +159,7 @@ def run():
 
     def install():
         """Starts the installer."""
-        title_label["font"] = (font, 20, "italic")
+        title_label["font"] = (FONT, 20, "italic")
         title_label["text"] = "Preparing..."
         path_label.destroy()
         path_button.destroy()
@@ -174,7 +173,7 @@ def run():
         bg=theme.load()["success"],
         text="RUN",
         pady=10,
-        font=(font, 26, "bold"),
+        font=(FONT, 26, "bold"),
         relief="flat",
         command=install,
         highlightthickness=0,

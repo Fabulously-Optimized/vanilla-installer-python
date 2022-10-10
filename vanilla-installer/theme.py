@@ -36,11 +36,10 @@ def is_dark(to_dark: bool = None) -> bool:
         bool: theme
     """
     if to_dark is False:
-        open(FILE, "w", encoding="utf-8").write("light")
-    elif to_dark is True:
-        open(FILE, "w", encoding="utf-8").write("dark")
-    else:
-        return open(FILE, encoding="utf-8").read() == "dark"
+        return open(FILE, "w", encoding="utf-8").write("light")
+    if to_dark is True:
+        return open(FILE, "w", encoding="utf-8").write("dark")
+    return open(FILE, encoding="utf-8").read() == "dark"
 
 
 def load() -> dict:
