@@ -40,7 +40,6 @@ jobs:
         python -m pip install pipenv pylint
         cd 3.11
         pipenv install
-        cd ..
     - name: Analyzing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --rcfile pylint.toml
+       pipenv run cd .. && pylint $(git ls-files '*.py') --rcfile pylint.toml
