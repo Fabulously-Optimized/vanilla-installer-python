@@ -9,4 +9,5 @@
 ## Longer-term (major release)
 
 - Migrate GUI to PySide6
-- Add a CLI interface
+  - And therefore rewrite the entire GUI
+- Add a CLI interface (likely using click)
