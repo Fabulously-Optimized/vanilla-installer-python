@@ -191,14 +191,14 @@ def download_fabric(
     tmp = tempfile.mkdtemp(prefix=".fovi-")
     installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
     download = requests.get(installers[0]["url"])
-    file_path = tmp + download.url.split("/")[-1]
+    file_path = tmp + "/" + download.url.split("/")[-1]
 
     text_update(
         f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
         widget,
     )
     open(file_path, "wb").write(download.content)
-
+    
     return file_path
 
 
