@@ -2,38 +2,44 @@
 Theme & design of the Tkinter GUI application
 """
 
+import sys
 import os
 import tkinter
 import tkinter.messagebox
+import pathlib
 
 import darkdetect
 
-FILE = "data/theme.txt"
+FILE = str(pathlib.Path("data/theme.txt").resolve())
 
 
 def init():
     """Checks if the theme file exists and creates it if not.
     Also checks the theme of the OS and edits the file accordingly.
     """
-    if not os.path.exists('data/'):
-        os.mkdir('data/')
-    
+    if not os.path.exists("data/"):
+        os.mkdir("data/")
+
     if not os.path.exists(FILE):
-        open(FILE, "w").write("dark" if darkdetect.isDark() else "light")
+        open(FILE, "w", encoding="utf-8").write(
+            "dark" if darkdetect.isDark() is True else "light"
+        )
 
 
-def is_dark(to: bool = None) -> bool:
+def is_dark(to_dark: bool = None) -> bool:
     """Change or get the status of dark mode.
 
     Args:
-        to (bool, optional): Status. Defaults to None (just get status, without editing it).
+        to_dark (bool, optional): Status. Defaults to None (just get status, without editing it).
 
     Returns:
         bool: theme
     """
-    if to is not None:  # change
-        open(FILE, "w").write("dark" if to == True else "light")
-    return open(FILE).read() == "dark"
+    if to_dark is False:
+        return open(FILE, "w", encoding="utf-8").write("light")
+    if to_dark is True:
+        return open(FILE, "w", encoding="utf-8").write("dark")
+    return open(FILE, encoding="utf-8").read() == "dark"
 
 
 def load() -> dict:
@@ -53,27 +59,26 @@ def load() -> dict:
             "error": "#fc3b19",
             "success": "#28ff02",
         }
-    else:
-        return {
-            "fg": "black",
-            "bg": "white",
-            "dark": "#EEEEEE",
-            "accent": "#008AE6",
-            "warn": "#fc9d19",
-            "info": "#ff66ff",
-            "error": "#fc3b19",
-            "success": "#28ff02",
-        }
+    return {
+        "fg": "black",
+        "bg": "white",
+        "dark": "#EEEEEE",
+        "accent": "#008AE6",
+        "warn": "#fc9d19",
+        "info": "#ff66ff",
+        "error": "#fc3b19",
+        "success": "#28ff02",
+    }
 
 
 def toggle(popup: bool = True):
-    """Switches between dark and light theme
+    """Switches between dark and light theme.
 
     Args:
         popup (bool, optional): Wether to show a informational popup
         which asks to exit the program. Defaults to True.
     """
-    is_dark(to=not is_dark())
+    is_dark(to_dark=not is_dark())
 
     if popup:
         if tkinter.messagebox.askyesno(
@@ -82,7 +87,7 @@ def toggle(popup: bool = True):
 Exit program now?
 (You need to start the program again manually).""",
         ):
-            exit()
+            sys.exit(0)
 
 
 init()
