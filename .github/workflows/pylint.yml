@@ -27,7 +27,7 @@ jobs:
         path: ~/.local/share/virtualenvs
         key: ${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-pipenv-${{ hashFiles('Pipfile.lock') }}
     - name: Install dependencies
-      if: matrix.python-version != '3.11.0-rc2' 
+      if: matrix.python-version != '3.11.0-rc.2' 
       run: |
         python -m pip install pipenv pylint
         cd ${{ matrix.python-version }}
@@ -35,7 +35,7 @@ jobs:
         cd ..
     # This is temporary until 3.11 is fully released and can be referenced by `3.11`.
     - name: Install dependencies (3.11)
-      if: matrix.python-version == '3.11.0-rc2'
+      if: matrix.python-version == '3.11.0-rc.2'
       run: |
         python -m pip install pipenv pylint
         cd 3.11

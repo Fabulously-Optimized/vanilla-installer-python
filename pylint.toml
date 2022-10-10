@@ -1,9 +1,9 @@
 [tool.pylint.main]
 # Specify a score threshold under which the program will exit with error.
-fail-under = 8
+fail-under = 7.5
 
 # Files or directories to be skipped. They should be base names, not paths.
-ignore = ["temp", "build", "media", "install", "docs", ".vscode", ".github", "bin", "Scripts", "Lib", "__pycache__"]
+ignore = ["temp", "build", "media", "install", "docs", ".vscode", ".github", "bin", "Scripts", "Lib", "__pycache__", "data"]
 
 # Files or directories matching the regular expression patterns are skipped. The
 # regex matches against base names, not paths. The default value ignores Emacs
