@@ -1,9 +1,12 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
+[![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
+[![Pylint](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/pylint.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/pylint.yml)
+[![Release](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml)
 
-<a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square" alt="Uses Gitmoji"></a>
-<a href=https://github.com/psf/black><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-
+## Download
 <a href="https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest"><img alt="Download on GitHub" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/available/github_vector.svg"></a>
+
+## Support & more
 <a href="https://discord.gg/yxaXtaQqdB"><img alt="Chat with us on Discord!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/discord-plural_vector.svg"></a>
 
 
