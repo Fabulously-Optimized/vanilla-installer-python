@@ -92,43 +92,27 @@ def get_java() -> str:
 
 def fo_to_base64(png_dir: str) -> str:
     """Converts the Fabulously Optimized logo from PNG format into base64.
-
-    The FO logo will be downloaded over the network. If that fails, the directory specified in `dir` will be searched if specified.
-    If the logo still can't be found, it will fail.
-
+    The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
     Args:
-        dir (str): The directory to search for the logo if it cannot be obtained over the network. (e.g. GitHub is down)
-
+        dir (str): The directory to search for the logo.
     Returns:
         str: The base64 string for the FO logo.
     """
-    tmp = tempfile.mkdtemp(prefix=".fovi-")
-    try:
-        download = requests.get("https://avatars.githubusercontent.com/u/92206402")
-        file_path = tmp + download.url.split("/")[-1]
-        with open(file_path, "wb") as file:
-            file.write(download.content)
-        logo = file_path
-    except Exception:
-        logging.warning(
-            "Couldn't get the logo over the network. Looking for it locally..."
-        )
-        if png_dir:
-            for image_name in os.listdir(png_dir):
-                if image_name.startswith("fo.png"):
-                    file_path = dir + "/fo.png"
-                    tmp_file_path = tmp + "/fo.png"
-                    moved_path = pathlib.Path(file_path).rename(tmp_file_path)
-                    logo = str(moved_path)
-        else:
-            logging.critical(
-                "Could not get the FO logo over the network and `dir` was not specified."
-            )
-    with open(logo, "rb") as logo_png:
-        logo_b64 = base64.b64encode(logo_png.read())
-        logo_b64_str = str(logo_b64)
-    return logo_b64_str
 
+    dir_path = Path(png_dir)
+    png_content = bytes()
+
+    if (png_path := dir_path / "fo.png").exists():
+        png_content = png_path.read_bytes()
+    else: 
+        logging.warning("Cannot find logo locally. Trying to download...")
+        url = "https://avatars.githubusercontent.com/u/92206402"
+        if (response := requests.get(url)).status_code == 200:
+            png_content = response.content     
+        else: logging.critical("Could not get the FO logo over the network.")
+
+    b64logo = base64.b64encode(png_content)
+    return str(b64logo)
 
 def init() -> None:
     """Initialization for VanillaInstaller."""
