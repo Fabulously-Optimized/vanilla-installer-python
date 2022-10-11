@@ -139,7 +139,7 @@ def init() -> None:
             set_dir(path)
         except Exception as error_code:  # any error could happen, really.
             logging.error(
-                f"Could not get Minecraft path: {error_code}\nUsing default path based on OS"
+                f"Could not get Minecraft path: {error_code}\nUsing default path based on OS."
             )
             # The first two `startswith` are simply a precaution, since Python previously used a different number for different Linux kernels.
             # The `startswith` for Windows is if they ever change it to `win64` or something, but I doubt that.
@@ -269,7 +269,8 @@ def download_pack(widget) -> str:
         "https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar"
     )
     file_path_bootstrap = get_dir() + "packwiz-installer-bootstrap.jar"
-    open(file_path_bootstrap, "wb").write(download_bootstrap.content)
+    with open(file_path_bootstrap, "wb") as file:
+        file.write(download_bootstrap.content)
     packwiz_installer_bootstrap_path = get_dir() + "packwiz-installer-bootstrap.jar"
     return str(packwiz_installer_bootstrap_path)
 

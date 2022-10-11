@@ -7,6 +7,10 @@ import tkinter.filedialog
 import argparse
 import webbrowser
 import pathlib
+import logging
+
+# External
+import requests
 
 # LOCAL
 import main
@@ -38,7 +42,16 @@ def run():
         # win.maxsize(500, 400)
 
     icon = pathlib.Path("media/icon.png").resolve()
-    win.iconphoto(False, tkinter.PhotoImage(file=icon))
+    try:
+        win.iconphoto(False, tkinter.PhotoImage(file=icon))
+    except tkinter.TclError:
+        logging.exception("Icon not found! Trying to download...")
+        download = requests.get("https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/media/icon.png")
+        current_dir = os.getcwd()
+        file_path = current_dir + download.url.split("/")[-1]
+        with open(file_path, "wb") as file:
+            file.write(download.content)
+        win.iconphoto(False, tkinter.PhotoImage(file=file_path))
 
     # ============================================================
 
