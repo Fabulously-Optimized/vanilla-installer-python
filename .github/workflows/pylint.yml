@@ -33,8 +33,7 @@ jobs:
         python -m pip install pipenv pylint
         cd ${{ matrix.python-version }}
         pipenv install
-        pipenv shell
-        cd .. && pylint ./vanilla-installer/ --rcfile pylint.toml
+        pipenv shell && cd .. && pylint ./vanilla-installer/ --rcfile pylint.toml
     # This is temporary until 3.11 is fully released and can be referenced by `3.11`.
     - name: Install dependencies and analyze the code (3.11)
       if: matrix.python-version == '3.11.0-rc.2'
@@ -43,5 +42,4 @@ jobs:
         python -m pip install pipenv pylint
         cd 3.11
         pipenv install
-        pipenv shell
-        cd .. && pylint ./vanilla-installer/ --rcfile pylint.toml
+        pipenv shell && cd .. && pylint ./vanilla-installer/ --rcfile pylint.toml

@@ -17,6 +17,7 @@ import base64
 # External
 import requests
 import minecraft_launcher_lib as mll
+import click
 
 
 # LOCAL
@@ -157,28 +158,38 @@ def init() -> None:
                 logging.error("Could not detect OS.")
 
 
-def text_update(text: str, widget=None, mode: str = "info") -> None:
-    """Updates the text shown on the GUI window.
+def text_update(text: str, widget=None, mode: str = "info", interface: str = "GUI") -> None:
+    """Updates the text shown on the GUI window or echoes using Click.
 
     Args:
         text (str): The text to display
         widget (optional): The widget. Defaults to None.
         mode (str, optional): The type of message to log. Defaults to "info".
+        interface (str, optional): The interface to display to. Defaults to "GUI", possible values are "GUI" and "CLI".
     """
-    if widget:
-        widget.master.title(f"{text} » VanillaInstaller")
-        widget["text"] = text
-        widget["fg"] = theme.load()[mode]
+    if interface != "CLI":
+        
+        if widget:
+            widget.master.title(f"{text} » VanillaInstaller")
+            widget["text"] = text
+            widget["fg"] = theme.load()[mode]
 
+        else:
+            if mode == "fg":
+                logging.debug(text)
+            if mode == "warn":
+                logging.warning(text)
+            if mode == "error":
+                logging.error(text)
+            if mode == "success":
+                logging.info(text)
+            if mode == "info":
+                logging.info(text)
     else:
-        if mode == "fg":
-            logging.debug(text)
-        if mode == "warn":
-            logging.warning(text)
         if mode == "error":
-            logging.error(text)
-        if mode == "success":
-            logging.info(text)
+            click.echo(text, err=True)
+        else:
+            click.echo(text)
 
 
 def command(text: str) -> str:
