@@ -10,4 +10,7 @@
 
 - Migrate GUI to PySide6
   - And therefore rewrite the entire GUI
+
+## Completed
+
 - Add a CLI interface (likely using click)
