@@ -31,16 +31,17 @@ jobs:
       if: matrix.python-version != '3.11.0-rc.2' 
       run: |
         python -m pip install pipenv pylint
-        
+
         cd ./envs/${{ matrix.python-version }}
         pipenv install
-        pipenv run cd ../../vanilla-installer && pylint ./vanilla-installer/ --rcfile pylint.toml
+        pipenv run cd ../../vanilla-installer && pylint . --rcfile pylint.toml
     # This is temporary until 3.11 is fully released and can be referenced by `3.11`.
     - name: Install dependencies and analyze the code (3.11)
       if: matrix.python-version == '3.11.0-rc.2'
       run: |
         echo "Using 3.11 workaround."
         python -m pip install pipenv pylint
-        cd 3.11
+
+        cd ./envs/${{ matrix.python-version }}
         pipenv install
-        pipenv shell && cd .. && pylint ./vanilla-installer/ --rcfile pylint.toml
+        pipenv run cd ../../vanilla-installer && pylint . --rcfile pylint.toml
