@@ -4,20 +4,22 @@ Most important functions of VanillaInstaller.
 # IMPORTS
 
 # Standard library
+import io
+import json
 import os
 import sys
 import logging
 import logging.handlers  # pylance moment
-import re
 import subprocess
-import tempfile
 import pathlib
 import base64
+import zipfile
 
 # External
 import requests
 import minecraft_launcher_lib as mll
 import click
+import tomli # you should consider add a toml parser to project, or limit installer to py 3.11
 
 
 # LOCAL
@@ -192,81 +194,24 @@ def command(text: str) -> str:
     return output
 
 
-def download_fabric(
-    widget, interface: str = "GUI"
-) -> str:  # https://github.com/max-niederman/fabric-quick-setup/blob/40c959c6cd2295c679576680fab3cda2b15222f5/fabric_quick_setup/cli.py#L69 (nice)
-    """Downloads Fabric's installer.
+def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "GUI") -> str:
+    
+    meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
+    pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
 
-    Args:
-        interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
-    Returns:
-        str: The path to Fabric's installer.
-    """
-    tmp = tempfile.mkdtemp(prefix=".fovi-")
-    installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
-    download = requests.get(installers[0]["url"])
-    file_path = tmp + "/" + download.url.split("/")[-1]
+    if (response := requests.get(pack_toml_url)).status_code == 200:
 
-    text_update(
-        f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
-        widget=widget,
-        interface=interface,
-    )
-    with open(file_path, "wb") as file:
-        file.write(download.content)
-    return file_path
+        pack_info = tomli.loads(response.text)
+        game_version = pack_info.get("minecraft")
+        fabric_version = pack_info.get("fabric")
+        meta_url = meta_placeholder.format(game_version, fabric_version)
 
+        if (response := requests.get(meta_url)).status_code == 200:
+            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+                version_name = f"fabric-loader-{fabric_version}-{game_version}"
+                archive.extractall(pathlib.Path(mc_dir) / "versions" / version_name)
 
-def install_fabric(
-    installer_jar: str,
-    mc_version: str,
-    mc_dir: str,
-    widget=None,
-    interface: str = "GUI",
-) -> None:  # installs the Fabric launcher jar
-    """Runs Fabric's installer.
-
-    Args:
-        installer_jar (str): Path to the installer jar.
-        mc_version (str): The Minecraft version to pass to the script.
-        mc_dir (str): The path to the .minecraft directory.
-        interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
-    """
-    text_update("Installing Fabric...", widget)
-    ran = command(
-        f"{get_java()} -jar {installer_jar} client -mcversion {mc_version} -dir {mc_dir}"
-    )
-
-    if ran == 0:
-        text_update(
-            f"Installed Fabric {mc_version}", widget, "success", interface=interface
-        )
-    else:
-        text_update(
-            f"Could not install Fabric: {ran}", widget, "error", interface=interface
-        )
-    tmp = pathlib.Path(installer_jar).parent.resolve()
-    # This will break if Fabric moves away from semver-like things
-    # Like if they start doing minor.patch this will break
-    # As long as we have MAJOR.Minor.patch we'll be fine
-    tmp_regex = str(re.compile("fabric-installer-.*.*.\.jar"))
-    tmp = str(rf"{tmp}".replace(f"{tmp_regex}", ""))
-    try:
-        for existing_file in os.listdir(tmp):
-            os.remove(existing_file)
-    except OSError as error_code:
-        # If an OSError is raised, it's likely that the tmp directory doesn't exist or is empty.
-        # There's pretty much no reason to require it, so pass.
-        logging.warning(
-            f"Temp directory is empty or nonexistent. Skipping deleting all files.\nError details: {error_code}"
-        )
-    try:
-        pathlib.Path(tmp).rmdir()
-    except Exception as error_code:
-        # Similar situation to above. After all this is a temp dir, so whatever.
-        logging.exception(
-            f"Could not delete temp directory, leaving in place.\nError details: {error_code}"
-        )
+    return version_name
 
 
 def download_pack(widget, interface: str = "GUI") -> str:
@@ -324,6 +269,24 @@ def install_pack(
         )
 
 
+def create_profile(mc_dir: str, version_name: str) -> None:
+
+    launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
+    profiles = json.loads(launcher_profiles_path.read_bytes())
+
+    profile = {
+        "lastVersionId": version_name,
+        "name": "Fabulously Optimized",
+        "type": "custom",
+        "icon": fo_to_base64("I have no Idea where to point this lol"),
+        "gameDir": mc_dir, # Not sure about this
+        # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
+    }
+
+    profiles['FO'] = profile
+    profiles_json = json.dumps(profiles, indent=4)
+    launcher_profiles_path.write_bytes(profiles_json)
+
 def run(
     widget=None,
     mc_dir: str = mll.utils.get_minecraft_directory(),
@@ -336,12 +299,8 @@ def run(
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
-    text_update("Starting Fabric Download...", widget=widget, interface=interface)
-    installer_jar = download_fabric(widget=widget)
-
     text_update("Starting Fabric Installation...", widget=widget, interface=interface)
-    install_fabric(
-        installer_jar=installer_jar,
+    version = install_fabric(
         mc_version=newest_version(),
         mc_dir=mc_dir,
         widget=widget,
@@ -359,6 +318,8 @@ def run(
         widget=widget,
         interface=interface,
     )
+    text_update("Setting profiles...", widget=widget, interface=interface)
+    create_profile(mc_dir, version)
 
 
 def start_log() -> None:
