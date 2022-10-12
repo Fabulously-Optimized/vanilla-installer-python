@@ -201,9 +201,9 @@ def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "
 
     if (response := requests.get(pack_toml_url)).status_code == 200:
 
-        pack_info = tomllib.loads(response.text)
-        game_version = pack_info.get("minecraft")
-        fabric_version = pack_info.get("fabric")
+        pack_info: dict = tomllib.loads(response.text)
+        game_version = pack_info.get("versions", {}).get("minecraft")
+        fabric_version = pack_info.get("versions", {}).get("fabric")
         meta_url = meta_placeholder.format(game_version, fabric_version)
 
         if (response := requests.get(meta_url)).status_code == 200:
