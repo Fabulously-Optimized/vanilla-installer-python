@@ -19,7 +19,7 @@ import zipfile
 import requests
 import minecraft_launcher_lib as mll
 import click
-import tomli # you should consider add a toml parser to project, or limit installer to py 3.11
+import tomllib # you should consider add a toml parser to project, or limit installer to py 3.11
 
 
 # LOCAL
@@ -201,7 +201,7 @@ def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "
 
     if (response := requests.get(pack_toml_url)).status_code == 200:
 
-        pack_info = tomli.loads(response.text)
+        pack_info = tomllib.loads(response.text)
         game_version = pack_info.get("minecraft")
         fabric_version = pack_info.get("fabric")
         meta_url = meta_placeholder.format(game_version, fabric_version)
