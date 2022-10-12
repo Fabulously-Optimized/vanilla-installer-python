@@ -116,6 +116,9 @@ def fo_to_base64(png_dir: str) -> str:
     b64logo = base64.b64encode(png_content)
     return str(b64logo)
 
+def get_version():
+    version = "v1.0.0-unstable"
+    return version
 
 def init() -> None:
     """Initialization for VanillaInstaller."""

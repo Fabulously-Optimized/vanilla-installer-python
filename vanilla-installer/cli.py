@@ -1,5 +1,6 @@
 """A CLI interface for VanillaInstaller."""
 # Standard library imports
+import sys
 
 # External
 import click
@@ -16,6 +17,10 @@ def vanilla_installer():
 def install(minecraft_dir):
     main.run(mc_dir=minecraft_dir, interface="CLI")
 
+@vanilla_installer.command("version", help="Show the version number and exit.")
+def version():
+    version = main.get_version()
+    click.echo(f"VanillaInstaller {version}")
 
 if __name__ == "__main__":
     vanilla_installer()
