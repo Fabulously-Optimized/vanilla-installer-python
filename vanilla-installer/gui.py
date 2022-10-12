@@ -46,7 +46,9 @@ def run():
         win.iconphoto(False, tkinter.PhotoImage(file=icon))
     except tkinter.TclError:
         logging.exception("Icon not found! Trying to download...")
-        download = requests.get("https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/media/icon.png")
+        download = requests.get(
+            "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/media/icon.png"
+        )
         current_dir = os.getcwd()
         file_path = current_dir + download.url.split("/")[-1]
         with open(file_path, "wb") as file:
