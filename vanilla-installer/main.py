@@ -19,8 +19,10 @@ import zipfile
 import requests
 import minecraft_launcher_lib as mll
 import click
-import tomllib # you should consider add a toml parser to project, or limit installer to py 3.11
-
+if sys.version.startswith("3.11"):
+    import tomllib as tomli
+else:
+    import tomli
 
 # LOCAL
 import theme
@@ -96,6 +98,7 @@ def get_java() -> str:
 def fo_to_base64(png_dir: str) -> str:
     """Converts the Fabulously Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
+    
     Args:
         dir (str): The directory to search for the logo.
     Returns:
@@ -116,7 +119,7 @@ def fo_to_base64(png_dir: str) -> str:
             logging.critical("Could not get the FO logo over the network.")
 
     b64logo = base64.b64encode(png_content)
-    return str(b64logo)
+    return "data:image/png;base64,"+str(b64logo)
 
 
 def init() -> None:
@@ -201,7 +204,7 @@ def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "
 
     if (response := requests.get(pack_toml_url)).status_code == 200:
 
-        pack_info: dict = tomllib.loads(response.text)
+        pack_info: dict = tomli.loads(response.text)
         game_version = pack_info.get("versions", {}).get("minecraft")
         fabric_version = pack_info.get("versions", {}).get("fabric")
         meta_url = meta_placeholder.format(game_version, fabric_version)
@@ -209,7 +212,8 @@ def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "
         if (response := requests.get(meta_url)).status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
                 version_name = f"fabric-loader-{fabric_version}-{game_version}"
-                archive.extractall(pathlib.Path(mc_dir) / "versions" / version_name)
+                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_name)
+                archive.extractall(path)
 
     return version_name
 
@@ -283,8 +287,8 @@ def create_profile(mc_dir: str, version_name: str) -> None:
         # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
     }
 
-    profiles['FO'] = profile
-    profiles_json = json.dumps(profiles, indent=4)
+    profiles["profiles"]["FO"] = profile
+    profiles_json = bytes(json.dumps(profiles, indent=4), encoding="utf-8")
     launcher_profiles_path.write_bytes(profiles_json)
 
 def run(

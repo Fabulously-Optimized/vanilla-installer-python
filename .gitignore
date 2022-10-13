@@ -4,6 +4,7 @@ data/
 temp/
 tests/
 %USERPROFILE%
+.vscode/launch.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
