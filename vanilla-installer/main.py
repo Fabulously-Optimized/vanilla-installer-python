@@ -282,7 +282,7 @@ def create_profile(mc_dir: str, version_name: str) -> None:
         "lastVersionId": version_name,
         "name": "Fabulously Optimized",
         "type": "custom",
-        "icon": fo_to_base64("I have no Idea where to point this lol"),
+        "icon": fo_to_base64(png_dir="."),
         "gameDir": mc_dir, # Not sure about this
         # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
     }
