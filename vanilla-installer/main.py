@@ -20,9 +20,9 @@ import requests
 import minecraft_launcher_lib as mll
 import click
 if sys.version.startswith("3.11"):
-    import tomllib as tomli
+    import tomllib as toml
 else:
-    import tomli
+    import tomli as toml
 
 # LOCAL
 import theme
@@ -204,7 +204,7 @@ def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "
 
     if (response := requests.get(pack_toml_url)).status_code == 200:
 
-        pack_info: dict = tomli.loads(response.text)
+        pack_info: dict = toml.loads(response.text)
         game_version = pack_info.get("versions", {}).get("minecraft")
         fabric_version = pack_info.get("versions", {}).get("fabric")
         meta_url = meta_placeholder.format(game_version, fabric_version)
@@ -288,8 +288,8 @@ def create_profile(mc_dir: str, version_name: str) -> None:
     }
 
     profiles["profiles"]["FO"] = profile
-    profiles_json = bytes(json.dumps(profiles, indent=4), encoding="utf-8")
-    launcher_profiles_path.write_bytes(profiles_json)
+    profiles_json = json.dumps(profiles, indent=4)
+    launcher_profiles_path.write_text(profiles_json)
 
 def run(
     widget=None,
