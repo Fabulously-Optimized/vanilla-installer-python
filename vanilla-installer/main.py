@@ -198,7 +198,15 @@ def command(text: str) -> str:
 
 
 def install_fabric(mc_version: str, mc_dir: str) -> str:
-    
+    """Installs Fabric to the vanilla launcher.
+
+    Args:
+        mc_version (str): The version of Minecraft to get information from FO's files for.
+        mc_dir (str): The directory to use.
+
+    Returns:
+        str: The Fabric version installed. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
+    """
     meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
     pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
 
@@ -274,7 +282,12 @@ def install_pack(
 
 
 def create_profile(mc_dir: str, version_name: str) -> None:
+    """Creates a profile in the vanilla launcher.
 
+    Args:
+        mc_dir (str): The path to the **default** Minecraft directory.
+        version_name (str): The version of Minecraft to create a profile for.
+    """
     launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
     profiles = json.loads(launcher_profiles_path.read_bytes())
 
