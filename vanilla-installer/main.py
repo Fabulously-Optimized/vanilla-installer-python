@@ -197,7 +197,7 @@ def command(text: str) -> str:
     return output
 
 
-def install_fabric(mc_version: str, mc_dir: str, widget=None, interface: str = "GUI") -> str:
+def install_fabric(mc_version: str, mc_dir: str) -> str:
     
     meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
     pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
@@ -318,9 +318,7 @@ def run(
     install_pack(
         mc_version=newest_version(),
         packwiz_installer_bootstrap=packwiz_bootstrap,
-        mc_dir=mc_dir,
-        widget=widget,
-        interface=interface,
+        mc_dir=mc_dir
     )
     text_update("Setting profiles...", widget=widget, interface=interface)
     create_profile(mc_dir, version)
