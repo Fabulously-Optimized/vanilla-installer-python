@@ -95,7 +95,7 @@ def get_java() -> str:
     return mll.utils.get_java_executable()
 
 
-def fo_to_base64(png_dir: str) -> str:
+def fo_to_base64(png_dir: str = ".") -> str:
     """Converts the Fabulously Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
     
@@ -118,8 +118,8 @@ def fo_to_base64(png_dir: str) -> str:
         else:
             logging.critical("Could not get the FO logo over the network.")
 
-    b64logo = base64.b64encode(png_content)
-    return "data:image/png;base64,"+str(b64logo)
+    b64logo = base64.b64encode(png_content).decode("utf-8")
+    return f"data:image/png;base64,{b64logo}"
 
 
 def init() -> None:
@@ -295,7 +295,7 @@ def create_profile(mc_dir: str, version_name: str) -> None:
         "lastVersionId": version_name,
         "name": "Fabulously Optimized",
         "type": "custom",
-        "icon": fo_to_base64(png_dir="."),
+        "icon": fo_to_base64(),
         "gameDir": mc_dir, # Not sure about this
         # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
     }
