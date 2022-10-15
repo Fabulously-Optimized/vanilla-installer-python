@@ -205,7 +205,7 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         mc_dir (str): The directory to use.
 
     Returns:
-        str: The Fabric version installed. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
+        str: The Fabric version id. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
     """
     meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
     pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
@@ -219,11 +219,11 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
 
         if (response := requests.get(meta_url)).status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
-                version_name = f"fabric-loader-{fabric_version}-{game_version}"
-                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_name)
+                version_id = f"fabric-loader-{fabric_version}-{game_version}"
+                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_id)
                 archive.extractall(path)
 
-    return version_name
+    return version_id
 
 
 def download_pack(widget, interface: str = "GUI") -> str:
@@ -281,18 +281,18 @@ def install_pack(
         )
 
 
-def create_profile(mc_dir: str, version_name: str) -> None:
+def create_profile(mc_dir: str, version_id: str) -> None:
     """Creates a profile in the vanilla launcher.
 
     Args:
         mc_dir (str): The path to the **default** Minecraft directory.
-        version_name (str): The version of Minecraft to create a profile for.
+        version_id (str): The version of Minecraft to create a profile for.
     """
     launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
     profiles = json.loads(launcher_profiles_path.read_bytes())
 
     profile = {
-        "lastVersionId": version_name,
+        "lastVersionId": version_id,
         "name": "Fabulously Optimized",
         "type": "custom",
         "icon": fo_to_base64(),
