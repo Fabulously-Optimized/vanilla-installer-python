@@ -8,6 +8,7 @@ darkdetect = "0.5.1"
 minecraft-launcher-lib = "4.5"
 requests = "2.25.1"
 click = "*"
+tomli = "*"
 
 [dev-packages]
 pylint = "*"

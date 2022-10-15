@@ -4,21 +4,25 @@ Most important functions of VanillaInstaller.
 # IMPORTS
 
 # Standard library
+import io
+import json
 import os
 import sys
 import logging
 import logging.handlers  # pylance moment
-import re
 import subprocess
-import tempfile
 import pathlib
 import base64
+import zipfile
 
 # External
 import requests
 import minecraft_launcher_lib as mll
 import click
-
+if sys.version.startswith("3.11"):
+    import tomllib as toml
+else:
+    import tomli as toml
 
 # LOCAL
 import theme
@@ -94,6 +98,7 @@ def get_java() -> str:
 def fo_to_base64(png_dir: str) -> str:
     """Converts the Fabulously Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
+    
     Args:
         dir (str): The directory to search for the logo.
     Returns:
@@ -114,7 +119,7 @@ def fo_to_base64(png_dir: str) -> str:
             logging.critical("Could not get the FO logo over the network.")
 
     b64logo = base64.b64encode(png_content)
-    return str(b64logo)
+    return "data:image/png;base64,"+str(b64logo)
 
 def get_version():
     version = "v1.0.0-unstable"
@@ -195,81 +200,33 @@ def command(text: str) -> str:
     return output
 
 
-def download_fabric(
-    widget, interface: str = "GUI"
-) -> str:  # https://github.com/max-niederman/fabric-quick-setup/blob/40c959c6cd2295c679576680fab3cda2b15222f5/fabric_quick_setup/cli.py#L69 (nice)
-    """Downloads Fabric's installer.
+def install_fabric(mc_version: str, mc_dir: str) -> str:
+    """Installs Fabric to the vanilla launcher.
 
     Args:
-        interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
+        mc_version (str): The version of Minecraft to get information from FO's files for.
+        mc_dir (str): The directory to use.
+
     Returns:
-        str: The path to Fabric's installer.
+        str: The Fabric version installed. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
     """
-    tmp = tempfile.mkdtemp(prefix=".fovi-")
-    installers = requests.get("https://meta.fabricmc.net/v2/versions/installer").json()
-    download = requests.get(installers[0]["url"])
-    file_path = tmp + "/" + download.url.split("/")[-1]
+    meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
+    pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
 
-    text_update(
-        f'Downloading Fabric ({int(download.headers["Content-Length"])//1000} KB)...',
-        widget=widget,
-        interface=interface,
-    )
-    with open(file_path, "wb") as file:
-        file.write(download.content)
-    return file_path
+    if (response := requests.get(pack_toml_url)).status_code == 200:
 
+        pack_info: dict = toml.loads(response.text)
+        game_version = pack_info.get("versions", {}).get("minecraft")
+        fabric_version = pack_info.get("versions", {}).get("fabric")
+        meta_url = meta_placeholder.format(game_version, fabric_version)
 
-def install_fabric(
-    installer_jar: str,
-    mc_version: str,
-    mc_dir: str,
-    widget=None,
-    interface: str = "GUI",
-) -> None:  # installs the Fabric launcher jar
-    """Runs Fabric's installer.
+        if (response := requests.get(meta_url)).status_code == 200:
+            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+                version_name = f"fabric-loader-{fabric_version}-{game_version}"
+                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_name)
+                archive.extractall(path)
 
-    Args:
-        installer_jar (str): Path to the installer jar.
-        mc_version (str): The Minecraft version to pass to the script.
-        mc_dir (str): The path to the .minecraft directory.
-        interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
-    """
-    text_update("Installing Fabric...", widget)
-    ran = command(
-        f"{get_java()} -jar {installer_jar} client -mcversion {mc_version} -dir {mc_dir}"
-    )
-
-    if ran == 0:
-        text_update(
-            f"Installed Fabric {mc_version}", widget, "success", interface=interface
-        )
-    else:
-        text_update(
-            f"Could not install Fabric: {ran}", widget, "error", interface=interface
-        )
-    tmp = pathlib.Path(installer_jar).parent.resolve()
-    # This will break if Fabric moves away from semver-like things
-    # Like if they start doing minor.patch this will break
-    # As long as we have MAJOR.Minor.patch we'll be fine
-    tmp_regex = str(re.compile("fabric-installer-.*.*.\.jar"))
-    tmp = str(rf"{tmp}".replace(f"{tmp_regex}", ""))
-    try:
-        for existing_file in os.listdir(tmp):
-            os.remove(existing_file)
-    except OSError as error_code:
-        # If an OSError is raised, it's likely that the tmp directory doesn't exist or is empty.
-        # There's pretty much no reason to require it, so pass.
-        logging.warning(
-            f"Temp directory is empty or nonexistent. Skipping deleting all files.\nError details: {error_code}"
-        )
-    try:
-        pathlib.Path(tmp).rmdir()
-    except Exception as error_code:
-        # Similar situation to above. After all this is a temp dir, so whatever.
-        logging.exception(
-            f"Could not delete temp directory, leaving in place.\nError details: {error_code}"
-        )
+    return version_name
 
 
 def download_pack(widget, interface: str = "GUI") -> str:
@@ -327,6 +284,29 @@ def install_pack(
         )
 
 
+def create_profile(mc_dir: str, version_name: str) -> None:
+    """Creates a profile in the vanilla launcher.
+
+    Args:
+        mc_dir (str): The path to the **default** Minecraft directory.
+        version_name (str): The version of Minecraft to create a profile for.
+    """
+    launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
+    profiles = json.loads(launcher_profiles_path.read_bytes())
+
+    profile = {
+        "lastVersionId": version_name,
+        "name": "Fabulously Optimized",
+        "type": "custom",
+        "icon": fo_to_base64(png_dir="."),
+        "gameDir": mc_dir, # Not sure about this
+        # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
+    }
+
+    profiles["profiles"]["FO"] = profile
+    profiles_json = json.dumps(profiles, indent=4)
+    launcher_profiles_path.write_text(profiles_json)
+
 def run(
     widget=None,
     mc_dir: str = mll.utils.get_minecraft_directory(),
@@ -339,12 +319,8 @@ def run(
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
-    text_update("Starting Fabric Download...", widget=widget, interface=interface)
-    installer_jar = download_fabric(widget=widget)
-
     text_update("Starting Fabric Installation...", widget=widget, interface=interface)
-    install_fabric(
-        installer_jar=installer_jar,
+    version = install_fabric(
         mc_version=newest_version(),
         mc_dir=mc_dir,
         widget=widget,
@@ -358,10 +334,10 @@ def run(
     install_pack(
         mc_version=newest_version(),
         packwiz_installer_bootstrap=packwiz_bootstrap,
-        mc_dir=mc_dir,
-        widget=widget,
-        interface=interface,
+        mc_dir=mc_dir
     )
+    text_update("Setting profiles...", widget=widget, interface=interface)
+    create_profile(mc_dir, version)
 
 
 def start_log() -> None:
