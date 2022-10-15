@@ -323,8 +323,6 @@ def run(
     version = install_fabric(
         mc_version=newest_version(),
         mc_dir=mc_dir,
-        widget=widget,
-        interface=interface,
     )
 
     text_update("Starting Pack Download...", widget=widget, interface=interface)
