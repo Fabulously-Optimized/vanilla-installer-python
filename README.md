@@ -1,4 +1,7 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
 [![Pylint](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/pylint.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/pylint.yml)
@@ -41,6 +44,21 @@ These are usually not difficult to install, too, though you may run into problem
 ## Contributors
 
 ### Overview
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://namemc.com/profile/Mesa3D.2"><img src="https://avatars.githubusercontent.com/u/68134602?v=4?s=100" width="100px;" alt="Kichura"/><br /><sub><b>Kichura</b></sub></a><br /><a href="#infra-Kichura" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer?3)
 
