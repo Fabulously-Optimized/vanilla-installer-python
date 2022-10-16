@@ -19,6 +19,7 @@ import zipfile
 import requests
 import minecraft_launcher_lib as mll
 import click
+
 if sys.version.startswith("3.11"):
     import tomllib as toml
 else:
@@ -101,7 +102,7 @@ def get_java() -> str:
 def fo_to_base64(png_dir: str = ".") -> str:
     """Converts the Fabulously Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
-    
+
     Args:
         dir (str): The directory to search for the logo.
     Returns:
@@ -124,9 +125,11 @@ def fo_to_base64(png_dir: str = ".") -> str:
     b64logo = base64.b64encode(png_content).decode("utf-8")
     return f"data:image/png;base64,{b64logo}"
 
+
 def get_version():
     version = "v1.0.0-unstable"
     return version
+
 
 def init() -> None:
     """Initialization for VanillaInstaller."""
@@ -214,7 +217,7 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         str: The Fabric version id. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
     """
     meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
-    pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"  
+    pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
 
     if (response := requests.get(pack_toml_url)).status_code == 200:
 
@@ -295,24 +298,25 @@ def create_profile(mc_dir: str, version_id: str) -> None:
         version_id (str): The version of Minecraft to create a profile for.
     """
     launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
-    
+
     try:
         profiles = json.loads(launcher_profiles_path.read_bytes())
     except Exception:
-        logging.error(f'Launcher profile not found at {launcher_profiles_path}.')
+        logging.error(f"Launcher profile not found at {launcher_profiles_path}.")
 
     profile = {
         "lastVersionId": version_id,
         "name": "Fabulously Optimized",
         "type": "custom",
         "icon": fo_to_base64(),
-        "gameDir": mc_dir, # Not sure about this
-        # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself" 
+        "gameDir": mc_dir,  # Not sure about this
+        # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself"
     }
 
     profiles["profiles"]["FO"] = profile
     profiles_json = json.dumps(profiles, indent=4)
     launcher_profiles_path.write_text(profiles_json)
+
 
 def run(
     widget=None,
@@ -339,7 +343,7 @@ def run(
     install_pack(
         mc_version=newest_version(),
         packwiz_installer_bootstrap=packwiz_bootstrap,
-        mc_dir=mc_dir
+        mc_dir=mc_dir,
     )
     text_update("Setting profiles...", widget=widget, interface=interface)
     create_profile(mc_dir, version)

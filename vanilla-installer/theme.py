@@ -88,6 +88,7 @@ Exit program now?
         ):
             sys.exit(0)
 
+
 init()
 
 if __name__ == "__main__":

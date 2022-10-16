@@ -23,10 +23,12 @@
 You heard that right, you need to install the installer.
 
 ### Binaries (recommended)
+
 These are quite simple to install and should work stably.
 Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file.
 
 ### Scripts (for advanced users)
+
 These are usually not difficult to install, too, though you may run into problems because of instability issues.Use at own risk.
 
 **[Windows](install/windows.bat) · [MacOS](install/macos.sh) · [Linux](install/linux.sh)**
@@ -42,6 +44,7 @@ These are usually not difficult to install, too, though you may run into problem
 ## Contributors
 
 ### Overview
+
 ![Contributor Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer)
 
 ### Changes
@@ -66,7 +69,7 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
   - Organization
 
 - [@RozeFound](https://github.com/RozeFound)
-    - Various improvements
+  - Various improvements
 
 - [@Kichura](https://github.com/Kichura)
-    - Updated workflows
+  - Updated workflows

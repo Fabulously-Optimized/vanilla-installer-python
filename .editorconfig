@@ -5,7 +5,7 @@ root = true
 
 [*]
 indent_style = space
-indent_size = 4
+indent_size = 2
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = false
@@ -13,3 +13,6 @@ insert_final_newline = false
 
 [*.bat]
 end_of_line = crlf
+
+[*.py]
+indent_size = 4
