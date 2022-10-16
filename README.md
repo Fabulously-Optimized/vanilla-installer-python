@@ -50,6 +50,7 @@ These are usually not difficult to install, too, though you may run into problem
 <table>
   <tbody>
     <tr>
+      <td align="center"><a href="https://namemc.com/profile/Mesa3D.2"><img src="https://avatars.githubusercontent.com/u/68134602?v=4?s=100" width="100px;" alt="Kichura"/><br /><sub><b>Kichura</b></sub></a><br /><a href="#infra-Kichura" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
       <td align="center"><a href="https://onlix.me"><img src="https://avatars.githubusercontent.com/u/67185896?v=4?s=100" width="100px;" alt="Felix"/><br /><sub><b>Felix</b></sub></a><br /><a href="#maintenance-nsde" title="Maintenance">🚧</a></td>
       <td align="center"><a href="https://osfanbuff63.tech"><img src="https://avatars.githubusercontent.com/u/91388253?v=4?s=100" width="100px;" alt="osfanbuff63"/><br /><sub><b>osfanbuff63</b></sub></a><br /><a href="#maintenance-osfanbuff63" title="Maintenance">🚧</a></td>
     </tr>
