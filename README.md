@@ -40,33 +40,31 @@ These are usually not difficult to install, too, though you may run into problem
 - **[FO issue (#110)](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)**: The issue in FO, which explains the situation
 
 ## Contributors
+### Overview
+![Contributor Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer)
+
+### Changes
 Sorted by additions.
 Last updated 16th October 2022.
 See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors?type=a) for a full overview.
 
 - [@osfanbuff63](https://github.com/osfanbuff63)
-  > ![](https://avatars.githubusercontent.com/u/91388253?s=48&v=4)
   - Updated various files for formatting improvements and fixes
   - Documentation improvements
 
 - [@nsde](https://github.com/nsde)
-    > ![](https://avatars.githubusercontent.com/u/67185896?s=48&v=4)
   - Lead developer
   - Python scripts (GUI etc.)
 
 - [@RaptaG](https://github.com/RaptaG)
-  > ![](https://avatars.githubusercontent.com/u/77157639?s=48&v=4)
   - [Shell installation scripts](install/) (sh) for MacOS and Linux
 
 - [@Madis0](https://github.com/Madis0)
-  > ![](https://avatars.githubusercontent.com/u/8611110?s=48&v=4)
   - Founder of Fabulously Optimized
   - Organization
 
 - [@RozeFound](https://github.com/RozeFound)
-  > ![](https://avatars.githubusercontent.com/u/68745888?s=48&v=4)
     - Various improvements
 
 - [@Kichura](https://github.com/Kichura)
-  > ![](https://avatars.githubusercontent.com/u/68134602?s=48&v=4)
     - Updated Workflows
