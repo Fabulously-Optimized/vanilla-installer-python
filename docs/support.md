@@ -25,9 +25,9 @@ The program is optimized for Python 3.8 and above, as well as Linux and Windows.
 
 Does the font look pixelated and emojis are not loading?
 
-![Font looking pixelated due to Anaconda](media/conda-bug.png)
+![Font looking pixelated due to Anaconda](/media/conda-bug.png)
 
-Don't worry! Try the following commands (AFTER trying [install/linux.sh](install/linux.sh)):
+Don't worry! Try the following commands (AFTER trying [install/linux.sh](/install/linux.sh)):
 
 ```bash
 #!/usr/bin/env/bash
@@ -37,11 +37,11 @@ python3.10 vanilla-installer/gui.py
 
 ...whereas `3.10` can be any (supported) version, e.g. for `3.9`: the commands with `python3.9` in the beginning (you get the point). This makes sure *Anaconda* isn't used for executing the program.
 
-Again, you *need* more than just the pip packages - so make sure you've also followed the steps [install/linux.sh](install/linux.sh) or [install/windows.bat](install/windows.bat) correctly!
+Again, you *need* more than just the pip packages - so make sure you've also followed the steps [install/linux.sh](/install/linux.sh) or [install/windows.bat](/install/windows.bat) correctly!
 
 There we go!
 
-![Font looking normal](media/conda-fix.png)
+![Font looking normal](/media/conda-fix.png)
 
 ### `ModuleNotFoundError: No module named 'tkinter'` (Linux only)
 
@@ -52,7 +52,7 @@ There we go!
 sudo apt-get install python-tk
 ```
 
-The issue probably occurs because you haven't installed VanillaInstaller correctly. Try running `sh install/linux.sh`, as this command should install all needed dependencies for VanillaInstaller automatically.
+The issue probably occurs because you haven't installed VanillaInstaller correctly. Try running `./install/linux.sh`, as this command should install all needed dependencies for VanillaInstaller automatically.
 
 ### Other GUI-related issues
 
@@ -65,4 +65,4 @@ Make sure to choose the correct version - or replace `python3.10` with `python3`
 
 ### Anything else?
 
-If you have a question that isn't covered above, feel free to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB)
+If you have a question that isn't covered above, feel free to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB).
