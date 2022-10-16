@@ -6,12 +6,14 @@
   "commit": false,
   "commitConvention": "angular",
   "contributors": [
+     {
       "login": "Kichura",
       "name": "Kichura",
       "avatar_url": "https://avatars.githubusercontent.com/u/68134602?v=4",
       "profile": "https://namemc.com/profile/Mesa3D.2",
       "contributions": [
         "infra"
+       ]
     },
     {
       "login": "nsde",
@@ -37,5 +39,6 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "projectName": "vanilla-installer",
-  "projectOwner": "Fabulously-Optimized"
+  "projectOwner": "Fabulously-Optimized",
+  "commitConvention": "gitmoji"
 }
