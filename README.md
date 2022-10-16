@@ -22,6 +22,7 @@
 **VI** - Vanilla Installer
 
 ## Installation
+
 ### Binaries (recommended)
 
 These are quite simple to install and should work stably.
@@ -31,7 +32,7 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
 
 These are usually not difficult to install, too, though you may run into problems because of instability issues.Use at own risk.
 
-**[Windows](install/windows.bat) · [MacOS](install/macos.sh) · [Linux](install/linux.sh)**
+**[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
 
 
 ## Links
@@ -43,7 +44,8 @@ These are usually not difficult to install, too, though you may run into problem
 
 ## Contributors
 
-### Overview
+Thanks to all these wonderful people!
+See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors?type=a) for a full overview.
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -63,30 +65,3 @@ These are usually not difficult to install, too, though you may run into problem
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer?beta)
-
-### Changes
-
-Sorted by additions.
-Last updated 16th October 2022.
-See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors?type=a) for a full overview.
-
-- [@osfanbuff63](https://github.com/osfanbuff63)
-  - Updated various files for formatting improvements and fixes
-  - Documentation improvements
-
-- [@nsde](https://github.com/nsde)
-  - Lead developer
-  - Python scripts (GUI etc.)
-
-- [@RaptaG](https://github.com/RaptaG)
-  - [Shell installation scripts](install/) (sh) for MacOS and Linux
-
-- [@Madis0](https://github.com/Madis0)
-  - Founder of Fabulously Optimized
-  - Organization
-
-- [@RozeFound](https://github.com/RozeFound)
-  - Various improvements
-
-- [@Kichura](https://github.com/Kichura)
-  - Updated workflows
