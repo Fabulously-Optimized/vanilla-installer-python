@@ -40,10 +40,12 @@ These are usually not difficult to install, too, though you may run into problem
 - **[FO issue (#110)](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)**: The issue in FO, which explains the situation
 
 ## Contributors
+
 ### Overview
 ![Contributor Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer)
 
 ### Changes
+
 Sorted by additions.
 Last updated 16th October 2022.
 See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors?type=a) for a full overview.
@@ -67,4 +69,4 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
     - Various improvements
 
 - [@Kichura](https://github.com/Kichura)
-    - Updated Workflows
+    - Updated workflows
