@@ -49,24 +49,24 @@ def load() -> dict:
     """
     if is_dark():
         return {
-            "fg": "white",
+            "fg": "#FFFFFF",
             "bg": "#0E0F13",
             "dark": "#202023",
+            "error": "#fc3b19",
+            "warn": "#fc9d19",
+            "success": "#28ff02",
             "accent": "#008AE6",
             "info": "#ff66ff",
-            "warn": "#fc9d19",
-            "error": "#fc3b19",
-            "success": "#28ff02",
         }
     return {
-        "fg": "black",
-        "bg": "white",
+        "fg": "#000000",
+        "bg": "#FFFFFF",
         "dark": "#EEEEEE",
-        "accent": "#008AE6",
-        "warn": "#fc9d19",
-        "info": "#ff66ff",
         "error": "#fc3b19",
+        "warn": "#fc9d19",
         "success": "#28ff02",
+        "accent": "#008AE6",
+        "info": "#ff66ff",
     }
 
 
@@ -87,7 +87,6 @@ Exit program now?
 (You need to start the program again manually).""",
         ):
             sys.exit(0)
-
 
 init()
 

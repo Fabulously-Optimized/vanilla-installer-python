@@ -1,12 +1,13 @@
 name: Feature Request
-description: Suggest a feature!
+description: Suggest a feature or improvements to be made
 title: "[Feature Request]: "
 labels: ["enhancement", "triage"]
+
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this feature request!
+      value: Thanks for taking the time to fill out this feature request!
+
   - type: checkboxes
     id: terms
     attributes:
@@ -14,7 +15,8 @@ body:
       description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/CODE_OF_CONDUCT.md)
       options:
         - label: I agree to follow this project's Code of Conduct
-          required: true
+          required: tru
+
   - type: textarea
     id: requested-feature
     attributes:
@@ -23,6 +25,7 @@ body:
       placeholder: I want...
     validations:
       required: true
+
   - type: textarea
     id: implementation
     attributes:
@@ -31,6 +34,7 @@ body:
       placeholder: Use [this](https://pypi.org/project/this)
     validations:
       required: true
+
   - type: textarea
     id: additional-info
     attributes:

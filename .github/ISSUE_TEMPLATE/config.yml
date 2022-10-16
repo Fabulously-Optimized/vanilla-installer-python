@@ -1,5 +1,9 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Fabulously Optimized Issues
+    url: https://github.com/Fabulously-Optimized/fabulously-optimized/issues/new/choose
+    about: Please submit modpack-related issues, suggestions and bugs here.
+
   - name: Fabulously Optimized Discord
     url: https://discord.gg/yxaXtaQqdB
     about: Please ask and answer questions here.

@@ -49,12 +49,15 @@ def set_dir(path: str) -> str | None:
         with open(PATH_FILE, "w", encoding="utf-8") as file:
             file.write(path_nobackslash)
         return path_nobackslash
+
     if path_nobackslash != "":
         with open(PATH_FILE, "w", encoding="utf-8") as file:
             file.write(path_nobackslash)
         return path_nobackslash
+
     path_nobackslash_minecraft = mll.utils.get_minecraft_directory()
     path_nobackslash = path_nobackslash_minecraft.replace(".minecraft", "")
+
     with open(PATH_FILE, "w", encoding="utf-8") as file:
         file.write(path_nobackslash)
     return path_nobackslash
@@ -292,7 +295,11 @@ def create_profile(mc_dir: str, version_id: str) -> None:
         version_id (str): The version of Minecraft to create a profile for.
     """
     launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
-    profiles = json.loads(launcher_profiles_path.read_bytes())
+    
+    try:
+        profiles = json.loads(launcher_profiles_path.read_bytes())
+    except Exception:
+        logging.error(f'Launcher profile not found at {launcher_profiles_path}.')
 
     profile = {
         "lastVersionId": version_id,
