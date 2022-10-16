@@ -4,7 +4,11 @@ data/
 temp/
 tests/
 %USERPROFILE%
+
+# Editors
 .vscode/launch.json
+
+# ====== Python Default .gitignore ========
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

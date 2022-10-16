@@ -103,6 +103,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   * Updated [Batchfile installation script](install/windows.bat) for Windows
   * Updated various files for formatting improvements and various fixes
 
+* ...other (see README)
+
 ## Other credits
 
 ### GitHub
