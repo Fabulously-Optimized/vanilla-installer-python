@@ -5,3 +5,5 @@
 *.bat eol=crlf
 *.sh eol=lf
 *.pyc binary
+
+*.all-contributorsrc linguist-language=json
