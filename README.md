@@ -19,9 +19,6 @@
 **VI** - Vanilla Installer
 
 ## Installation
-
-You heard that right, you need to install the installer.
-
 ### Binaries (recommended)
 
 These are quite simple to install and should work stably.
