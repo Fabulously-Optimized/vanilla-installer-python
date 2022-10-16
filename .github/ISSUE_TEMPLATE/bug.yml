@@ -2,21 +2,19 @@ name: Bug Report
 description: File a bug report
 title: "[Bug]: "
 labels: ["bug", "triage"]
-assignees:
-  - octocat
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
+  - type: checkboxes
+    id: terms
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
   - type: textarea
     id: what-happened
     attributes:
@@ -30,33 +28,46 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of our software are you running?
+      description: What version of VanillaInstaller are you running?
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+      # Needs to be updated every release
+        - 1.0.0 (stable)
+        - Any development commit
+        - Any beta version
     validations:
       required: true
   - type: dropdown
-    id: browsers
+    id: platform
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What platform are you using?
       multiple: true
       options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+        - Windows
+        - macOS
+        - Linux
+  - type: dropdown
+    id: download
+    attributes:
+      label: How did you download the software?
+      options:
+        #- pip
+        - GitHub Releases
+        - A package manager
+        - Built from source or setup scripts used
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
+      description: |
+        Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+        If you don't have any, re-run this within a terminal and it should print to the terminal's text.
+      render: bash
+  - type: textarea
+    id: additional-info
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      label: Anything else?
+      description: If there's anything else that might be relevant, put it here.
+    validations:
+      required: false
