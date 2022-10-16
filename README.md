@@ -62,7 +62,7 @@ These are usually not difficult to install, too, though you may run into problem
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer?3)
+![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer?beta)
 
 ### Changes
 
