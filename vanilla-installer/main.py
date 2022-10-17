@@ -127,7 +127,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version():
-    version = "v1.0.0-unstable"
+    version = "v1.0.0-dev1"
     return version
 
 
@@ -260,7 +260,7 @@ def install_pack(
     mc_dir: str,
     widget=None,
     interface: str = "GUI",
-):
+) -> None:
     """Installs Fabulously Optimized.
 
     Args:
@@ -276,7 +276,7 @@ def install_pack(
     try:
         ran = command(f"{get_java()} -jar {packwiz_installer_bootstrap} {pack_toml}")
         text_update(
-            f"Installed Fabulously Optimized for MC {mc_version}!\nThe installer has finished.",
+            f"Installed Fabulously Optimized for MC {mc_version}.",
             widget,
             "success",
             interface=interface,
@@ -330,16 +330,16 @@ def run(
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
-    text_update("Starting Fabric Installation...", widget=widget, interface=interface)
+    text_update("Installing Fabulously Optimized...", widget=widget, interface=interface)
     version = install_fabric(
         mc_version=newest_version(),
         mc_dir=mc_dir,
     )
 
-    text_update("Starting Pack Download...", widget=widget, interface=interface)
+    text_update("Starting the Fabulously Optimized download...", widget=widget, interface=interface)
     packwiz_bootstrap = download_pack(widget=widget, interface=interface)
 
-    text_update("Starting Pack Installation...", widget=widget, interface=interface)
+    text_update("Installing Fabulously Optimized...", widget=widget, interface=interface)
     install_pack(
         mc_version=newest_version(),
         packwiz_installer_bootstrap=packwiz_bootstrap,
