@@ -1,6 +1,6 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
@@ -33,7 +33,6 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
 These are usually not difficult to install, too, though you may run into problems because of instability issues.Use at own risk.
 
 **[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
-
 
 ## Links
 

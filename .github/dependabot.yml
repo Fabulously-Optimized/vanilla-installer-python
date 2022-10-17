@@ -1,4 +1,4 @@
-# Update python dependencies weekly
+# Update python dependencies daily
 
 version: 2
 updates:
@@ -7,7 +7,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/3.8"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
     commit-message:
@@ -17,7 +17,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/3.9"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
     commit-message:
@@ -27,7 +27,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/3.10"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
     commit-message:
@@ -37,7 +37,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/3.11"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     # Include a list of updated dependencies
     # with a prefix determined by the dependency group
     commit-message:
