@@ -8,8 +8,6 @@ import io
 import json
 import os
 import sys
-import logging
-import logging.handlers  # pylance moment
 import subprocess
 import pathlib
 import base64
@@ -27,6 +25,7 @@ else:
 
 # LOCAL
 import theme
+from log import logger
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
 FOLDER_LOC = ""
@@ -38,11 +37,12 @@ def set_dir(path: str) -> str | None:
     Args:
         path (str): The path to the Minecraft game directory.
     """
+
     if path:  # only strings can be written
         path_nobackslash = str(rf"{path}".replace("\\", "/"))
         path_nobackslash = str(rf"{path_nobackslash}".replace(".minecraft", ""))
     else:
-        logging.critical("path must be passed!")
+        logger.critical("path must be passed!")
         return Exception
     # If the path is none, it will cause the script to fail.
     # In that case, return the default directory.
@@ -70,10 +70,11 @@ def get_dir() -> str:
     Returns:
         str: Path
     """
+
     try:
         path = open(PATH_FILE, encoding="utf-8").read()
     except OSError:
-        logging.exception("No mc_path.txt found. Calling set_dir.")
+        logger.exception("No mc_path.txt found. Calling set_dir.")
         default_dir = str(
             mll.utils.get_minecraft_directory()
         )  # Without this, it gives an error every time
@@ -115,12 +116,12 @@ def fo_to_base64(png_dir: str = ".") -> str:
     if (png_path := dir_path / "fo.png").exists():
         png_content = png_path.read_bytes()
     else:
-        logging.warning("Cannot find logo locally. Trying to download...")
+        logger.warning("Cannot find logo locally. Trying to download...")
         url = "https://avatars.githubusercontent.com/u/92206402"
         if (response := requests.get(url)).status_code == 200:
             png_content = response.content
         else:
-            logging.critical("Could not get the FO logo over the network.")
+            logger.critical("Could not get the FO logo over the network.")
 
     b64logo = base64.b64encode(png_content).decode("utf-8")
     return f"data:image/png;base64,{b64logo}"
@@ -139,7 +140,7 @@ def init() -> None:
             path = mll.utils.get_minecraft_directory().replace(".minecraft", "")
             set_dir(path)
         except Exception as error_code:  # any error could happen, really.
-            logging.error(
+            logger.error(
                 f"Could not get Minecraft path: {error_code}\nUsing default path based on OS."
             )
             # The first two `startswith` are simply a precaution, since Python previously used a different number for different Linux kernels.
@@ -155,7 +156,7 @@ def init() -> None:
                 path = os.path.expanduser("~")
                 set_dir(path)
             else:
-                logging.error("Could not detect OS.")
+                logger.error("Could not detect OS.")
 
 
 def text_update(
@@ -178,15 +179,15 @@ def text_update(
 
         else:
             if mode == "fg":
-                logging.debug(text)
+                logger.debug(text)
             if mode == "warn":
-                logging.warning(text)
+                logger.warning(text)
             if mode == "error":
-                logging.error(text)
+                logger.error(text)
             if mode == "success":
-                logging.info(text)
+                logger.info(text)
             if mode == "info":
-                logging.info(text)
+                logger.info(text)
     else:
         if mode == "error":
             click.echo(text, err=True)
@@ -201,7 +202,7 @@ def command(text: str) -> str:
         str: The output of the command.
     """
     command_output = subprocess.check_output(text.split()).decode("utf-8")
-    output = logging.debug(command_output)
+    output = logger.debug(command_output)
     text_update(output, mode="fg")
     return output
 
@@ -302,7 +303,7 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     try:
         profiles = json.loads(launcher_profiles_path.read_bytes())
     except Exception:
-        logging.error(f"Launcher profile not found at {launcher_profiles_path}.")
+        logger.error(f"Launcher profile not found at {launcher_profiles_path}.")
 
     profile = {
         "lastVersionId": version_id,
@@ -330,16 +331,24 @@ def run(
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
-    text_update("Installing Fabulously Optimized...", widget=widget, interface=interface)
+    text_update(
+        "Installing Fabulously Optimized...", widget=widget, interface=interface
+    )
     version = install_fabric(
         mc_version=newest_version(),
         mc_dir=mc_dir,
     )
 
-    text_update("Starting the Fabulously Optimized download...", widget=widget, interface=interface)
+    text_update(
+        "Starting the Fabulously Optimized download...",
+        widget=widget,
+        interface=interface,
+    )
     packwiz_bootstrap = download_pack(widget=widget, interface=interface)
 
-    text_update("Installing Fabulously Optimized...", widget=widget, interface=interface)
+    text_update(
+        "Installing Fabulously Optimized...", widget=widget, interface=interface
+    )
     install_pack(
         mc_version=newest_version(),
         packwiz_installer_bootstrap=packwiz_bootstrap,
@@ -349,33 +358,5 @@ def run(
     create_profile(mc_dir, version)
 
 
-def start_log() -> None:
-    """Starts logging for VanillaInstaller."""
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    try:
-        handler = logging.handlers.RotatingFileHandler(
-            filename="logs/vanilla_installer.log",
-            encoding="utf-8",
-            maxBytes=32 * 1024 * 1024,  # 32 MiB
-            backupCount=5,  # Rotate through 5 files
-        )
-        dt_fmt = "%Y-%m-%d %H:%M:%S"
-        formatter = logging.Formatter(
-            "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{"
-        )
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-    except Exception:
-        # for some reason logging keeps failing, since it's not crucial just pass
-        # As such this print()s to stdout
-        print("ERROR | Unable to start logging, logging to stdout")
-        print("ERROR | Error code: 0xDEADBEEF")
-
-    logging.info("Starting VanillaInstaller")
-    logger = logging.getLogger("VanillaInstaller")
-
-
 if __name__ == "__main__":
     init()  # start initialization
-    start_log()  # start logging in case of issues

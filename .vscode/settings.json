@@ -18,6 +18,7 @@
         "vanilla-installer/__pycache__"
     ],
     "cSpell.words": [
-        "modpack"
+        "modpack",
+        "nobackslash"
     ]
 }

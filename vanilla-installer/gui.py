@@ -15,6 +15,7 @@ import requests
 # LOCAL
 import main
 import theme
+from log import logger
 
 # ARGUMENTS
 parser = argparse.ArgumentParser()
@@ -45,7 +46,7 @@ def run():
     try:
         win.iconphoto(False, tkinter.PhotoImage(file=icon))
     except tkinter.TclError:
-        logging.exception("Icon not found! Trying to download...")
+        logger.exception("Icon not found! Trying to download...")
         download = requests.get(
             "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/media/icon.png"
         )
