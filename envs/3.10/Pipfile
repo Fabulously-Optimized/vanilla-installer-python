@@ -12,6 +12,9 @@ tomli = "*"
 
 [dev-packages]
 pylint = "*"
+mkdocs = "*"
+mkdocstrings = {extras = ["python"], version = "*"}
+mkdocs-material = "*"
 
 [requires]
 python_version = "3.10"

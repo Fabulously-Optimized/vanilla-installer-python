@@ -1,0 +1,14 @@
+image:
+  file: .gitpod.Dockerfile
+vscode:
+  extensions:
+    - editorconfig.editorconfig
+    - ms-python.python
+    - Vtrois.gitmoji-vscode
+tasks:
+  - name: Install dependencies
+    init: cd envs/3.10 && pipenv install
+gitConfig:
+  core.eol: "LF"
+  core.autocrlf: "false"
+  core.symlinks: "true"
