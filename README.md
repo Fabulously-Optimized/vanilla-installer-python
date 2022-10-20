@@ -1,6 +1,6 @@
 # 🧰 Fabulously Optimized · Vanilla Installer
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
@@ -52,11 +52,12 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://namemc.com/profile/Mesa3D.2"><img src="https://avatars.githubusercontent.com/u/68134602?v=4?s=100" width="100px;" alt="Kichura"/><br /><sub><b>Kichura</b></sub></a><br /><a href="#infra-Kichura" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://onlix.me"><img src="https://avatars.githubusercontent.com/u/67185896?v=4?s=100" width="100px;" alt="Felix"/><br /><sub><b>Felix</b></sub></a><br /><a href="#maintenance-nsde" title="Maintenance">🚧</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://osfanbuff63.tech"><img src="https://avatars.githubusercontent.com/u/91388253?v=4?s=100" width="100px;" alt="osfanbuff63"/><br /><sub><b>osfanbuff63</b></sub></a><br /><a href="#maintenance-osfanbuff63" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://onlix.me"><img src="https://avatars.githubusercontent.com/u/67185896?v=4?s=100" width="100px;" alt="Felix"/><br /><sub><b>Felix</b></sub></a><br /><a href="#maintenance-nsde" title="Maintenance">🚧</a> <a href="https://github.com/Fabulously-Optimized/vanilla-installer/commits?author=nsde" title="Code">💻</a> <a href="#ideas-nsde" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/Fabulously-Optimized/vanilla-installer/pulls?q=is%3Apr+reviewed-by%3Ansde" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://osfanbuff63.tech"><img src="https://avatars.githubusercontent.com/u/91388253?v=4?s=100" width="100px;" alt="osfanbuff63"/><br /><sub><b>osfanbuff63</b></sub></a><br /><a href="#maintenance-osfanbuff63" title="Maintenance">🚧</a> <a href="https://github.com/Fabulously-Optimized/vanilla-installer/commits?author=osfanbuff63" title="Code">💻</a> <a href="https://github.com/Fabulously-Optimized/vanilla-installer/pulls?q=is%3Apr+reviewed-by%3Aosfanbuff63" title="Reviewed Pull Requests">👀</a> <a href="#ideas-osfanbuff63" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RaptaG"><img src="https://avatars.githubusercontent.com/u/77157639?v=4?s=100" width="100px;" alt="RaptaG"/><br /><sub><b>RaptaG</b></sub></a><br /><a href="https://github.com/Fabulously-Optimized/vanilla-installer/commits?author=RaptaG" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/RozeFound"><img src="https://avatars.githubusercontent.com/u/68745888?v=4?s=100" width="100px;" alt="Project D.D."/><br /><sub><b>Project D.D.</b></sub></a><br /><a href="https://github.com/Fabulously-Optimized/vanilla-installer/commits?author=RozeFound" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/tuxinal"><img src="https://avatars.githubusercontent.com/u/24763016?v=4?s=100" width="100px;" alt="Tuxinal"/><br /><sub><b>Tuxinal</b></sub></a><br /><a href="#design-tuxinal" title="Design">🎨</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://madis0.github.io/"><img src="https://avatars.githubusercontent.com/u/8611110?v=4?s=100" width="100px;" alt="Madis Otenurm"/><br /><sub><b>Madis Otenurm</b></sub></a><br /><a href="#infra-Madis0" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/Fabulously-Optimized/vanilla-installer/pulls?q=is%3Apr+reviewed-by%3AMadis0" title="Reviewed Pull Requests">👀</a> <a href="#ideas-Madis0" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>

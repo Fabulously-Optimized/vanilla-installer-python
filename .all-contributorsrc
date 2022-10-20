@@ -20,7 +20,10 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/67185896?v=4",
       "profile": "https://onlix.me",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "code",
+        "ideas",
+        "review"
       ]
     },
     {
@@ -29,7 +32,10 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/91388253?v=4",
       "profile": "https://osfanbuff63.tech",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "code",
+        "review",
+        "ideas"
       ]
     },
     {
@@ -57,6 +63,17 @@
       "profile": "https://github.com/tuxinal",
       "contributions": [
         "design"
+      ]
+    },
+    {
+      "login": "Madis0",
+      "name": "Madis Otenurm",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8611110?v=4",
+      "profile": "https://madis0.github.io/",
+      "contributions": [
+        "infra",
+        "review",
+        "ideas"
       ]
     }
   ],
