@@ -73,7 +73,7 @@ def get_dir() -> str:
 
     try:
         path = open(PATH_FILE, encoding="utf-8").read()
-    except FileNotFoundError:
+    except OSError:
         logger.exception("No mc_path.txt found. Calling set_dir.")
         default_dir = str(
             mll.utils.get_minecraft_directory()
