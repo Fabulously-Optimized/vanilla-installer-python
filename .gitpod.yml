@@ -12,3 +12,4 @@ gitConfig:
   core.eol: "LF"
   core.autocrlf: "false"
   core.symlinks: "true"
+  
