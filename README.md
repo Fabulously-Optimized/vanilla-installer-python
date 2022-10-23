@@ -30,7 +30,7 @@ Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vani
 
 ### Scripts (for advanced users)
 
-These are usually not difficult to install as well, though you may run into problems because of stability issues, since it can always be used with the latest commit. Use at your own risk.
+These are usually not difficult to install as well. However, you may run into problems because of stability issues because it can always be used with the latest commit. Use at your own risk.
 
 **[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
 
