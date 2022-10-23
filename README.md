@@ -25,12 +25,12 @@
 
 ### Binaries (recommended)
 
-These are quite simple to install and should work stably.
-Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file.
+These are quite simple to use and should be stable.
+Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system.
 
 ### Scripts (for advanced users)
 
-These are usually not difficult to install, too, though you may run into problems because of instability issues.Use at own risk.
+These are usually not difficult to install as well, though you may run into problems because of stability issues, since it can always be used with the latest commit. Use at your own risk.
 
 **[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
 
@@ -44,7 +44,7 @@ These are usually not difficult to install, too, though you may run into problem
 ## Contributors
 
 Thanks to all these wonderful people!
-See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors?type=a) for a full overview.
+See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors) for a full overview of code contributors.
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
