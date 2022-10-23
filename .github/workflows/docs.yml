@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: 3.10
       # mkdocs' gh-deploy command uses the 'legacy' method of deploying custom sites to Pages
-      # which is placing the built files on a gh-pages directory.
+      # which is placing the built files on a gh-pages branch with a .nojekyll.
       # (source: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/commands/gh_deploy.py#L127)
       # Since then, GitHub has released a way to deploy to Pages directly from Actions.
       # Which makes our life a lot easier.
