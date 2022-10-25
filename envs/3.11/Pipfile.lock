@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "85acef5207f410dced2fff163279ad0e19d3669945ca819f6d8fb18ae6e82bac"
+            "sha256": "3d3b7432ceb128840863a6aa0d34163c3796041b397dbf9f3c16151ba3c6948a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -72,6 +72,42 @@
             "index": "pypi",
             "version": "==5.2"
         },
+        "pyside6": {
+            "hashes": [
+                "sha256:1b388e3fc87ebcad7ecaad751c5560625425efea4e56d553a4caa07032865c86",
+                "sha256:5df15003f0b12ed5c4c4f321ffa381784a2425441b2bd6c671d824bb03efdf2a",
+                "sha256:d7824b1f0c346e8db03870fa8dc5e13b18bc746a9dfabbc69c85529e85903408",
+                "sha256:e8702ff398b7fe395a3b9f0020b8d2910ab4fcea50f259f93e936409fd367c4b",
+                "sha256:eeed99066628c44113c21ba5eccd6c229d8f7ee65834a7fc45c64b0e636c606d",
+                "sha256:f5220d57db6890546adf81669129da6bb46546a01bf618ec58fa1e7a69d0b52c"
+            ],
+            "index": "pypi",
+            "version": "==6.4.0"
+        },
+        "pyside6-addons": {
+            "hashes": [
+                "sha256:236b0dbaefc03114fc1deeee0041808d64a76650b643cf9ee9d8587e3ba9059a",
+                "sha256:59b3507db48b67707971b163aa8832beab902688288c64ffbfb2be6c487f5ec4",
+                "sha256:804f2a73560dffb390f91a1fbd6f33440b1f96ce8d74e19cc893952e2e8c8966",
+                "sha256:aceb568a684b88114c8928247019a9ffc3e133c4fe7722c7ce62224db338b335",
+                "sha256:e9c108184094c54f1c7cd456ed5294a9da696d036b7079c07b2ee4a52aa0980c",
+                "sha256:f060df71d64bc6d88651fc51b081de26de6a1c9308f14b021943056d70e20552"
+            ],
+            "markers": "python_version < '3.11' and python_version >= '3.6'",
+            "version": "==6.4.0"
+        },
+        "pyside6-essentials": {
+            "hashes": [
+                "sha256:3b82f238c015f13840eb0e61167a3f776ce62fa4704ba2f329658a35c46daacb",
+                "sha256:526434fb2ca94e54d07a7605716e4fb2e1b642440bce32c80a39e847e1710e65",
+                "sha256:576704ff198a4aa4748bc99ac1e3fcd2425d7651f44214e93cd99be37cf4d305",
+                "sha256:6e11d3a7fe013bb5b259066755983378d4ae2f582e5935fd5950c3dcfa0c3ec6",
+                "sha256:f7aa59dbf3aa1349f7559f5aa99f2e6e4845a3fc5af0ee602b4e5f1f666cf47f",
+                "sha256:ff744c614e5fb8e536c632ab51811a5e27641ef546364b7bdd2d0320b4115d83"
+            ],
+            "markers": "python_version < '3.11' and python_version >= '3.6'",
+            "version": "==6.4.0"
+        },
         "requests": {
             "hashes": [
                 "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983",
@@ -79,6 +115,18 @@
             ],
             "index": "pypi",
             "version": "==2.28.1"
+        },
+        "shiboken6": {
+            "hashes": [
+                "sha256:30bbd06fc6564a57552792e3fc9e7c85c0881d0036c5f0f0daee3054e3d727b9",
+                "sha256:679870d97665b21fca018b05023c7b90b895e886adba754d8cc5d06d571a2139",
+                "sha256:67b4731c55f5d74a72bede9a84691d64664cf7e1e76b606f58b39c8a61ea563d",
+                "sha256:76ba24af98eb15cbdfb483142696c5ae22537d2df84c06b44eb1ab66280b29b4",
+                "sha256:a572a5782c65c1f77ba1da92955e25f0af56c27832cf405eae246aee0e4c1575",
+                "sha256:cfd5f6c64793ecae2617f9bdbe726376583f56db1ab62ebaef43442e5695425a"
+            ],
+            "markers": "python_version < '3.11' and python_version >= '3.6'",
+            "version": "==6.4.0"
         },
         "urllib3": {
             "hashes": [
@@ -92,11 +140,11 @@
     "develop": {
         "astroid": {
             "hashes": [
-                "sha256:2df4f9980c4511474687895cbfdb8558293c1a826d9118bb09233d7c2bff1c83",
-                "sha256:867a756bbf35b7bc07b35bfa6522acd01f91ad9919df675e8428072869792dce"
+                "sha256:1c00a14f5a3ed0339d38d2e2e5b74ea2591df5861c0936bb292b84ccf3a78d83",
+                "sha256:72702205200b2a638358369d90c222d74ebc376787af8fb2f7f2a86f7b5cc85f"
             ],
             "markers": "python_full_version >= '3.7.2'",
-            "version": "==2.12.11"
+            "version": "==2.12.12"
         },
         "colorama": {
             "hashes": [

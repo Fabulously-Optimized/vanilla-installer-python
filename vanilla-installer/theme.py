@@ -40,6 +40,37 @@ def is_dark(to_dark: bool = None) -> bool:
         return open(FILE, "w", encoding="utf-8").write("dark")
     return open(FILE, encoding="utf-8").read() == "dark"
 
+# colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin
+dark_theme = {
+    "blue": "#89b4fa",
+    "lavender": "#b4befe",
+    "text": "#cdd6f4",
+    "subtext1": "#bac2de",
+    "subtext0": "#a6adc8",
+    "overlay2": "#9399b2",
+    "overlay0": "#7f849c",
+    "surface2": "#585b70",
+    "surface1": "#45475a",
+    "surface0": "#313244",
+    "base": "#1e1e2e",
+    "crust": "#11111b",
+}
+
+light_theme = {
+    "blue": "#1E66F5",
+    "lavender": "#7287FD",
+    "text": "#4C4F69",
+    "subtext1": "#5c5f77",
+    "subtext0": "#6C6F85",
+    "overlay2": "#7C7F93",
+    "overlay0": "#9CA0B0",
+    "surface2": "#acb0be",
+    "surface1": "#bcc0cc",
+    "surface0": "#CCD0DA",
+    "base": "#EFF1F5",
+    "crust": "#DCE0E8",
+}
+
 
 def load() -> dict:
     """Returns the current theme dictionary.
@@ -47,30 +78,10 @@ def load() -> dict:
     Returns:
         dict: The colors palette.
     """
-    if is_dark():
-        return {
-            "fg": "#FFFFFF",
-            "bg": "#0E0F13",
-            "dark": "#202023",
-            "error": "#fc3b19",
-            "warn": "#fc9d19",
-            "success": "#28ff02",
-            "accent": "#008AE6",
-            "info": "#ff66ff",
-        }
-    return {
-        "fg": "#000000",
-        "bg": "#FFFFFF",
-        "dark": "#EEEEEE",
-        "error": "#fc3b19",
-        "warn": "#fc9d19",
-        "success": "#28ff02",
-        "accent": "#008AE6",
-        "info": "#ff66ff",
-    }
+    return dark_theme if is_dark() else light_theme
 
 
-def toggle(popup: bool = True):
+def toggle():
     """Switches between dark and light theme.
 
     Args:
@@ -78,15 +89,6 @@ def toggle(popup: bool = True):
         which asks to exit the program. Defaults to True.
     """
     is_dark(to_dark=not is_dark())
-
-    if popup:
-        if tkinter.messagebox.askyesno(
-            title="Theme Toggle",
-            message="""The changes will apply after restarting.
-Exit program now?
-(You need to start the program again manually).""",
-        ):
-            sys.exit(0)
 
 
 init()
