@@ -45,13 +45,13 @@ dark_theme = {
     "blue": "#89b4fa",
     "lavender": "#b4befe",
     "text": "#cdd6f4",
-    "subtext1": "#bac2de",
-    "subtext0": "#a6adc8",
-    "overlay2": "#9399b2",
-    "overlay0": "#7f849c",
-    "surface2": "#585b70",
-    "surface1": "#45475a",
-    "surface0": "#313244",
+    "label": "#bac2de", # catppuccin subtext1
+    "subtitle": "#a6adc8", # catppuccin subtext0
+    "icon": "#9399b2", # catppuccin overlay2
+    "installbuttonpressed": "#7f849c", #catppuccin overlay0
+    "buttonpressed": "#585b70", # catppuccin surface2
+    "buttonhovered": "#45475a", # catppuccin surface1
+    "button": "#313244", # catppuccin surface0
     "base": "#1e1e2e",
     "crust": "#11111b",
 }
@@ -60,13 +60,13 @@ light_theme = {
     "blue": "#1E66F5",
     "lavender": "#7287FD",
     "text": "#4C4F69",
-    "subtext1": "#5c5f77",
-    "subtext0": "#6C6F85",
-    "overlay2": "#7C7F93",
-    "overlay0": "#9CA0B0",
-    "surface2": "#acb0be",
-    "surface1": "#bcc0cc",
-    "surface0": "#CCD0DA",
+    "label": "#5c5f77", # catppuccin subtext1
+    "subtitle": "#6C6F85", # catppuccin subtext0
+    "icon": "#7C7F93", # catppuccin overlay2
+    "installbuttonpressed": "#9CA0B0", #catppuccin overlay0
+    "buttonpressed": "#acb0be", # catppuccin surface2
+    "buttonhovered": "#bcc0cc", # catppuccin surface1
+    "button": "#CCD0DA", # catppuccin surface0
     "base": "#EFF1F5",
     "crust": "#DCE0E8",
 }

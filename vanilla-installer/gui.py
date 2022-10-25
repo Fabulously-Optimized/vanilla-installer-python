@@ -1,11 +1,8 @@
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
-import os
-import sys
 import argparse
 import webbrowser
 import pathlib
-import logging
 from PySide6.QtCore import QCoreApplication, QRect, Qt, QRunnable, QThreadPool, Slot
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
@@ -152,7 +149,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(
-            QCoreApplication.translate("MainWindow", "MainWindow", None)
+            QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
         self.title.setText(
             QCoreApplication.translate(
@@ -178,32 +175,32 @@ class Ui_MainWindow(object):
             f'[objectName^="centralwidget"] {{ background-color: { loaded_theme.get("base")} }}'
         )
         self.title.setStyleSheet(f'color: { loaded_theme.get("text")}')
-        self.subtitle.setStyleSheet(f'color: { loaded_theme.get("subtext0") }')
+        self.subtitle.setStyleSheet(f'color: { loaded_theme.get("subtitle") }')
 
         self.installButton.setStyleSheet(
             f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; }}'
             f'QPushButton:hover {{ background: {loaded_theme.get("lavender")};}}'
-            f'QPushButton:pressed {{ background: {loaded_theme.get("overlay2")};}}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         self.locationSelector.setStyleSheet(
-            f'QPushButton {{ border: none;background: {loaded_theme.get("surface0")};color: {loaded_theme.get("overlay2")}; border-radius: 5px; }}'
-            f'QPushButton:hover {{ background: {loaded_theme.get("surface1")}; }}'
-            f'QPushButton:pressed {{ background: {loaded_theme.get("surface2")}; }}'
+            f'QPushButton {{ border: none;background: {loaded_theme.get("button")}; border-radius: 5px; }}'
+            f'QPushButton:hover {{ background: {loaded_theme.get("buttonhovered")}; }}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("buttonpressed")}; }}'
         )
         self.infoButton.setStyleSheet(
             f'QPushButton{{ color: #00000000 }}'
-            f'QPushButton:hover {{ color: {loaded_theme.get("subtext0")}; text-align: left; padding-left: 30px}}'
+            f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
         self.issuesButton.setStyleSheet(
             f'QPushButton{{ color: #00000000 }}'
-            f'QPushButton:hover {{ color: {loaded_theme.get("subtext0")}; text-align: left; padding-left: 30px}}'
+            f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
 
 
         self.versionLabel.setStyleSheet(
-            f'color: {loaded_theme.get("subtext1")}')
+            f'color: {loaded_theme.get("label")}')
         self.locationLabel.setStyleSheet(
-            f'color: {loaded_theme.get("subtext1")}')
+            f'color: {loaded_theme.get("label")}')
         self.selectedLocation.setStyleSheet(
             f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}'
         )
@@ -211,16 +208,16 @@ class Ui_MainWindow(object):
             "moon.svg" if theme.is_dark() else "sun.svg"))
         # each effect can only apply to one widget
         effect1 = QGraphicsColorizeEffect(self.centralwidget)
-        effect1.setColor(loaded_theme.get("overlay2"))
+        effect1.setColor(loaded_theme.get("icon"))
         self.locationSelectorIcon.setGraphicsEffect(effect1)
         effect2 = QGraphicsColorizeEffect(self.centralwidget)
-        effect2.setColor(loaded_theme.get("overlay2"))
+        effect2.setColor(loaded_theme.get("icon"))
         self.infoButtonIcon.setGraphicsEffect(effect2)
         effect3 = QGraphicsColorizeEffect(self.centralwidget)
-        effect3.setColor(loaded_theme.get("overlay2"))
+        effect3.setColor(loaded_theme.get("icon"))
         self.issuesButtonIcon.setGraphicsEffect(effect3)
         effect4 = QGraphicsColorizeEffect(self.centralwidget)
-        effect4.setColor(loaded_theme.get("overlay2"))
+        effect4.setColor(loaded_theme.get("icon"))
         self.themeToggleIcon.setGraphicsEffect(effect4)
     def addVersions(self):
         for version in main.get_pack_mc_versions():
