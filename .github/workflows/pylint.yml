@@ -12,12 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [
-          "3.8",
-          "3.9",
-          "3.10",
-          "3.11"
-        ]
+        python-version: [ "3.8", "3.9", "3.10", "3.11" ]
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     steps:
     - uses: actions/checkout@v3
@@ -32,7 +27,7 @@ jobs:
         path: ~/.local/share/virtualenvs
         key: ${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-pipenv-${{ hashFiles('Pipfile.lock') }}
     - name: Install dependencies and analyze the code
-      if: matrix.python-version != '3.11.0' 
+      if: matrix.python-version != '3.11' 
       run: |
         python -m pip install pipenv pylint
 
