@@ -34,12 +34,3 @@ jobs:
         cd ./envs/${{ matrix.python-version }}
         pipenv install
         pipenv run cd ../../vanilla-installer && pylint . --rcfile pylint.toml
-    - name: Install dependencies and analyze the code (3.11)
-      if: matrix.python-version == '3.11'
-      run: |
-        echo "Using 3.11 workaround."
-        python -m pip install pipenv pylint
-
-        cd ./envs/${{ matrix.python-version }}
-        pipenv install
-        pipenv run cd ../../vanilla-installer && pylint . --rcfile pylint.toml
