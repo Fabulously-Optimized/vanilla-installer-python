@@ -68,7 +68,7 @@ def get_dir() -> str:
 def set_gh_auth(user: str, key: str) -> bool | None:
     """Sets the GitHub authentication details to be used by the GitHub api.
     Args:
-        key (str): new username
+        user (str): new username
         key (str): new key
     Returns:
         bool: whether the new user is valid or not
