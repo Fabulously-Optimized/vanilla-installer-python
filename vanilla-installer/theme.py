@@ -40,6 +40,39 @@ def is_dark(to_dark: bool = None) -> bool:
         return open(FILE, "w", encoding="utf-8").write("dark")
     return open(FILE, encoding="utf-8").read() == "dark"
 
+# colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin
+dark_theme = {
+    "red": "#f38ba8",
+    "blue": "#89b4fa",
+    "lavender": "#b4befe",
+    "text": "#cdd6f4",
+    "label": "#bac2de", # catppuccin subtext1
+    "subtitle": "#a6adc8", # catppuccin subtext0
+    "icon": "#9399b2", # catppuccin overlay2
+    "installbuttonpressed": "#7f849c", #catppuccin overlay0
+    "buttonpressed": "#585b70", # catppuccin surface2
+    "buttonhovered": "#45475a", # catppuccin surface1
+    "button": "#313244", # catppuccin surface0
+    "base": "#1e1e2e",
+    "crust": "#11111b",
+}
+
+light_theme = {
+    "red": "#d20f39",
+    "blue": "#1E66F5",
+    "lavender": "#7287FD",
+    "text": "#4C4F69",
+    "label": "#5c5f77", # catppuccin subtext1
+    "subtitle": "#6C6F85", # catppuccin subtext0
+    "icon": "#7C7F93", # catppuccin overlay2
+    "installbuttonpressed": "#9CA0B0", #catppuccin overlay0
+    "buttonpressed": "#acb0be", # catppuccin surface2
+    "buttonhovered": "#bcc0cc", # catppuccin surface1
+    "button": "#CCD0DA", # catppuccin surface0
+    "base": "#EFF1F5",
+    "crust": "#DCE0E8",
+}
+
 
 def load() -> dict:
     """Returns the current theme dictionary.
@@ -47,30 +80,10 @@ def load() -> dict:
     Returns:
         dict: The colors palette.
     """
-    if is_dark():
-        return {
-            "fg": "#FFFFFF",
-            "bg": "#0E0F13",
-            "dark": "#202023",
-            "error": "#fc3b19",
-            "warn": "#fc9d19",
-            "success": "#28ff02",
-            "accent": "#008AE6",
-            "info": "#ff66ff",
-        }
-    return {
-        "fg": "#000000",
-        "bg": "#FFFFFF",
-        "dark": "#EEEEEE",
-        "error": "#fc3b19",
-        "warn": "#fc9d19",
-        "success": "#28ff02",
-        "accent": "#008AE6",
-        "info": "#ff66ff",
-    }
+    return dark_theme if is_dark() else light_theme
 
 
-def toggle(popup: bool = True):
+def toggle():
     """Switches between dark and light theme.
 
     Args:
@@ -78,15 +91,6 @@ def toggle(popup: bool = True):
         which asks to exit the program. Defaults to True.
     """
     is_dark(to_dark=not is_dark())
-
-    if popup:
-        if tkinter.messagebox.askyesno(
-            title="Theme Toggle",
-            message="""The changes will apply after restarting.
-Exit program now?
-(You need to start the program again manually).""",
-        ):
-            sys.exit(0)
 
 
 init()

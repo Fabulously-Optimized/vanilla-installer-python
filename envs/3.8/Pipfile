@@ -9,6 +9,7 @@ minecraft-launcher-lib = "4.5"
 requests = "2.25.1"
 click = "*"
 tomli = "*"
+pyside6 = "*"
 
 [dev-packages]
 pylint = "*"

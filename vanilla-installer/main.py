@@ -11,7 +11,9 @@ import sys
 import subprocess
 import pathlib
 import base64
+from typing import Tuple
 import zipfile
+import re
 
 # External
 import requests
@@ -24,10 +26,10 @@ else:
     import tomli as toml
 
 # LOCAL
-import theme
 from log import logger
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
+TOKEN_FILE = str(pathlib.Path("data/gh-token.txt").resolve())
 FOLDER_LOC = ""
 
 
@@ -37,31 +39,13 @@ def set_dir(path: str) -> str | None:
     Args:
         path (str): The path to the Minecraft game directory.
     """
-
-    if path:  # only strings can be written
-        path_nobackslash = str(rf"{path}".replace("\\", "/"))
-        path_nobackslash = str(rf"{path_nobackslash}".replace(".minecraft", ""))
+    path_pl = pathlib.Path(path).resolve()
+    if path is not None and path != "":
+        with open(PATH_FILE, "w", encoding="utf-8") as file:
+            file.write(str(path_pl))
     else:
-        logger.critical("path must be passed!")
-        return Exception
-    # If the path is none, it will cause the script to fail.
-    # In that case, return the default directory.
-    if path_nobackslash is not None:
-        with open(PATH_FILE, "w", encoding="utf-8") as file:
-            file.write(path_nobackslash)
-        return path_nobackslash
-
-    if path_nobackslash != "":
-        with open(PATH_FILE, "w", encoding="utf-8") as file:
-            file.write(path_nobackslash)
-        return path_nobackslash
-
-    path_nobackslash_minecraft = mll.utils.get_minecraft_directory()
-    path_nobackslash = path_nobackslash_minecraft.replace(".minecraft", "")
-
-    with open(PATH_FILE, "w", encoding="utf-8") as file:
-        file.write(path_nobackslash)
-    return path_nobackslash
+        path_pl = pathlib.Path(mll.utils.get_minecraft_directory()).resolve()
+    return str(path_pl)
 
 
 def get_dir() -> str:
@@ -81,6 +65,40 @@ def get_dir() -> str:
         path = set_dir(default_dir)
     return path
 
+def set_gh_auth(user: str, key: str) -> bool | None:
+    """Sets the GitHub authentication details to be used by the GitHub api.
+    Args:
+        user (str): new username
+        key (str): new key
+    Returns:
+        bool: whether the new user is valid or not
+    """
+    if key is not None and key != "" and user is not None and user != "":
+        if requests.get("https://api.github.com/user", auth=(user, key)).status_code != 200:
+            return False
+        with open(TOKEN_FILE, "w", encoding="utf-8") as file:
+            file.write(f"{user}\n{key}")
+        return True
+    if key == "" and user == "":
+        open(TOKEN_FILE, "w").close() # empties file content
+        return True
+    return None
+
+def get_gh_auth() -> Tuple[str, str] | None:
+    """Returns the GitHub authentication details selected by the user, if it exists.
+
+    Returns:
+        str: User
+        str: Key
+    """
+
+    try:
+        file = open(TOKEN_FILE, encoding="utf-8").read()
+        if file != "" and file is not None:
+            auth_data = file.split("\n")
+            return auth_data[0], auth_data[1]
+    except:
+        return None
 
 def newest_version() -> str:
     """Returns the latest version of Minecraft.
@@ -88,7 +106,7 @@ def newest_version() -> str:
     Returns:
       str: The latest Minecraft version
     """
-    return mll.utils.get_latest_version()["release"]
+    return get_pack_mc_versions()[0]
 
 
 def get_java() -> str:
@@ -132,32 +150,6 @@ def get_version():
     return version
 
 
-def init() -> None:
-    """Initialization for VanillaInstaller."""
-    # SET INSTALLATION PATH
-    if not os.path.exists(PATH_FILE):
-        try:
-            path = mll.utils.get_minecraft_directory().replace(".minecraft", "")
-            set_dir(path)
-        except Exception as error_code:  # any error could happen, really.
-            logger.error(
-                f"Could not get Minecraft path: {error_code}\nUsing default path based on OS."
-            )
-            # The first two `startswith` are simply a precaution, since Python previously used a different number for different Linux kernels.
-            # The `startswith` for Windows is if they ever change it to `win64` or something, but I doubt that.
-            # See https://docs.python.org/3.10/library/sys.html#sys.platform for more.
-            if sys.platform.startswith("win"):
-                path = os.path.expanduser("~/AppData/Roaming")
-                set_dir(path)
-            elif sys.platform.startswith("darwin"):
-                path = os.path.expanduser("~/Library/Application Support")
-                set_dir(path)
-            elif sys.platform.startswith("linux"):
-                path = os.path.expanduser("~")
-                set_dir(path)
-            else:
-                logger.error("Could not detect OS.")
-
 
 def text_update(
     text: str, widget=None, mode: str = "info", interface: str = "GUI"
@@ -173,9 +165,7 @@ def text_update(
     if interface != "CLI":
 
         if widget:
-            widget.master.title(f"{text} » VanillaInstaller")
-            widget["text"] = text
-            widget["fg"] = theme.load()[mode]
+            widget.setText(text)
 
         else:
             if mode == "fg":
@@ -248,10 +238,10 @@ def download_pack(widget, interface: str = "GUI") -> str:
     download_bootstrap = requests.get(
         "https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar"
     )
-    file_path_bootstrap = get_dir() + "packwiz-installer-bootstrap.jar"
+    file_path_bootstrap = pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     with open(file_path_bootstrap, "wb") as file:
         file.write(download_bootstrap.content)
-    packwiz_installer_bootstrap_path = get_dir() + "packwiz-installer-bootstrap.jar"
+    packwiz_installer_bootstrap_path = pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     return str(packwiz_installer_bootstrap_path)
 
 
@@ -318,10 +308,33 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     profiles_json = json.dumps(profiles, indent=4)
     launcher_profiles_path.write_text(profiles_json)
 
+def get_pack_mc_versions() -> list[str]:
+    """Gets a list of all the versions FO currently supports
+    """
+    exp = re.compile(r'\d+\.\d+(\.\d+)?')
+    return_value = []
+    try:
+        auth = None
+        authdata = get_gh_auth()
+        if authdata is not None:
+            user, key = authdata
+            auth = (user, key)
+        response = requests.get(
+            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz", auth=auth).json()
+        for response_content in response:
+            if exp.search(response_content["name"]):
+                return_value.append(response_content["name"])
+        return_value.sort()
+        return_value.reverse()
+    except requests.exceptions.RequestException as e:
+        logger.exception(f"Couldn't get minecraft versions:{e}")
+    return return_value
+
 
 def run(
     widget=None,
     mc_dir: str = mll.utils.get_minecraft_directory(),
+    version: str = None,
     interface: str = "GUI",
 ) -> None:
     """Runs Fabric's installer and then installs Fabulously Optimized.
@@ -329,13 +342,23 @@ def run(
     Args:
         widget (optional): The widget to update. This is only used when interface is set to GUI. Defaults to None.
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
+        version (str, optional): The version to install. Defaults to the newest version
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
+    set_dir(mc_dir)
+
+    if not pathlib.Path(mc_dir).resolve().exists():
+        pathlib.Path(mc_dir).resolve().mkdir()
+
+    if version is None:
+        # the default version is set here instead of an argument because it slows down the startup
+        # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
+        version = newest_version()
     text_update(
         "Installing Fabulously Optimized...", widget=widget, interface=interface
     )
-    version = install_fabric(
-        mc_version=newest_version(),
+    fabric_version = install_fabric(
+        mc_version=version,
         mc_dir=mc_dir,
     )
 
@@ -350,13 +373,9 @@ def run(
         "Installing Fabulously Optimized...", widget=widget, interface=interface
     )
     install_pack(
-        mc_version=newest_version(),
+        mc_version=version,
         packwiz_installer_bootstrap=packwiz_bootstrap,
         mc_dir=mc_dir,
     )
     text_update("Setting profiles...", widget=widget, interface=interface)
-    create_profile(mc_dir, version)
-
-
-if __name__ == "__main__":
-    init()  # start initialization
+    create_profile(mc_dir, fabric_version)
