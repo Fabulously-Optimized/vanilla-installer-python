@@ -42,6 +42,7 @@ def is_dark(to_dark: bool = None) -> bool:
 
 # colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin
 dark_theme = {
+    "red": "#f38ba8",
     "blue": "#89b4fa",
     "lavender": "#b4befe",
     "text": "#cdd6f4",
@@ -57,6 +58,7 @@ dark_theme = {
 }
 
 light_theme = {
+    "red": "#d20f39",
     "blue": "#1E66F5",
     "lavender": "#7287FD",
     "text": "#4C4F69",

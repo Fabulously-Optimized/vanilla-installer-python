@@ -11,6 +11,7 @@ import sys
 import subprocess
 import pathlib
 import base64
+from typing import Tuple
 import zipfile
 import re
 
@@ -25,10 +26,10 @@ else:
     import tomli as toml
 
 # LOCAL
-import theme
 from log import logger
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
+TOKEN_FILE = str(pathlib.Path("data/gh-token.txt").resolve())
 FOLDER_LOC = ""
 
 
@@ -64,6 +65,40 @@ def get_dir() -> str:
         path = set_dir(default_dir)
     return path
 
+def set_gh_auth(user: str, key: str) -> bool | None:
+    """Sets the GitHub authentication details to be used by the GitHub api.
+    Args:
+        key (str): new username
+        key (str): new key
+    Returns:
+        bool: whether the new user is valid or not
+    """
+    if key is not None and key != "" and user is not None and user != "":
+        if requests.get("https://api.github.com/user", auth=(user, key)).status_code != 200:
+            return False
+        with open(TOKEN_FILE, "w", encoding="utf-8") as file:
+            file.write(f"{user}\n{key}")
+        return True
+    if key == "" and user == "":
+        open(TOKEN_FILE, "w").close() # empties file content
+        return True
+    return None
+
+def get_gh_auth() -> Tuple[str, str] | None:
+    """Returns the GitHub authentication details selected by the user, if it exists.
+
+    Returns:
+        str: User
+        str: Key
+    """
+
+    try:
+        file = open(TOKEN_FILE, encoding="utf-8").read()
+        if file != "" and file is not None:
+            auth_data = file.split("\n")
+            return auth_data[0], auth_data[1]
+    except:
+        return None
 
 def newest_version() -> str:
     """Returns the latest version of Minecraft.
@@ -279,8 +314,13 @@ def get_pack_mc_versions() -> list[str]:
     exp = re.compile(r'\d+\.\d+(\.\d+)?')
     return_value = []
     try:
+        auth = None
+        authdata = get_gh_auth()
+        if authdata is not None:
+            user, key = authdata
+            auth = (user, key)
         response = requests.get(
-            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz").json()
+            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz", auth=auth).json()
         for response_content in response:
             if exp.search(response_content["name"]):
                 return_value.append(response_content["name"])
@@ -294,7 +334,7 @@ def get_pack_mc_versions() -> list[str]:
 def run(
     widget=None,
     mc_dir: str = mll.utils.get_minecraft_directory(),
-    version: str = newest_version(),
+    version: str = None,
     interface: str = "GUI",
 ) -> None:
     """Runs Fabric's installer and then installs Fabulously Optimized.
@@ -302,6 +342,7 @@ def run(
     Args:
         widget (optional): The widget to update. This is only used when interface is set to GUI. Defaults to None.
         mc_dir (str, optional): The directory to use. Defaults to the default directory based on your OS.
+        version (str, optional): The version to install. Defaults to the newest version
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
     set_dir(mc_dir)
@@ -309,6 +350,10 @@ def run(
     if not pathlib.Path(mc_dir).resolve().exists():
         pathlib.Path(mc_dir).resolve().mkdir()
 
+    if version is None:
+        # the default version is set here instead of an argument because it slows down the startup
+        # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
+        version = newest_version()
     text_update(
         "Installing Fabulously Optimized...", widget=widget, interface=interface
     )
