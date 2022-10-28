@@ -68,7 +68,7 @@ def get_dir() -> str:
 def set_gh_auth(user: str, key: str) -> bool | None:
     """Sets the GitHub authentication details to be used by the GitHub api.
     Args:
-        key (str): new username
+        user (str): new username
         key (str): new key
     Returns:
         bool: whether the new user is valid or not
@@ -220,7 +220,7 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         if (response := requests.get(meta_url)).status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
                 version_id = f"fabric-loader-{fabric_version}-{game_version}"
-                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_id)
+                path = str(pathlib.Path(mc_dir).resolve() / "versions")
                 archive.extractall(path)
 
     return version_id
