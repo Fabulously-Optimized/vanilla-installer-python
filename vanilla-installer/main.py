@@ -220,7 +220,7 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         if (response := requests.get(meta_url)).status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
                 version_id = f"fabric-loader-{fabric_version}-{game_version}"
-                path = str(pathlib.Path(mc_dir).resolve() / "versions" / version_id)
+                path = str(pathlib.Path(mc_dir).resolve() / "versions")
                 archive.extractall(path)
 
     return version_id
