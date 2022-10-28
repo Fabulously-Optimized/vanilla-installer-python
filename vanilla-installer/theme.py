@@ -83,13 +83,8 @@ def load() -> dict:
     return dark_theme if is_dark() else light_theme
 
 
-def toggle():
-    """Switches between dark and light theme.
-
-    Args:
-        popup (bool, optional): Wether to show a informational popup
-        which asks to exit the program. Defaults to True.
-    """
+def toggle() -> None:
+    """Switches between dark and light theme."""
     is_dark(to_dark=not is_dark())
 
 
