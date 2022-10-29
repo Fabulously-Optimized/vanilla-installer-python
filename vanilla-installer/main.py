@@ -65,6 +65,7 @@ def get_dir() -> str:
         path = set_dir(default_dir)
     return path
 
+
 def set_gh_auth(user: str, key: str) -> bool | None:
     """Sets the GitHub authentication details to be used by the GitHub api.
     Args:
@@ -74,15 +75,19 @@ def set_gh_auth(user: str, key: str) -> bool | None:
         bool: whether the new user is valid or not
     """
     if key is not None and key != "" and user is not None and user != "":
-        if requests.get("https://api.github.com/user", auth=(user, key)).status_code != 200:
+        if (
+            requests.get("https://api.github.com/user", auth=(user, key)).status_code
+            != 200
+        ):
             return False
         with open(TOKEN_FILE, "w", encoding="utf-8") as file:
             file.write(f"{user}\n{key}")
         return True
     if key == "" and user == "":
-        open(TOKEN_FILE, "w").close() # empties file content
+        open(TOKEN_FILE, "w").close()  # empties file content
         return True
     return None
+
 
 def get_gh_auth() -> Tuple[str, str] | None:
     """Returns the GitHub authentication details selected by the user, if it exists.
@@ -99,6 +104,7 @@ def get_gh_auth() -> Tuple[str, str] | None:
             return auth_data[0], auth_data[1]
     except:
         return None
+
 
 def newest_version() -> str:
     """Returns the latest version of Minecraft.
@@ -148,7 +154,6 @@ def fo_to_base64(png_dir: str = ".") -> str:
 def get_version():
     version = "v1.0.0-dev1"
     return version
-
 
 
 def text_update(
@@ -241,7 +246,9 @@ def download_pack(widget, interface: str = "GUI") -> str:
     file_path_bootstrap = pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     with open(file_path_bootstrap, "wb") as file:
         file.write(download_bootstrap.content)
-    packwiz_installer_bootstrap_path = pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
+    packwiz_installer_bootstrap_path = (
+        pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
+    )
     return str(packwiz_installer_bootstrap_path)
 
 
@@ -308,10 +315,10 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     profiles_json = json.dumps(profiles, indent=4)
     launcher_profiles_path.write_text(profiles_json)
 
+
 def get_pack_mc_versions() -> list[str]:
-    """Gets a list of all the versions FO currently supports
-    """
-    exp = re.compile(r'\d+\.\d+(\.\d+)?')
+    """Gets a list of all the versions FO currently supports"""
+    exp = re.compile(r"\d+\.\d+(\.\d+)?")
     return_value = []
     try:
         auth = None
@@ -320,14 +327,16 @@ def get_pack_mc_versions() -> list[str]:
             user, key = authdata
             auth = (user, key)
         response = requests.get(
-            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz", auth=auth).json()
+            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz",
+            auth=auth,
+        ).json()
         for response_content in response:
             if exp.search(response_content["name"]):
                 return_value.append(response_content["name"])
         return_value.sort()
         return_value.reverse()
     except requests.exceptions.RequestException as e:
-        logger.exception(f"Couldn't get minecraft versions:{e}")
+        logger.exception(f"Couldn't get minecraft versions: {e}")
     return return_value
 
 
@@ -355,7 +364,7 @@ def run(
         # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
         version = newest_version()
     text_update(
-        "Installing Fabulously Optimized...", widget=widget, interface=interface
+        "Installing Fabric...", widget=widget, interface=interface
     )
     fabric_version = install_fabric(
         mc_version=version,

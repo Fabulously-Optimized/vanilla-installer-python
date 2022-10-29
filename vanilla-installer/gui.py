@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QGraphicsColorizeEffect,
     QFileDialog,
     QDialog,
-    QDialogButtonBox
+    QDialogButtonBox,
 )
 from PySide6.QtSvgWidgets import QSvgWidget
 import minecraft_launcher_lib as mll
@@ -28,7 +28,7 @@ import theme
 FONT = "Inter"
 
 
-def run():
+def run() -> None:
     """Runs the GUI."""
     app = QApplication([])
     window = QMainWindow()
@@ -41,7 +41,7 @@ def run():
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow: QMainWindow):
+    def setupUi(self, MainWindow: QMainWindow) -> None:
         if not MainWindow.objectName():
             MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 400)
@@ -73,7 +73,9 @@ class Ui_MainWindow(object):
         self.installButton.setObjectName("installButton")
         self.installButton.setGeometry(QRect(225, 164, 150, 50))
         self.installButton.setFont(fontSize15)
-        self.installButton.clicked.connect(lambda: self.threadpool.start(Worker(self.startInstall)))
+        self.installButton.clicked.connect(
+            lambda: self.threadpool.start(Worker(self.startInstall))
+        )
         fontSize12 = QFont()
         fontSize12.setPointSize(12)
         self.versionSelector = QComboBox(self.centralwidget)
@@ -97,38 +99,50 @@ class Ui_MainWindow(object):
         self.selectedLocation.setFont(fontSize12)
         self.selectedLocation.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
         self.selectedLocation.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.selectedLocation.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.selectedLocation.setText(main.get_dir())
 
         self.locationSelector = QPushButton(self.centralwidget)
         self.locationSelector.setObjectName("locationSelector")
         self.locationSelector.setGeometry(QRect(440, 295, 30, 30))
         self.locationSelector.clicked.connect(
-            lambda: self.selectDirectory(self.centralwidget))
+            lambda: self.selectDirectory(self.centralwidget)
+        )
         self.locationSelectorIcon = QSvgWidget(
-            Ui_MainWindow.getAsset("folder.svg"), self.locationSelector)
+            Ui_MainWindow.getAsset("folder.svg"), self.locationSelector
+        )
         self.locationSelectorIcon.setGeometry(5, 5, 20, 20)
 
         self.infoButton = QPushButton(self.centralwidget)
         self.infoButton.setObjectName("infoButton")
         self.infoButton.setGeometry(QRect(10, 366, 84, 24))
         self.infoButton.setFlat(True)
-        self.infoButton.clicked.connect(lambda: webbrowser.open(
-            "https://github.com/Fabulously-Optimized/vanilla-installer/"))
+        self.infoButton.clicked.connect(
+            lambda: webbrowser.open(
+                "https://github.com/Fabulously-Optimized/vanilla-installer/"
+            )
+        )
         self.infoButtonIcon = QSvgWidget(
-            Ui_MainWindow.getAsset("github.svg"), self.infoButton)
+            Ui_MainWindow.getAsset("github.svg"), self.infoButton
+        )
         self.infoButtonIcon.setGeometry(0, 0, 24, 24)
 
         self.issuesButton = QPushButton(self.centralwidget)
         self.issuesButton.setObjectName("issuesButton")
         self.issuesButton.setGeometry(QRect(10, 332, 108, 24))
         self.issuesButton.setFlat(True)
-        self.issuesButton.clicked.connect(lambda: webbrowser.open(
-            "https://github.com/Fabulously-Optimized/vanilla-installer/issues"))
+        self.issuesButton.clicked.connect(
+            lambda: webbrowser.open(
+                "https://github.com/Fabulously-Optimized/vanilla-installer/issues"
+            )
+        )
         self.issuesButtonIcon = QSvgWidget(
-            Ui_MainWindow.getAsset("flag.svg"), self.issuesButton)
+            Ui_MainWindow.getAsset("flag.svg"), self.issuesButton
+        )
         self.issuesButtonIcon.setGeometry(0, 0, 24, 24)
 
         self.themeToggle = QPushButton(self.centralwidget)
@@ -145,7 +159,8 @@ class Ui_MainWindow(object):
         self.settingsButton.setFlat(True)
         self.settingsButton.clicked.connect(self.openSettings)
         self.settingsButtonIcon = QSvgWidget(
-            Ui_MainWindow.getAsset("settings.svg"), self.settingsButton)
+            Ui_MainWindow.getAsset("settings.svg"), self.settingsButton
+        )
 
         self.settingsButtonIcon.setGeometry(60, 0, 24, 24)
 
@@ -155,13 +170,12 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, MainWindow) -> None:
         MainWindow.setWindowTitle(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
         self.title.setText(
-            QCoreApplication.translate(
-                "MainWindow", "Fabulously Optimized", None)
+            QCoreApplication.translate("MainWindow", "Fabulously Optimized", None)
         )
         self.subtitle.setText(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
@@ -170,8 +184,7 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Install", None)
         )
         self.versionLabel.setText(
-            QCoreApplication.translate(
-                "MainWindow", "Minecraft version:", None)
+            QCoreApplication.translate("MainWindow", "Minecraft version:", None)
         )
         self.locationLabel.setText(
             QCoreApplication.translate("MainWindow", "Location:", None)
@@ -189,7 +202,7 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Settings", None)
         )
 
-    def reloadTheme(self):
+    def reloadTheme(self) -> None:
         loaded_theme = theme.load()
         self.centralwidget.setStyleSheet(
             f'[objectName^="centralwidget"] {{ background-color: { loaded_theme.get("base")} }}'
@@ -208,31 +221,30 @@ class Ui_MainWindow(object):
             f'QPushButton:pressed {{ background: {loaded_theme.get("buttonpressed")}; }}'
         )
         self.infoButton.setStyleSheet(
-            f'QPushButton{{ color: #00000000 }}'
+            f"QPushButton{{ color: #00000000 }}"
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
         self.issuesButton.setStyleSheet(
-            f'QPushButton{{ color: #00000000 }}'
+            f"QPushButton{{ color: #00000000 }}"
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
         self.themeToggle.setStyleSheet(
-            f'QPushButton{{ color: #00000000 }}'
+            f"QPushButton{{ color: #00000000 }}"
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
         self.settingsButton.setStyleSheet(
-            f'QPushButton{{ color: #00000000 }}'
+            f"QPushButton{{ color: #00000000 }}"
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
 
-        self.versionLabel.setStyleSheet(
-            f'color: {loaded_theme.get("label")}')
-        self.locationLabel.setStyleSheet(
-            f'color: {loaded_theme.get("label")}')
+        self.versionLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
+        self.locationLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
         self.selectedLocation.setStyleSheet(
             f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}'
         )
-        self.themeToggleIcon.load(Ui_MainWindow.getAsset(
-            "moon.svg" if theme.is_dark() else "sun.svg"))
+        self.themeToggleIcon.load(
+            Ui_MainWindow.getAsset("moon.svg" if theme.is_dark() else "sun.svg")
+        )
         # each effect can only apply to one widget
         effect1 = QGraphicsColorizeEffect(self.centralwidget)
         effect1.setColor(loaded_theme.get("icon"))
@@ -250,7 +262,7 @@ class Ui_MainWindow(object):
         effect5.setColor(loaded_theme.get("icon"))
         self.settingsButtonIcon.setGraphicsEffect(effect5)
 
-    def addVersions(self):
+    def addVersions(self) -> None:
         for version in main.get_pack_mc_versions():
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
@@ -258,56 +270,57 @@ class Ui_MainWindow(object):
     def getAsset(asset) -> str:
         return str((pathlib.Path(__file__).parent / "assets" / asset).resolve())
 
-    def toggleTheme(self):
+    def toggleTheme(self) -> None:
         theme.toggle()
         self.reloadTheme()
 
-    def selectDirectory(self, parent):
-        dialog = QFileDialog(parent, QCoreApplication.translate(
-            "MainWindow", "Select .minecraft folder", None))
+    def selectDirectory(self, parent) -> None:
+        dialog = QFileDialog(
+            parent,
+            QCoreApplication.translate("MainWindow", "Select .minecraft folder", None),
+        )
         dialog.setFileMode(QFileDialog.FileMode.Directory)
-        current_path = pathlib.Path(
-            self.selectedLocation.toPlainText()).absolute()
+        current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
-            current_path = pathlib.Path(
-                mll.utils.get_minecraft_directory()).absolute()
+            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute()
         dialog.setDirectory(str(current_path))
         if dialog.exec():
             self.selectedLocation.setText(dialog.selectedFiles()[0])
 
-    def openSettings(self):
+    def openSettings(self) -> None:
         dialog = SettingsDialog(self.centralwidget)
         dialog.exec()
 
-    def startInstall(self):
+    def startInstall(self) -> None:
         # make sure the installation process is only running once
         if self.installing is True:
             return
-        version = self.versionSelector.itemText(
-            self.versionSelector.currentIndex())
+        version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
         self.installing = True
         main.run(self.subtitle, location, version)
         self.installing = False
 
+
 class SettingsDialog(QDialog):
-    def __init__(self, parent):
+    def __init__(self, parent) -> None:
         super().__init__(parent)
         self.setupUi()
 
-    def setupUi(self):
+    def setupUi(self) -> None:
         if not self.objectName():
-            self.setObjectName(u"Dialog")
+            self.setObjectName("Dialog")
         self.setMinimumSize(400, 250)
         font = QFont()
         font.setFamily(FONT)
         self.setFont(font)
         self.buttonBox = QDialogButtonBox(self)
-        self.buttonBox.setObjectName(u"buttonBox")
+        self.buttonBox.setObjectName("buttonBox")
         self.buttonBox.setGeometry(QRect(180, 190, 200, 40))
         self.buttonBox.setOrientation(Qt.Horizontal)
         self.buttonBox.setStandardButtons(
-            QDialogButtonBox.Cancel | QDialogButtonBox.Save)
+            QDialogButtonBox.Cancel | QDialogButtonBox.Save
+        )
         self.buttonBox.setCenterButtons(False)
 
         user = key = None
@@ -315,34 +328,34 @@ class SettingsDialog(QDialog):
         if auth is not None:
             user, key = auth
         self.userLabel = QLabel(self)
-        self.userLabel.setObjectName(u"userLabel")
+        self.userLabel.setObjectName("userLabel")
         self.userLabel.setGeometry(QRect(20, 20, 105, 20))
 
         self.userInput = QTextEdit(self)
-        self.userInput.setObjectName(u"userInput")
+        self.userInput.setObjectName("userInput")
         self.userInput.setGeometry(QRect(140, 15, 240, 30))
         self.userInput.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
-        self.userInput.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.userInput.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.userInput.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.userInput.setText(user)
         self.userInput.setTabChangesFocus(True)
         self.keyLabel = QLabel(self)
-        self.keyLabel.setObjectName(u"keyLabel")
+        self.keyLabel.setObjectName("keyLabel")
         self.keyLabel.setGeometry(QRect(20, 60, 105, 20))
         self.keyInput = QTextEdit(self)
-        self.keyInput.setObjectName(u"keyInput")
+        self.keyInput.setObjectName("keyInput")
         self.keyInput.setGeometry(QRect(140, 55, 240, 30))
         self.keyInput.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
-        self.keyInput.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.keyInput.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.keyInput.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
         self.keyInput.setText(key)
         self.keyInput.setTabChangesFocus(True)
         for button in self.buttonBox.buttons():
-            button.setIcon(QIcon()) # remove the button icons
+            button.setIcon(QIcon())  # remove the button icons
         fontSize8 = QFont()
         fontSize8.setPointSize(8)
         self.loginInfoLabel = QLabel(self)
@@ -360,28 +373,40 @@ class SettingsDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def accept(self) -> None:
-        status = main.set_gh_auth("".join(self.userInput.toPlainText().split()),
-                         "".join(self.keyInput.toPlainText().split())) # strips whitespace
+        status = main.set_gh_auth(
+            "".join(self.userInput.toPlainText().split()),
+            "".join(self.keyInput.toPlainText().split()),
+        )  # strips whitespace
         if status == False:
-            self.errorLabel.setText(QCoreApplication.translate(
-            "Dialog", u"Invalid login details!", None))
+            self.errorLabel.setText(
+                QCoreApplication.translate("Dialog", "Invalid login details!", None)
+            )
             return
         super().accept()
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Dialog) -> None:
         Dialog.setWindowTitle(
-            QCoreApplication.translate("Dialog", u"Vanilla Installer Settings", None))
-        self.keyLabel.setText(QCoreApplication.translate(
-            "Dialog", u"Github API Token:", None))
-        self.userLabel.setText(QCoreApplication.translate(
-            "Dialog", u"Github Username:", None))
-        self.loginInfoLabel.setText(QCoreApplication.translate(
-            "Dialog", u"Set your GitHub token to a personal token in order to extend your API ratelimit\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this", None))
+            QCoreApplication.translate("Dialog", "Vanilla Installer Settings", None)
+        )
+        self.keyLabel.setText(
+            QCoreApplication.translate("Dialog", "Github API Token:", None)
+        )
+        self.userLabel.setText(
+            QCoreApplication.translate("Dialog", "Github Username:", None)
+        )
+        self.loginInfoLabel.setText(
+            QCoreApplication.translate(
+                "Dialog",
+                "Set your GitHub token to a personal token in order to extend your API ratelimit\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
+                None,
+            )
+        )
 
-    def reloadTheme(self):
+    def reloadTheme(self) -> None:
         loaded_theme = theme.load()
         self.setStyleSheet(
-            f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}')
+            f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}'
+        )
         self.buttonBox.setStyleSheet(
             f'QPushButton {{ border: none; background-color: { loaded_theme.get("button") } ; color: {loaded_theme.get("text")}; padding: 8px; border-radius: 5px}}'
             f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonhovered") }}}'
@@ -389,16 +414,18 @@ class SettingsDialog(QDialog):
         )
         self.keyLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
         self.keyInput.setStyleSheet(
-            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};')
+            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};'
+        )
         self.userLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
         self.userInput.setStyleSheet(
-            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};')
+            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};'
+        )
         self.loginInfoLabel.setStyleSheet(f'color: {loaded_theme.get("subtitle")}')
         self.errorLabel.setStyleSheet(f'color: {loaded_theme.get("red")}')
 
 
 class Worker(QRunnable):
-    def __init__(self, fn):
+    def __init__(self, fn) -> None:
         super(Worker, self).__init__()
         self.fn = fn
 
