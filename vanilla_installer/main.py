@@ -25,8 +25,10 @@ if sys.version.startswith("3.11"):
 else:
     import tomli as toml
 
-# LOCAL
-from log import logger
+# Local
+from . import log
+
+logger = log.logger
 
 PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
 TOKEN_FILE = str(pathlib.Path("data/gh-token.txt").resolve())
@@ -363,9 +365,7 @@ def run(
         # the default version is set here instead of an argument because it slows down the startup
         # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
         version = newest_version()
-    text_update(
-        "Installing Fabric...", widget=widget, interface=interface
-    )
+    text_update("Installing Fabric...", widget=widget, interface=interface)
     fabric_version = install_fabric(
         mc_version=version,
         mc_dir=mc_dir,

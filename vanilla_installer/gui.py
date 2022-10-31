@@ -21,8 +21,8 @@ from PySide6.QtSvgWidgets import QSvgWidget
 import minecraft_launcher_lib as mll
 
 # LOCAL
-import main
-import theme
+from . import main
+from . import theme
 
 # ARGUMENTS
 FONT = "Inter"

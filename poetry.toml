@@ -1,0 +1,7 @@
+[virtualenvs]
+in-project = true
+prefer-active-python = true
+
+[experimental]
+# Uncomment this if you get issues with git whilst using poetry
+# system-git-client = true
