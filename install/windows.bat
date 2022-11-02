@@ -28,7 +28,7 @@ mkdir VanillaInstaller
 cd VanillaInstaller
 mkdir scripts
 cd %temp_dir%
-move vanilla-installer installer
+move vanilla_installer installer
 move data %dir%\VanillaInstaller\scripts\
 move installer %dir%\VanillaInstaller\scripts\
 move media %dir%\VanillaInstaller\scripts\

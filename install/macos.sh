@@ -33,7 +33,7 @@ install() {
     cd VanillaInstaller/
     mkdir scripts
     cd /$tmp/fovi/
-    mv vanilla-installer installer
+    mv vanilla_installer installer
     mv data installer media $dir/VanillaInstaller/scripts/
     cd $dir/VanillaInstaller/scripts/installer/
     chmod +x gui.py main.py theme.py

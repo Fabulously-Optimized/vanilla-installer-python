@@ -1,3 +1,3 @@
 # gui.py reference
 
-:::vanilla-installer.gui
+:::vanilla_installer.gui

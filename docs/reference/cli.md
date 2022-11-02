@@ -1,3 +1,3 @@
 # cli.py reference
 
-:::vanilla-installer.cli
+:::vanilla_installer.cli

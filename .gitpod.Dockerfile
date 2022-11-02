@@ -1,3 +1,5 @@
-FROM gitpod/workspace-python-3.10
+FROM gitpod/workspace-python
 
-RUN sudo upgrade-packages
+RUN sudo upgrade-packages \
+    && sudo install-packages python-is-python3 \
+    && curl -sSL https://install.python-poetry.org | python3 -

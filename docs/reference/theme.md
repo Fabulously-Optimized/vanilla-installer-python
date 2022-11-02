@@ -1,3 +1,3 @@
 # theme.py reference
 
-:::vanilla-installer.theme
+:::vanilla_installer.theme

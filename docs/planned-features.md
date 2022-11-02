@@ -6,11 +6,12 @@
 
 ## Longer-term (major release)
 
-- Migrate GUI to PySide6
-  - And therefore rewrite the entire GUI
+None.
 
 ## Completed
 
 - Add a CLI interface (likely using click)
 - A custom profile for FO
   - And therefore, no reliance on `fabric-installer`
+- Migrate GUI to PySide6
+  - And therefore rewrite the entire GUI

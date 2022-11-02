@@ -1,3 +1,3 @@
 # log.py reference
 
-:::vanilla-installer.log
+:::vanilla_installer.log

@@ -21,6 +21,8 @@ The program is optimized for Python 3.8 and above, as well as Linux and Windows.
 
 ## Troubleshooting
 
+Much of this advice is outdated, so it's recommended just to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB) until this is updated.
+
 ### Pixelated font / issues with Anaconda (Linux)
 
 Does the font look pixelated and emojis are not loading?
@@ -32,7 +34,7 @@ Don't worry! Try the following commands (AFTER trying [install/linux.sh](/instal
 ```bash
 #!/usr/bin/env/bash
 python3.10 -m pip install -r requirements.txt
-python3.10 vanilla-installer/gui.py
+python3.10 vanilla_installer/gui.py
 ```
 
 ...whereas `3.10` can be any (supported) version, e.g. for `3.9`: the commands with `python3.9` in the beginning (you get the point). This makes sure *Anaconda* isn't used for executing the program.
@@ -58,7 +60,7 @@ The issue probably occurs because you haven't installed VanillaInstaller correct
 
 ```bash
 #!/usr/bin/env/bash
-python3.10 vanilla-installer/gui.py --safegui mode --litegui mode
+python3.10 vanilla_installer/gui.py --safegui mode --litegui mode
 ```
 
 Make sure to choose the correct version - or replace `python3.10` with `python3`, `python` or just `py`.

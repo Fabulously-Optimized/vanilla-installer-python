@@ -1,3 +1,3 @@
 # main.py reference
 
-:::vanilla-installer.main
+:::vanilla_installer.main

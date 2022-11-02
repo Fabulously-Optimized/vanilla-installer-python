@@ -5,6 +5,7 @@ temp/
 tests/
 %USERPROFILE%
 logs/
+disticon.png
 
 # Editors
 .vscode/launch.json
