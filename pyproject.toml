@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "vanilla-installer"
 version = "v1.0.0-dev7"
-description = "An installer for Fabulously Optimized for the vanilla launcher."
+description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
     "nsde <mail@onlix.me>"
@@ -13,7 +13,7 @@ license = "MIT"
 readme = "README.md"
 packages = [{include = "vanilla_installer"}]
 include = [
-    "./vanilla-installer/assets/**"
+    "./vanilla_installer/assets/**"
 ]
 
 [tool.poetry.dependencies]

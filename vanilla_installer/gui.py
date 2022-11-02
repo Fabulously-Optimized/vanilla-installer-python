@@ -438,7 +438,7 @@ class SettingsDialog(QDialog):
         self.loginInfoLabel.setText(
             QCoreApplication.translate(
                 "Dialog",
-                "Set your GitHub token to a personal token in order to extend your API ratelimit.\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
+                "Set your GitHub token to a personal token in order to extend your API rate limit.\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
                 None,
             )
         )
