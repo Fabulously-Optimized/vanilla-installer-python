@@ -3,22 +3,23 @@ Most important functions of VanillaInstaller.
 """
 # IMPORTS
 
+
 # Standard library
 import io
 import json
 import os
-import sys
-import subprocess
 import pathlib
-import base64
-from typing import Tuple
-import zipfile
 import re
+import subprocess
+import sys
+import zipfile
+from typing import Tuple
+import base64
 
 # External
 import requests
-import minecraft_launcher_lib as mll
 import click
+import minecraft_launcher_lib as mll
 
 if sys.version.startswith("3.11"):
     import tomllib as toml

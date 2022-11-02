@@ -1,5 +1,5 @@
 """
-Theme & design of the Tkinter GUI application
+Theme & design of the PySide6 GUI.
 """
 
 import os

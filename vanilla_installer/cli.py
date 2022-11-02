@@ -6,8 +6,8 @@ import click
 import minecraft_launcher_lib as mll
 
 # Local
-from . import main
 from . import gui as external_gui
+from . import main
 
 
 @click.group("vanilla-installer")

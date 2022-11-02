@@ -1,28 +1,28 @@
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
-import webbrowser
 import pathlib
-from PySide6.QtCore import QCoreApplication, QRect, Qt, QRunnable, QThreadPool, Slot
+import webbrowser
+
+import minecraft_launcher_lib as mll
+from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
 from PySide6.QtGui import QFont, QIcon
+from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QFileDialog,
+    QGraphicsColorizeEffect,
     QLabel,
     QMainWindow,
     QPushButton,
     QTextEdit,
     QWidget,
-    QGraphicsColorizeEffect,
-    QFileDialog,
-    QDialog,
-    QDialogButtonBox,
 )
-from PySide6.QtSvgWidgets import QSvgWidget
-import minecraft_launcher_lib as mll
 
 # LOCAL
-from . import main
-from . import theme
+from . import main, theme
 
 # ARGUMENTS
 FONT = "Inter"
@@ -42,6 +42,11 @@ def run() -> None:
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow: QMainWindow) -> None:
+        """Setup the PySide6 (aka Qt) UI.
+
+        Args:
+            MainWindow (QMainWindow): The main window.
+        """
         if not MainWindow.objectName():
             MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 400)
@@ -170,7 +175,12 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-    def retranslateUi(self, MainWindow) -> None:
+    def retranslateUi(self, MainWindow: QMainWindow) -> None:
+        """Retranslate the UI.
+
+        Args:
+            MainWindow (QMainWindow): The main window.
+        """
         MainWindow.setWindowTitle(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
@@ -203,6 +213,7 @@ class Ui_MainWindow(object):
         )
 
     def reloadTheme(self) -> None:
+        """Reload the theme. Doesn't take any arguments."""
         loaded_theme = theme.load()
         self.centralwidget.setStyleSheet(
             f'[objectName^="centralwidget"] {{ background-color: { loaded_theme.get("base")} }}'
@@ -263,18 +274,33 @@ class Ui_MainWindow(object):
         self.settingsButtonIcon.setGraphicsEffect(effect5)
 
     def addVersions(self) -> None:
+        """Adds the versions to the version selector."""
         for version in main.get_pack_mc_versions():
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
 
     def getAsset(asset) -> str:
+        """Get the path to a given asset.
+
+        Args:
+            asset (str): The asset to get.
+
+        Returns:
+            str: The complete path to the asset.
+        """
         return str((pathlib.Path(__file__).parent / "assets" / asset).resolve())
 
     def toggleTheme(self) -> None:
+        """Toggle the theme."""
         theme.toggle()
         self.reloadTheme()
 
     def selectDirectory(self, parent) -> None:
+        """Select a directory
+
+        Args:
+            parent (str): The parent directory.
+        """
         dialog = QFileDialog(
             parent,
             QCoreApplication.translate("MainWindow", "Select .minecraft folder", None),
@@ -288,10 +314,12 @@ class Ui_MainWindow(object):
             self.selectedLocation.setText(dialog.selectedFiles()[0])
 
     def openSettings(self) -> None:
+        """Open the settings."""
         dialog = SettingsDialog(self.centralwidget)
         dialog.exec()
 
     def startInstall(self) -> None:
+        """Start the installation process."""
         # make sure the installation process is only running once
         if self.installing is True:
             return
@@ -303,11 +331,18 @@ class Ui_MainWindow(object):
 
 
 class SettingsDialog(QDialog):
+    """The settings dialog.
+
+    Args:
+        QDialog (QDialog): The dialog.
+    """
+
     def __init__(self, parent) -> None:
         super().__init__(parent)
         self.setupUi()
 
     def setupUi(self) -> None:
+        """Setup the UI for the settings dialog."""
         if not self.objectName():
             self.setObjectName("Dialog")
         self.setMinimumSize(400, 250)
@@ -373,11 +408,12 @@ class SettingsDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def accept(self) -> None:
+        """Set the GitHub credentials."""
         status = main.set_gh_auth(
             "".join(self.userInput.toPlainText().split()),
             "".join(self.keyInput.toPlainText().split()),
         )  # strips whitespace
-        if status == False:
+        if status is False:
             self.errorLabel.setText(
                 QCoreApplication.translate("Dialog", "Invalid login details!", None)
             )
@@ -385,24 +421,30 @@ class SettingsDialog(QDialog):
         super().accept()
 
     def retranslateUi(self, Dialog) -> None:
+        """Retranslate UI for the set dialog.
+
+        Args:
+            Dialog: The dialog.
+        """
         Dialog.setWindowTitle(
             QCoreApplication.translate("Dialog", "Vanilla Installer Settings", None)
         )
         self.keyLabel.setText(
-            QCoreApplication.translate("Dialog", "Github API Token:", None)
+            QCoreApplication.translate("Dialog", "GitHub API Token:", None)
         )
         self.userLabel.setText(
-            QCoreApplication.translate("Dialog", "Github Username:", None)
+            QCoreApplication.translate("Dialog", "GitHub Username:", None)
         )
         self.loginInfoLabel.setText(
             QCoreApplication.translate(
                 "Dialog",
-                "Set your GitHub token to a personal token in order to extend your API ratelimit\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
+                "Set your GitHub token to a personal token in order to extend your API ratelimit.\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
                 None,
             )
         )
 
     def reloadTheme(self) -> None:
+        """Reload the theme."""
         loaded_theme = theme.load()
         self.setStyleSheet(
             f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}'

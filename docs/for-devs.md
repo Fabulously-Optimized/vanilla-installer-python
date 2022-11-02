@@ -35,7 +35,7 @@ We have a [`gitpod`](https://gitpod.io) configuration, so click this to be autom
         .gitignore ignores this folder by default.
         I wouldn't recommend "git commit"-ing this folder, especially if there isn't any code which could be useful for other developers and contributors.
 
-    📂 vanilla-installer
+    📂 vanilla_installer
         Actual Python scripts. (GUI, CLI, helpers etc.)
 
 ## Avoiding 404s

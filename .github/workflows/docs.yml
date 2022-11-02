@@ -29,15 +29,23 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      # mkdocs' gh-deploy command uses the 'legacy' method of deploying custom sites to Pages
-      # which is placing the built files on a gh-pages branch with a .nojekyll.
-      # (Source: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/commands/gh_deploy.py#L127)
-      # Since then, GitHub has released a way to deploy to Pages directly from Actions.
-      # Which makes our lifes a lot easier.
-      - name: Install dependencies and build
-        run: |
-          python -m venv .
-          pip install mkdocs mkdocstrings[python] mkdocs-material
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: docs-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root --with docs
+      - name: Build with mkdocs
+        run:
+          source .venv/bin/activate
           mkdocs build -d site
       - name: Upload built site
         uses: actions/upload-pages-artifact@v1

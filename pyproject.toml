@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vanilla-installer"
-version = "v1.0.0-dev6"
+version = "v1.0.0-dev7"
 description = "An installer for Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
@@ -34,6 +34,10 @@ cx-Freeze = "^6.13.0"
 mkdocs = "^1.4.1"
 mkdocs-material = "^8.5.7"
 mkdocstrings = {extras = ["python"], version = "^0.19.0"}
+
+
+[tool.poetry.group.ci.dependencies]
+flake8 = "^5.0.4"
 
 [tool.poetry.scripts]
 vanilla-installer = {callable = "vanilla_installer:cli.vanilla_installer"}
