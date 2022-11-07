@@ -2,7 +2,7 @@
 *.jar
 data/
 temp/
-tests/
+# tests/
 %USERPROFILE%
 logs/
 disticon.png

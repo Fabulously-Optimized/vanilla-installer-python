@@ -28,6 +28,7 @@ else:
 
 # Local
 from . import log
+from __init__ import __version__
 
 logger = log.logger
 
@@ -154,9 +155,8 @@ def fo_to_base64(png_dir: str = ".") -> str:
     return f"data:image/png;base64,{b64logo}"
 
 
-def get_version():
-    version = "v1.0.0-dev1"
-    return version
+def get_version() -> str:
+    return __version__
 
 
 def text_update(
