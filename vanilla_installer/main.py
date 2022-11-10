@@ -155,7 +155,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version() -> str:
-    __version__ = "v1.0.0-dev12"
+    __version__ = "v1.0.0-dev13"
     return __version__
 
 

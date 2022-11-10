@@ -30,7 +30,7 @@ jobs:
         key: ci-lint-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --no-root --with ci
+      run: poetry install --no-interaction --no-root --only ci
     - name: Lint with flake8
       run: |
         source .venv/bin/activate
