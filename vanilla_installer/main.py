@@ -28,7 +28,6 @@ else:
 
 # Local
 from . import log
-from __init__ import __version__
 
 logger = log.logger
 
@@ -156,6 +155,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version() -> str:
+    __version__ = "v1.0.0-dev12"
     return __version__
 
 
@@ -389,3 +389,4 @@ def run(
     )
     text_update("Setting profiles...", widget=widget, interface=interface)
     create_profile(mc_dir, fabric_version)
+    text_update("Complete!", widget=widget, interface=interface)

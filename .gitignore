@@ -6,6 +6,8 @@ temp/
 %USERPROFILE%
 logs/
 disticon.png
+*.whl
+cx_Logging-doc/
 
 # Editors
 .vscode/launch.json
@@ -28,7 +30,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+lib*/
 lib64/
 parts/
 sdist/
