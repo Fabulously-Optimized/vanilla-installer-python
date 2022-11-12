@@ -75,4 +75,4 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer?beta)
+![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer#12/11/2022)
