@@ -38,13 +38,26 @@ async def vanilla_installer():
     "version",
     help="The version of Minecraft to install Fabulously Optimized for. Defaults to the latest FO supports.",
 )
-async def install(minecraft_dir, version):
+@click.option(
+    "--java-version",
+    "-j",
+    "java_ver",
+    help="The version of Java to use. Defaults to the correct version based on --version. Can be 8, 16, 17.1, or 17.3. THIS IS A DEBUG OPTION, DO NOT USE IF YOU DON'T KNOW WHAT YOU'RE DOING.",
+)
+async def install(minecraft_dir, version, java_ver):
     if minecraft_dir is None or minecraft_dir == "":
         minecraft_dir = mll.utils.get_minecraft_directory()
     if version is None or version == "":
         version = main.newest_version()
+    if java_ver is None or java_ver == "" or java_ver not in [8, 16, 17.1, 17.3]:
+        if version.startswith("1.16"):
+            java_ver = 8
+        elif version.startswith("1.17"):
+            java_ver = 16
+        else:
+            java_ver = 17.3
     try:
-        await main.run(interface="CLI", mc_dir=minecraft_dir, version=version)
+        await main.run(minecraft_dir, version, java_ver, "CLI")
     except TypeError:
         pass
 
@@ -105,9 +118,8 @@ async def feature():
 @about.command("licensing", help="Shows licensing details on the program.")
 async def licensing():
     click.echo(
-        "VanillaInstaller is licensed under the MIT License.\nYou may use this program and redistribute it, with or without source code. Modified works may be under a different license, as long as the copyright notice is maintained.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md."
+        "VanillaInstaller is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
     )
-
 
 if __name__ == "__main__":
     asyncio.run(vanilla_installer())

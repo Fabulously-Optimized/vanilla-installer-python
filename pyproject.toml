@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vanilla-installer"
-version = "v1.0.0-dev13"
+version = "v1.0.0-dev15"
 description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
@@ -37,7 +37,7 @@ cx-freeze = {url = "https://marcelotduarte.github.io/packages/cx-freeze/cx_Freez
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.1"
-mkdocs-material = "^8.5.7"
+mkdocs-material = "^8.5.10"
 mkdocstrings = {extras = ["python"], version = "^0.19.0"}
 
 

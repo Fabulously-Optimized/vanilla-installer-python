@@ -326,7 +326,13 @@ class Ui_MainWindow(object):
         version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
         self.installing = True
-        main.run(self.subtitle, location, version)
+        if version.startswith("1.16"):
+            java_ver = 8
+        elif version.startswith("1.17"):
+            java_ver = 16
+        else:
+            java_ver = 17.3
+        main.run(location, version, java_ver, widget=self.subtitle)
         self.installing = False
 
 

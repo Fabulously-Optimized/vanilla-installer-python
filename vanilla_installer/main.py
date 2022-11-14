@@ -15,6 +15,7 @@ import sys
 import zipfile
 from typing import Tuple
 import base64
+from time import sleep
 
 # External
 import requests
@@ -110,21 +111,119 @@ def get_gh_auth() -> Tuple[str, str] | None:
 
 
 def newest_version() -> str:
-    """Returns the latest version of Minecraft.
+    """Returns the latest version of Minecraft that FO supports.
 
     Returns:
-      str: The latest Minecraft version
+      str: The latest Minecraft version that FO supports.
     """
     return get_pack_mc_versions()[0]
 
 
-def get_java() -> str:
-    """Returns the path to a Java executable.
+def find_mc_java(java_ver: int = 17.3) -> str:
+    """Gets the path to the Java executable installed from the vanilla launcher.
+
+    Args:
+        java_ver (int, optional): The Java version to find. Can be 8, 16, 17.1, or 17.3 Defaults to 17.3 and falls back to it if the integer is invalid.
 
     Returns:
-      str: The path to the Java executable
+        str: The complete path to the Java executable.
     """
-    return mll.utils.get_java_executable()
+    if sys.platform.startswith("win32"):
+        program_files = os.environ["PROGRAMFILES(X86)"]
+        if java_ver == 8:
+            java = str(
+                pathlib.Path(
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
+                )
+            )
+        elif java_ver == 16:
+            java = str(
+                pathlib.Path(
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
+                )
+            )
+        elif java_ver == 17.1:
+            java = str(
+                pathlib.Path(
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
+                )
+            )
+        else:
+            java = str(
+                pathlib.Path(
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
+                )
+            )
+    elif sys.platform.startswith("linux"):
+        if java_ver == 8:
+            java = str(
+                pathlib.Path(
+                    f"~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java"
+                ).resolve()
+            )
+        elif java_ver == 16:
+            java = str(
+                pathlib.Path(
+                    f"~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java"
+                ).resolve()
+            )
+        elif java_ver == 17.1:
+            java = str(
+                pathlib.Path(
+                    f"~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java"
+                ).resolve()
+            )
+        else:
+            java = str(
+                pathlib.Path(
+                    f"~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
+                ).resolve()
+            )
+    elif sys.platform.startswith("darwin"):  # all of this may or may not work
+        if java_ver == 8:
+            java = str(
+                pathlib.Path(
+                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-legacy/darwin/java-runtime-legacy/bin/java"
+                )
+            )
+        elif java_ver == 16:
+            java = str(
+                pathlib.Path(
+                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-alpha/darwin/java-runtime-alpha/bin/java"
+                )
+            )
+        elif java_ver == 17.1:
+            java = str(
+                pathlib.Path(
+                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-beta/darwin/java-runtime-beta/bin/java"
+                )
+            )
+        else:
+            java = str(
+                pathlib.Path(
+                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java"
+                )
+            )
+
+    return java
+
+
+def get_java(java_ver: int = 17.3) -> str:
+    """Gets the path to a Java executable.
+    If the user doesn't have a JRE/JDK installed on the system, it will default to the Microsoft
+    OpenJDK build that the vanilla launcher installs when you run Minecraft.
+
+    Args:
+        java_ver (int, optional): The Java version to find. Can be 8, 16, 17.1 (Java 17.0.1) or 17.3 (Java 17.0.3). Defaults to 17.3, and falls back to 17.3 if the integer is invalid.
+
+    Returns:
+        str: The complete path to the Java executable.
+    """
+    try:
+        java = mll.utils.get_java_executable()
+    except Exception:  # not sure the error that is thrown when shutil can't find java on the path (in the case of a JDK not being installed outside of MC)
+        java = find_mc_java(java_ver)
+    return java
 
 
 def fo_to_base64(png_dir: str = ".") -> str:
@@ -155,7 +254,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version() -> str:
-    __version__ = "v1.0.0-dev13"
+    __version__ = "v1.0.0-dev15"
     return __version__
 
 
@@ -261,6 +360,7 @@ def install_pack(
     mc_dir: str,
     widget=None,
     interface: str = "GUI",
+    java_ver: int = 17.3,
 ) -> None:
     """Installs Fabulously Optimized.
 
@@ -275,7 +375,9 @@ def install_pack(
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
     try:
-        ran = command(f"{get_java()} -jar {packwiz_installer_bootstrap} {pack_toml}")
+        ran = command(
+            f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
+        )
         text_update(
             f"Installed Fabulously Optimized for MC {mc_version}.",
             widget,
@@ -320,7 +422,7 @@ def create_profile(mc_dir: str, version_id: str) -> None:
 
 
 def get_pack_mc_versions() -> list[str]:
-    """Gets a list of all the versions FO currently supports"""
+    """Gets a list of all the versions FO currently supports."""
     exp = re.compile(r"\d+\.\d+(\.\d+)?")
     return_value = []
     try:
@@ -344,11 +446,13 @@ def get_pack_mc_versions() -> list[str]:
 
 
 def run(
-    widget=None,
     mc_dir: str = mll.utils.get_minecraft_directory(),
     version: str = None,
+    java_ver: int = 17.3,
     interface: str = "GUI",
+    widget=None,
 ) -> None:
+
     """Runs Fabric's installer and then installs Fabulously Optimized.
 
     Args:
@@ -367,10 +471,7 @@ def run(
         # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
         version = newest_version()
     text_update("Installing Fabric...", widget=widget, interface=interface)
-    fabric_version = install_fabric(
-        mc_version=version,
-        mc_dir=mc_dir,
-    )
+    fabric_version = install_fabric(mc_version=version, mc_dir=mc_dir)
 
     text_update(
         "Starting the Fabulously Optimized download...",
@@ -386,7 +487,11 @@ def run(
         mc_version=version,
         packwiz_installer_bootstrap=packwiz_bootstrap,
         mc_dir=mc_dir,
+        java_ver=java_ver,
     )
     text_update("Setting profiles...", widget=widget, interface=interface)
     create_profile(mc_dir, fabric_version)
     text_update("Complete!", widget=widget, interface=interface)
+    if interface == "GUI":
+        sleep(3.5)
+        text_update("Vanilla Installer",widget=widget)
