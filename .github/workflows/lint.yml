@@ -32,7 +32,7 @@ jobs:
     - name: Load cached venv
       id: cached-poetry-dependencies
       # https://github.com/snok/install-poetry#caching-on-windows-runners
-      if: ${{ runner.os != "Windows" }}
+      if: ${{ runner.os != 'Windows' }}
       uses: actions/cache@v3
       with:
         path: .venv
