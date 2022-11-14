@@ -9,7 +9,14 @@ jobs:
   lint:
     name: Lint with flake8
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-22.04", "macos-12", "windows-2022"]
     steps:
     - uses: actions/checkout@v3
     # Linting is done with one version of python
@@ -24,6 +31,8 @@ jobs:
         installer-parallel: true
     - name: Load cached venv
       id: cached-poetry-dependencies
+      # https://github.com/snok/install-poetry#caching-on-windows-runners
+      if: ${{ runner.os != "Windows" }}
       uses: actions/cache@v3
       with:
         path: .venv
@@ -33,7 +42,7 @@ jobs:
       run: poetry install --no-interaction --no-root --only ci
     - name: Lint with flake8
       run: |
-        source .venv/bin/activate
+        source $VENV
         # stop the build if there are Python syntax errors or undefined names
         flake8 ./vanilla_installer/ --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
