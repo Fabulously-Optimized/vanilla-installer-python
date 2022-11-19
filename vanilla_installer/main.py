@@ -426,7 +426,7 @@ def get_pack_mc_versions() -> dict:
             logger.exception("Couldn't get from the site, falling back to JSDelivr...")
             response = (
                 requests.get(
-                    "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/docs/meta/versions.json"
+                    "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
                 )
                 .json()
                 .text
