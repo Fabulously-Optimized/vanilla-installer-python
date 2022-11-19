@@ -1,9 +1,9 @@
 """A CLI interface for VanillaInstaller."""
 ## Imports
 
-import webbrowser
 import asyncio
 import logging
+import webbrowser
 
 # External
 import asyncclick as click
@@ -120,6 +120,7 @@ async def licensing():
     click.echo(
         "VanillaInstaller is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
     )
+
 
 if __name__ == "__main__":
     asyncio.run(vanilla_installer())
