@@ -4,23 +4,20 @@ Most important functions of VanillaInstaller.
 # IMPORTS
 
 
-# Standard library
+import base64
 import io
 import json
 import os
-import pathlib
-import re
 import subprocess
 import sys
 import zipfile
-from typing import Tuple
-import base64
+from pathlib import Path
 from time import sleep
+from typing import Tuple
 
-# External
-import requests
 import click
 import minecraft_launcher_lib as mll
+import requests
 
 if sys.version.startswith("3.11"):
     import tomllib as toml
@@ -32,8 +29,8 @@ from . import log
 
 logger = log.logger
 
-PATH_FILE = str(pathlib.Path("data/mc-path.txt").resolve())
-TOKEN_FILE = str(pathlib.Path("data/gh-token.txt").resolve())
+PATH_FILE = str(Path("data/mc-path.txt").resolve())
+TOKEN_FILE = str(Path("data/gh-token.txt").resolve())
 FOLDER_LOC = ""
 
 
@@ -43,12 +40,12 @@ def set_dir(path: str) -> str | None:
     Args:
         path (str): The path to the Minecraft game directory.
     """
-    path_pl = pathlib.Path(path).resolve()
+    path_pl = Path(path).resolve()
     if path is not None and path != "":
         with open(PATH_FILE, "w", encoding="utf-8") as file:
             file.write(str(path_pl))
     else:
-        path_pl = pathlib.Path(mll.utils.get_minecraft_directory()).resolve()
+        path_pl = Path(mll.utils.get_minecraft_directory()).resolve()
     return str(path_pl)
 
 
@@ -120,7 +117,7 @@ def newest_version() -> str:
 
 
 def find_mc_java(java_ver: int = 17.3) -> str:
-    """Gets the path to the Java executable installed from the vanilla launcher.
+    """Gets the path to the Java executable downloaded from the vanilla launcher.
 
     Args:
         java_ver (int, optional): The Java version to find. Can be 8, 16, 17.1, or 17.3 Defaults to 17.3 and falls back to it if the integer is invalid.
@@ -132,75 +129,75 @@ def find_mc_java(java_ver: int = 17.3) -> str:
         program_files = os.environ["PROGRAMFILES(X86)"]
         if java_ver == 8:
             java = str(
-                pathlib.Path(
+                Path(
                     f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
                 )
             )
         elif java_ver == 16:
             java = str(
-                pathlib.Path(
+                Path(
                     f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
                 )
             )
         elif java_ver == 17.1:
             java = str(
-                pathlib.Path(
+                Path(
                     f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
                 )
             )
         else:
             java = str(
-                pathlib.Path(
+                Path(
                     f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
                 )
             )
     elif sys.platform.startswith("linux"):
         if java_ver == 8:
             java = str(
-                pathlib.Path(
+                Path(
                     f"~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java"
                 ).resolve()
             )
         elif java_ver == 16:
             java = str(
-                pathlib.Path(
+                Path(
                     f"~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java"
                 ).resolve()
             )
         elif java_ver == 17.1:
             java = str(
-                pathlib.Path(
+                Path(
                     f"~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java"
                 ).resolve()
             )
         else:
             java = str(
-                pathlib.Path(
+                Path(
                     f"~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
                 ).resolve()
             )
     elif sys.platform.startswith("darwin"):  # all of this may or may not work
         if java_ver == 8:
             java = str(
-                pathlib.Path(
+                Path(
                     "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-legacy/darwin/java-runtime-legacy/bin/java"
                 )
             )
         elif java_ver == 16:
             java = str(
-                pathlib.Path(
+                Path(
                     "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-alpha/darwin/java-runtime-alpha/bin/java"
                 )
             )
         elif java_ver == 17.1:
             java = str(
-                pathlib.Path(
+                Path(
                     "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-beta/darwin/java-runtime-beta/bin/java"
                 )
             )
         else:
             java = str(
-                pathlib.Path(
+                Path(
                     "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java"
                 )
             )
@@ -236,7 +233,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
         str: The base64 string for the FO logo.
     """
 
-    dir_path = pathlib.Path(png_dir)
+    dir_path = Path(png_dir)
     png_content = bytes()
 
     if (png_path := dir_path / "fo.png").exists():
@@ -248,13 +245,12 @@ def fo_to_base64(png_dir: str = ".") -> str:
             png_content = response.content
         else:
             logger.critical("Could not get the FO logo over the network.")
-
     b64logo = base64.b64encode(png_content).decode("utf-8")
     return f"data:image/png;base64,{b64logo}"
 
 
 def get_version() -> str:
-    __version__ = "v1.0.0-dev15"
+    __version__ = "v1.0.0-dev16"
     return __version__
 
 
@@ -327,7 +323,7 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         if (response := requests.get(meta_url)).status_code == 200:
             with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
                 version_id = f"fabric-loader-{fabric_version}-{game_version}"
-                path = str(pathlib.Path(mc_dir).resolve() / "versions")
+                path = str(Path(mc_dir).resolve() / "versions")
                 archive.extractall(path)
 
     return version_id
@@ -345,11 +341,11 @@ def download_pack(widget, interface: str = "GUI") -> str:
     download_bootstrap = requests.get(
         "https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar"
     )
-    file_path_bootstrap = pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
+    file_path_bootstrap = Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     with open(file_path_bootstrap, "wb") as file:
         file.write(download_bootstrap.content)
     packwiz_installer_bootstrap_path = (
-        pathlib.Path(get_dir()) / "packwiz-installer-bootstrap.jar"
+        Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     )
     return str(packwiz_installer_bootstrap_path)
 
@@ -400,7 +396,7 @@ def create_profile(mc_dir: str, version_id: str) -> None:
         mc_dir (str): The path to the **default** Minecraft directory.
         version_id (str): The version of Minecraft to create a profile for.
     """
-    launcher_profiles_path = pathlib.Path(mc_dir) / "launcher_profiles.json"
+    launcher_profiles_path = Path(mc_dir) / "launcher_profiles.json"
 
     try:
         profiles = json.loads(launcher_profiles_path.read_bytes())
@@ -421,28 +417,49 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     launcher_profiles_path.write_text(profiles_json)
 
 
-def get_pack_mc_versions() -> list[str]:
+def get_pack_mc_versions() -> dict:
     """Gets a list of all the versions FO currently supports."""
-    exp = re.compile(r"\d+\.\d+(\.\d+)?")
-    return_value = []
+
+    return_value = dict()
     try:
-        auth = None
-        authdata = get_gh_auth()
-        if authdata is not None:
-            user, key = authdata
-            auth = (user, key)
-        response = requests.get(
-            "https://api.github.com/repos/Fabulously-Optimized/fabulously-optimized/contents/Packwiz",
-            auth=auth,
-        ).json()
-        for response_content in response:
-            if exp.search(response_content["name"]):
-                return_value.append(response_content["name"])
-        return_value.sort()
-        return_value.reverse()
+        try:
+            response = (
+                requests.get(
+                    "https://fabulously-optimized.github.io/vanilla-installer/meta/versions.json",
+                )
+                .json()
+                .text
+            )
+        except requests.exceptions.RequestException or response.status_code != "200":
+            logger.exception("Couldn't get from the site, falling back to JSDelivr...")
+            response = (
+                requests.get(
+                    "https://cdn.jsdelivr.net/gh/Fabulously-Optimized/vanilla-installer@main/docs/meta/versions.json"
+                )
+                .json()
+                .text
+            )
+        return_value = dict(response)
+        return return_value
     except requests.exceptions.RequestException as e:
         logger.exception(f"Couldn't get minecraft versions: {e}")
-    return return_value
+
+
+def convert_version(input_mcver: str) -> str:
+    """Converts a version string to the appropriate FO pack.toml
+
+    Args:
+        input_mcver (str): The Minecraft version to find.
+
+    Returns:
+        str: The converted version as a direct JSDelivr URL.
+    """
+    versions = get_pack_mc_versions()
+    return_value = versions.get(input_mcver)
+    if return_value is None:
+        raise TypeError("Invalid or unsupported Minecraft version.")
+    else:
+        return return_value
 
 
 def run(
@@ -463,8 +480,8 @@ def run(
     """
     set_dir(mc_dir)
 
-    if not pathlib.Path(mc_dir).resolve().exists():
-        pathlib.Path(mc_dir).resolve().mkdir()
+    if not Path(mc_dir).resolve().exists():
+        Path(mc_dir).resolve().mkdir()
 
     if version is None:
         # the default version is set here instead of an argument because it slows down the startup
@@ -494,4 +511,4 @@ def run(
     text_update("Complete!", widget=widget, interface=interface)
     if interface == "GUI":
         sleep(3.5)
-        text_update("Vanilla Installer",widget=widget)
+        text_update("Vanilla Installer", widget=widget)
