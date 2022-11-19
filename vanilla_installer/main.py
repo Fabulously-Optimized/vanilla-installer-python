@@ -431,14 +431,23 @@ def get_pack_mc_versions() -> dict:
                 .text
             )
         except requests.exceptions.RequestException or response.status_code != "200":
-            logger.exception("Couldn't get from the site, falling back to JSDelivr...")
-            response = (
-                requests.get(
+            try:
+                logger.exception("Couldn't get from the site, falling back to JSDelivr...")
+                response = (
+                    requests.get(
                     "https://cdn.jsdelivr.net/gh/Fabulously-Optimized/vanilla-installer@main/docs/meta/versions.json"
                 )
                 .json()
                 .text
             )
+            except requests.exceptions.RequestException or response.status_code != "200":
+                # This should never happen unless a) there's no internet connection or b) the file was deleted or is missing in a development case.
+                # In this case, fall back to a local file since in the latter you'll likely have the whole repo cloned.
+                # For this to work, you need to be in the root directory running this, otherwise the files will not be found.
+                logger.exception("JSDelivr failed as well, falling back to local...")
+                local_path = Path("docs/meta").resolve() / "versions.json"
+                response = json.loads(local_path.read_bytes())
+                
         return_value = dict(response)
         return return_value
     except requests.exceptions.RequestException as e:
@@ -488,7 +497,7 @@ def run(
         # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
         version = newest_version()
     text_update("Installing Fabric...", widget=widget, interface=interface)
-    fabric_version = install_fabric(mc_version=version, mc_dir=mc_dir)
+    fabric_version = install_fabric(version, mc_dir)
 
     text_update(
         "Starting the Fabulously Optimized download...",

@@ -275,7 +275,7 @@ class Ui_MainWindow(object):
 
     def addVersions(self) -> None:
         """Adds the versions to the version selector."""
-        for version in main.get_pack_mc_versions():
+        for version in main.get_pack_mc_versions().keys():
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
 
