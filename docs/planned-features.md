@@ -1,4 +1,5 @@
 # Planned features
+
 See [https://github.com/Fabulously-Optimized/vanilla-installer/milestone/1](https://github.com/Fabulously-Optimized/vanilla-installer/milestone/1) for issues and improvements which need (or should) to be solved before the full 1.0 release.
 
 ## Short-term (minor release)

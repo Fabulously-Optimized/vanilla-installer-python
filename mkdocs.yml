@@ -23,5 +23,3 @@ site_description: "VanillaInstaller's documentation, an installer for Fabulously
 copyright: "Copyright (C) 2022 Fabulously Optimized. Licensed under the MIT License."
 plugins:
   - mkdocstrings
-
-# TODO: maybe https://squidfunk.github.io/mkdocs-material/setup/adding-a-comment-system/#giscus-integration ?

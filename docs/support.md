@@ -23,6 +23,9 @@ The program is optimized for Python 3.8 and above, as well as Linux and Windows.
 
 Much of this advice is outdated, so it's recommended just to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB) until this is updated.
 
+<details>
+  <summary>If you still want to look, click me.</summary>
+
 ### Pixelated font / issues with Anaconda (Linux)
 
 Does the font look pixelated and emojis are not loading?
@@ -68,3 +71,5 @@ Make sure to choose the correct version - or replace `python3.10` with `python3`
 ### Anything else?
 
 If you have a question that isn't covered above, feel free to make a thread in [Fabulously Optimized's Discord](https://discord.gg/yxaXtaQqdB).
+
+</details>
