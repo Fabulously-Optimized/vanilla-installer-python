@@ -1,8 +1,0 @@
-site/
-logs/
-build/
-data/
-dist/
-.*_cache/
-*.spec
-pyvenv.cfg
