@@ -17,10 +17,7 @@
 ## Need help?
 
 <a target="_blank" href="https://discord.gg/yxaXtaQqdB"><img alt="Chat with us on Discord!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/discord-plural_vector.svg"></a>
-<a target="_blank" href="https://fabulously-optimized.gitbook.io/modpack/"><img alt="Read the documentation" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/documentation/ghpages_vector.svg"></a>
-
-## Issues and suggestions
-
+<a target="_blank" href="https://fabulously-optimized.gitbook.io/modpack/"><img alt="Read the documentation!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/documentation/ghpages_vector.svg"></a>
 <a href="https://github.com/Fabulously-Optimized/issues/new/choose"><img alt="Report an issue!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/github-plural_vector.svg">
 
 ## Abbreviations
@@ -31,11 +28,45 @@
 
 ## Installation
 
-### Binaries (recommended)
+### Binaries
 
 These are quite simple to use and should be stable.
 Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system.
+However, you have to manually install updates.
 
+**Requirements**: Ability to download a file and double-click it.
+
+**Downsides**: No easy updating
+
+**Recommended for**: People that aren't too well versed in technology, and probably don't care about updating VI.
+
+<!-- commented out until released
+### PyPi
+
+These binaries are part of Python's package index (abbreviated PyPi), which can then be installed via the package manager `pip`. Because of this, you can simply run `pip install vanilla-installer` to install it and `pip install --upgrade vanilla-installer` to update it.
+
+**Requirements**: [Python](https://python.org) installed and access to a command line (Command Prompt, PowerShell, or Windows Terminal on Windows, Terminal on macOS, whatever your desktop environment provides on Linux (e.g. GNOME Terminal, Konsole, etc))
+
+**Downsides**: Requires you to go and install another program and you have to use a command line every time
+
+**Recommended for**: Linux users, anyone who already has Python >=3.8 installed
+
+### Package managers
+
+Some package managers may include VI. However, there is no guarantee that they will be up to date all the time, as some may not be updated automatically.
+
+Here's a list of package managers that VI is in and the operating systems they support:
+
+- [Scoop](https://scoop.sh) (Windows) - `scoop bucket add games` then `scoop install vanilla-installer`
+- `pip` as mentioned [above](#pypi)
+- More coming soon! If you want to add one to a package manager you use, check the details out [here](CONTRIBUTING.md#packaging).
+
+**Requirements**: The respective package manager installed
+
+**Downsides**: You may have delayed updates of VI
+
+**Recommended for**: Most Windows/macOS users that will use VI a lot but don't want to go through the extra pain of installing Python
+-->
 ### Scripts (for advanced users)
 
 These are usually not difficult to install as well. However, you may run into problems because of stability issues because it can always be used with the latest commit. Use at your own risk.
@@ -52,7 +83,7 @@ These are usually not difficult to install as well. However, you may run into pr
 ## Contributors
 
 Thanks to all these wonderful people!
-See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors) for a full overview of code contributors.
+See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors) for an overview of code contributors.
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

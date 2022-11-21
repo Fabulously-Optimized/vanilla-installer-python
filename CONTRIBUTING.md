@@ -21,3 +21,21 @@
 [More ways to support (some of them involve the modpack itself)](https://github.com/Fabulously-Optimized/fabulously-optimized/blob/main/CONTRIBUTING.md)
 
 Thanks a lot! :heart:
+
+<!-- commented out until release
+## Packaging
+
+So, you'd like to add VI to a package manager that it isn't in yet. Great!
+
+Before you start, make sure to check it doesn't exist in said package manager, even if it isn't listed [on the README](README.md#package-managers) :wink:
+
+Here's the information you can file it under:
+
+| Name               | Vanilla Installer                                |
+| Author             | Fabulously Optimized                             |
+| Slug               | vanilla-installer                                |
+| Alternate slug     | VanillaInstaller                                 |
+| App ID (D-Bus-type)| io.github.fabulously_optimized.vanilla_installer |
+
+Once it's been submitted, feel free to [join our Discord](https://discord.gg/yxaXtaQqdB) and let us know in #not-minecraft!
+-->
