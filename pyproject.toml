@@ -35,11 +35,6 @@ black = "^22.10.0"
 # (this is a workaround until cx-Freeze releases 6.14.0)
 cx-freeze = {url = "https://marcelotduarte.github.io/packages/cx-freeze/cx_Freeze-6.14.0.dev1-cp311-cp311-win_amd64.whl", python = "3.11"}
 
-[tool.poetry.group.docs.dependencies]
-mkdocs = "^1.4.1"
-mkdocs-material = "^8.5.10"
-mkdocstrings = {extras = ["python"], version = "^0.19.0"}
-
 
 [tool.poetry.group.ci.dependencies]
 flake8 = "^5.0.4"
