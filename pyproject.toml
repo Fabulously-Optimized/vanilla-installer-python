@@ -36,7 +36,6 @@ flake8 = "^5.0.4"
 
 
 [tool.poetry.group.compile.dependencies]
-pyqtdeploy = "^3.3.0"
 # cx-Freeze = "^6.13.0"
 # install cx-Freeze manually on python < 3.11
 # however official [release] builds will be built on python >=3.11
