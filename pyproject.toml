@@ -6,8 +6,8 @@ authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
     "nsde <mail@onlix.me>"
 ]
-documentation = "https://fabulously-optimized.github.io/vanilla-installer"
-homepage = "https://fabulously-optimized.github.io/vanilla-installer"
+documentation = "https://fabulously-optimized.gitbook.io/vanilla-installer"
+homepage = "https://fabulously-optimized.gitbook.io/vanilla-installer"
 repository = "https://github.com/Fabulously-Optimized/vanilla-installer"
 license = "MIT"
 readme = "README.md"
