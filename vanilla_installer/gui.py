@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTextEdit,
     QWidget,
+    # QCheckBox, soon™
 )
 
 # LOCAL
@@ -403,7 +404,10 @@ class SettingsDialog(QDialog):
         self.loginInfoLabel.setFont(fontSize8)
         self.loginInfoLabel.setWordWrap(True)
         self.loginInfoLabel.setGeometry(QRect(20, 90, 360, 70))
-
+        self.fontDyslexicLabel = QLabel(self)
+        self.fontDyslexicLabel.setFont(fontSize8)
+        self.fontDyslexicLabel.setWordWrap(True)
+        self.fontDyslexicLabel.setGeometry(QRect(20, 90, 360, 70))
         self.errorLabel = QLabel(self)
         self.errorLabel.setFont(fontSize8)
         self.errorLabel.setWordWrap(True)

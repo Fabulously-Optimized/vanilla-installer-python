@@ -423,18 +423,14 @@ def get_pack_mc_versions() -> dict:
     return_value = dict()
     try:
         try:
-            logger.exception("Couldn't get from the site, falling back to JSDelivr...")
-            response = (
-                requests.get(
-                    "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
-                )
-                .json()
-            )
+            response = requests.get(
+                "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
+            ).json()
         except requests.exceptions.RequestException or response.status_code != "200":
             # This should never happen unless a) there's no internet connection or b) the file was deleted or is missing in a development case.
             # In this case, fall back to a local file since in the latter you'll likely have the whole repo cloned.
             # For this to work, you need to be in the root directory of the repository running this, otherwise the files will not be found.
-            logger.exception("JSDelivr failed, falling back to local...")
+            logger.exception("GitHub failed, falling back to local...")
             local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
             response = json.loads(local_path.read_bytes())
 
