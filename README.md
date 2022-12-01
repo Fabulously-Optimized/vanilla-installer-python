@@ -17,7 +17,7 @@
 ## Need help?
 
 <a target="_blank" href="https://discord.gg/yxaXtaQqdB"><img alt="Chat with us on Discord!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/discord-plural_vector.svg"></a>
-<a target="_blank" href="https://fabulously-optimized.gitbook.io/vanilla-installer/"><img alt="Read the documentation!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/documentation/ghpages_vector.svg"></a>
+<a target="_blank" href="https://fabulously-optimized.gitbook.io/vanilla-installer/"><img alt="Read the documentation!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/documentation/gitbook_vector.svg"></a>
 <a href="https://github.com/Fabulously-Optimized/issues/new/choose"><img alt="Report an issue!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/github-plural_vector.svg">
 
 ## Abbreviations
