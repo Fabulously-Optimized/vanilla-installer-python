@@ -32,7 +32,6 @@ from . import log
 logger = log.logger
 
 PATH_FILE = str(Path("data/mc-path.txt").resolve())
-TOKEN_FILE = str(Path("data/gh-token.txt").resolve())
 FOLDER_LOC = ""
 
 
@@ -67,47 +66,6 @@ def get_dir() -> str:
         )  # Without this, it gives an error every time
         path = set_dir(default_dir)
     return path
-
-
-def set_gh_auth(user: str, key: str) -> bool | None:
-    """Sets the GitHub authentication details to be used by the GitHub api.
-    Args:
-        user (str): new username
-        key (str): new key
-    Returns:
-        bool: whether the new user is valid or not
-    """
-    if key is not None and key != "" and user is not None and user != "":
-        if (
-            requests.get("https://api.github.com/user", auth=(user, key)).status_code
-            != 200
-        ):
-            return False
-        with open(TOKEN_FILE, "w", encoding="utf-8") as file:
-            file.write(f"{user}\n{key}")
-        return True
-    if key == "" and user == "":
-        open(TOKEN_FILE, "w").close()  # empties file content
-        return True
-    return None
-
-
-def get_gh_auth() -> Tuple[str, str] | None:
-    """Returns the GitHub authentication details selected by the user, if it exists.
-
-    Returns:
-        str: User
-        str: Key
-    """
-
-    try:
-        file = open(TOKEN_FILE, encoding="utf-8").read()
-        if file != "" and file is not None:
-            auth_data = file.split("\n")
-            return auth_data[0], auth_data[1]
-    except:
-        return None
-
 
 def newest_version() -> str:
     """Returns the latest version of Minecraft that FO supports.
