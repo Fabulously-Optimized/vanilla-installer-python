@@ -21,18 +21,29 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTextEdit,
     QWidget,
-    # QCheckBox, soon™
+    QCheckBox,
 )
 
 # LOCAL
 from vanilla_installer import main, theme
 
 # ARGUMENTS
-FONT = "Inter"
+FONT_FILE = pathlib.Path("data/font.txt").resolve()
+global_font = "Inter"
 
 
 def run() -> None:
     """Runs the GUI."""
+    global global_font
+    if FONT_FILE.exists():
+        read_file = FONT_FILE.read_text()
+        if read_file == "Inter" or read_file == "OpenDyslexic":
+            global_font = read_file
+        else:
+            FONT_FILE.write_text("Inter")
+    else:
+        FONT_FILE.write_text("Inter")
+
     app = QApplication([])
     window = QMainWindow()
     ui = Ui_MainWindow()
@@ -58,16 +69,13 @@ class Ui_MainWindow(object):
         self.threadpool = QThreadPool(MainWindow)
         self.installing = False
 
-        font = QFont()
-        font.setFamily(FONT)
-        MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         fontSize24 = QFont()
         fontSize24.setPointSize(24)
         self.title = QLabel(self.centralwidget)
         self.title.setObjectName("title")
-        self.title.setGeometry(QRect(137, 42, 326, 40))
+        self.title.setGeometry(QRect(117, 42, 366, 40))
         self.title.setFont(fontSize24)
         self.title.setAlignment(Qt.AlignCenter)
         self.subtitle = QLabel(self.centralwidget)
@@ -155,11 +163,11 @@ class Ui_MainWindow(object):
 
         self.themeToggle = QPushButton(self.centralwidget)
         self.themeToggle.setObjectName("themeToggle")
-        self.themeToggle.setGeometry(QRect(476, 366, 114, 24))
+        self.themeToggle.setGeometry(QRect(466, 366, 124, 24))
         self.themeToggle.setFlat(True)
         self.themeToggle.clicked.connect(self.toggleTheme)
         self.themeToggleIcon = QSvgWidget(self.themeToggle)
-        self.themeToggleIcon.setGeometry(90, 0, 24, 24)
+        self.themeToggleIcon.setGeometry(100, 0, 24, 24)
 
         self.settingsButton = QPushButton(self.centralwidget)
         self.settingsButton.setObjectName("settingsButton")
@@ -221,40 +229,51 @@ class Ui_MainWindow(object):
         self.centralwidget.setStyleSheet(
             f'[objectName^="centralwidget"] {{ background-color: { loaded_theme.get("base")} }}'
         )
-        self.title.setStyleSheet(f'color: { loaded_theme.get("text")}')
-        self.subtitle.setStyleSheet(f'color: { loaded_theme.get("subtitle") }')
+        self.title.setStyleSheet(
+            f'color: { loaded_theme.get("text")}; font-family: "{global_font}"'
+        )
+        self.subtitle.setStyleSheet(
+            f'color: { loaded_theme.get("subtitle") }; font-family: "{global_font}"'
+        )
 
         self.installButton.setStyleSheet(
-            f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; }}'
+            f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ background: {loaded_theme.get("lavender")};}}'
             f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         self.locationSelector.setStyleSheet(
-            f'QPushButton {{ border: none;background: {loaded_theme.get("button")}; border-radius: 5px; }}'
+            f'QPushButton {{ border: none;background: {loaded_theme.get("button")}; border-radius: 5px; font-family: "{global_font}" }}'
             f'QPushButton:hover {{ background: {loaded_theme.get("buttonhovered")}; }}'
             f'QPushButton:pressed {{ background: {loaded_theme.get("buttonpressed")}; }}'
         )
         self.infoButton.setStyleSheet(
-            f"QPushButton{{ color: #00000000 }}"
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
         self.issuesButton.setStyleSheet(
-            f"QPushButton{{ color: #00000000 }}"
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: left; padding-left: 30px}}'
         )
         self.themeToggle.setStyleSheet(
-            f"QPushButton{{ color: #00000000 }}"
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
         self.settingsButton.setStyleSheet(
-            f"QPushButton{{ color: #00000000 }}"
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
 
-        self.versionLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
-        self.locationLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
+        self.versionLabel.setStyleSheet(
+            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
+        )
+        self.versionSelector.setStyleSheet(
+            f'font-family: "{global_font}"'
+        )
+        self.locationLabel.setStyleSheet(
+            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
+        )
         self.selectedLocation.setStyleSheet(
-            f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}'
+            f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}; font-family: "{global_font}"'
         )
         self.themeToggleIcon.load(
             Ui_MainWindow.getAsset("moon.svg" if theme.is_dark() else "sun.svg")
@@ -318,7 +337,7 @@ class Ui_MainWindow(object):
 
     def openSettings(self) -> None:
         """Open the settings."""
-        dialog = SettingsDialog(self.centralwidget)
+        dialog = SettingsDialog(self)
         dialog.exec()
 
     def startInstall(self) -> None:
@@ -346,8 +365,11 @@ class SettingsDialog(QDialog):
         QDialog (QDialog): The dialog.
     """
 
+    parentWindow: Ui_MainWindow
+
     def __init__(self, parent) -> None:
-        super().__init__(parent)
+        self.parentWindow = parent
+        super().__init__(self.parentWindow.centralwidget)
         self.setupUi()
 
     def setupUi(self) -> None:
@@ -355,9 +377,6 @@ class SettingsDialog(QDialog):
         if not self.objectName():
             self.setObjectName("Dialog")
         self.setMinimumSize(400, 250)
-        font = QFont()
-        font.setFamily(FONT)
-        self.setFont(font)
         self.buttonBox = QDialogButtonBox(self)
         self.buttonBox.setObjectName("buttonBox")
         self.buttonBox.setGeometry(QRect(180, 190, 200, 40))
@@ -367,49 +386,23 @@ class SettingsDialog(QDialog):
         )
         self.buttonBox.setCenterButtons(False)
 
-        user = key = None
-        auth = main.get_gh_auth()
-        if auth is not None:
-            user, key = auth
-        self.userLabel = QLabel(self)
-        self.userLabel.setObjectName("userLabel")
-        self.userLabel.setGeometry(QRect(20, 20, 105, 20))
-
-        self.userInput = QTextEdit(self)
-        self.userInput.setObjectName("userInput")
-        self.userInput.setGeometry(QRect(140, 15, 240, 30))
-        self.userInput.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
-        self.userInput.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.userInput.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        self.userInput.setText(user)
-        self.userInput.setTabChangesFocus(True)
-        self.keyLabel = QLabel(self)
-        self.keyLabel.setObjectName("keyLabel")
-        self.keyLabel.setGeometry(QRect(20, 60, 105, 20))
-        self.keyInput = QTextEdit(self)
-        self.keyInput.setObjectName("keyInput")
-        self.keyInput.setGeometry(QRect(140, 55, 240, 30))
-        self.keyInput.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
-        self.keyInput.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.keyInput.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
-        self.keyInput.setText(key)
-        self.keyInput.setTabChangesFocus(True)
         for button in self.buttonBox.buttons():
             button.setIcon(QIcon())  # remove the button icons
+
+        fontSize12 = QFont()
+        fontSize12.setPointSize(12)
+
+        self.fontDyslexicCheckbox = QCheckBox(self)
+        self.fontDyslexicCheckbox.setCheckState(
+            Qt.CheckState.Checked
+            if global_font == "OpenDyslexic"
+            else Qt.CheckState.Unchecked
+        )
+        self.fontDyslexicCheckbox.stateChanged.connect(self.changeFont)
+        self.fontDyslexicCheckbox.setGeometry(QRect(10, 10, 380, 20))
+
         fontSize8 = QFont()
         fontSize8.setPointSize(8)
-        self.loginInfoLabel = QLabel(self)
-        self.loginInfoLabel.setFont(fontSize8)
-        self.loginInfoLabel.setWordWrap(True)
-        self.loginInfoLabel.setGeometry(QRect(20, 90, 360, 70))
-        self.fontDyslexicLabel = QLabel(self)
-        self.fontDyslexicLabel.setFont(fontSize8)
-        self.fontDyslexicLabel.setWordWrap(True)
-        self.fontDyslexicLabel.setGeometry(QRect(20, 90, 360, 70))
         self.errorLabel = QLabel(self)
         self.errorLabel.setFont(fontSize8)
         self.errorLabel.setWordWrap(True)
@@ -420,16 +413,7 @@ class SettingsDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def accept(self) -> None:
-        """Set the GitHub credentials."""
-        status = main.set_gh_auth(
-            "".join(self.userInput.toPlainText().split()),
-            "".join(self.keyInput.toPlainText().split()),
-        )  # strips whitespace
-        if status is False:
-            self.errorLabel.setText(
-                QCoreApplication.translate("Dialog", "Invalid login details!", None)
-            )
-            return
+        """Accept Button actions"""
         super().accept()
 
     def retranslateUi(self, Dialog) -> None:
@@ -441,18 +425,8 @@ class SettingsDialog(QDialog):
         Dialog.setWindowTitle(
             QCoreApplication.translate("Dialog", "Vanilla Installer Settings", None)
         )
-        self.keyLabel.setText(
-            QCoreApplication.translate("Dialog", "GitHub API Token:", None)
-        )
-        self.userLabel.setText(
-            QCoreApplication.translate("Dialog", "GitHub Username:", None)
-        )
-        self.loginInfoLabel.setText(
-            QCoreApplication.translate(
-                "Dialog",
-                "Set your GitHub token to a personal token in order to extend your API rate limit.\n If you don't know what that is and aren't going to install Fabulously Optimized more than 60 times in an hour, You probably don't need this",
-                None,
-            )
+        self.fontDyslexicCheckbox.setText(
+            QCoreApplication.translate("Dialog", "Enable dyselxia friendly font", None)
         )
 
     def reloadTheme(self) -> None:
@@ -462,20 +436,28 @@ class SettingsDialog(QDialog):
             f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}'
         )
         self.buttonBox.setStyleSheet(
-            f'QPushButton {{ border: none; background-color: { loaded_theme.get("button") } ; color: {loaded_theme.get("text")}; padding: 8px; border-radius: 5px}}'
+            f'QPushButton {{ border: none; background-color: { loaded_theme.get("button") } ; color: {loaded_theme.get("text")}; padding: 8px; border-radius: 5px; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonhovered") }}}'
             f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonpressed") }}}'
         )
-        self.keyLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
-        self.keyInput.setStyleSheet(
-            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};'
+        self.fontDyslexicCheckbox.setStyleSheet(
+            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
         )
-        self.userLabel.setStyleSheet(f'color: {loaded_theme.get("label")}')
-        self.userInput.setStyleSheet(
-            f'background-color: {loaded_theme.get("crust")}; color: {loaded_theme.get("text")};'
+
+        self.errorLabel.setStyleSheet(
+            f'color: {loaded_theme.get("red")}; font-family: "{global_font}"'
         )
-        self.loginInfoLabel.setStyleSheet(f'color: {loaded_theme.get("subtitle")}')
-        self.errorLabel.setStyleSheet(f'color: {loaded_theme.get("red")}')
+
+    def changeFont(self, state) -> None:
+        global global_font
+        if state == 0:
+            FONT_FILE.write_text("Inter")
+            global_font = "Inter"
+        elif state == 2:
+            FONT_FILE.write_text("OpenDyslexic")
+            global_font = "OpenDyslexic"
+        self.reloadTheme()
+        self.parentWindow.reloadTheme()
 
 
 class Worker(QRunnable):
