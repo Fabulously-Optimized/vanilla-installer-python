@@ -129,7 +129,7 @@ jobs:
     needs: [lint, build-python]
     steps:
       - uses: actions/checkout@v3
-      # Nuitka currently only supports Python <=3.10 right now
+      # Nuitka currently only supports Python <=3.10 right now, but their development branch has 3.11 support
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
