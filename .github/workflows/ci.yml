@@ -115,7 +115,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
-          poetry install --no-interaction --with compile
+          poetry install -E gui --no-interaction --with compile
           python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
