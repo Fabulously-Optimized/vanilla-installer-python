@@ -82,6 +82,7 @@ jobs:
 
   build-windows:
     runs-on: windows-2022
+    needs: [lint, build-python]
     defaults:
       run:
         shell: bash
@@ -116,6 +117,7 @@ jobs:
 
   build-macos:
     runs-on: macos-12
+    needs: [lint, build-python]
     steps:
       - uses: actions/checkout@v3
       # same as above
