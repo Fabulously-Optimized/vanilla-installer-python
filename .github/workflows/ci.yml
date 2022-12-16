@@ -1,0 +1,154 @@
+name: Lint VanillaInstaller and build a dev build
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint with flake8
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-22.04", "macos-12", "windows-2022"]
+    steps:
+      - uses: actions/checkout@v3
+      # Linting is done with one version of python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        # https://github.com/snok/install-poetry#caching-on-windows-runners
+        if: ${{ runner.os != 'Windows' }}
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ci-lint-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root --only ci
+      - name: Lint with flake8
+        run: |
+          source $VENV
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 ./vanilla_installer/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 ./vanilla_installer/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --ignore=E501,E722,E266
+
+  build-python:
+    runs-on: ubuntu-22.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ci-build-python-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies and build
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          source $VENV
+          poetry install --no-interaction
+          poetry build --no-interaction
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: Vanilla Installer $(date -u)
+          path: dist/*
+
+  build-windows:
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      # nuitka currently only supports Python <=3.10 right now
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Shorten commit SHA
+        uses: benjlevesque/short-sha@v2.1
+        id: short-sha
+        # was having issues without installing Qt, so install it using
+        # this GHA wrapper around aqtinstall
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: 6.2.*
+          setup-python: false
+          aqtversion: ==3.1.*
+      - name: Install dependencies and build
+        run: |
+          source $VENV
+          poetry install --no-interaction --with compile
+          python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+
+  build-macos:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3
+      # same as above
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ci-build-macos-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Shorten commit SHA
+        uses: benjlevesque/short-sha@v2.1
+        id: short-sha
+        # was having issues without installing Qt, so install it using
+        # this GHA wrapper around aqtinstall
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+      - name: Install dependencies and build
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          source $VENV
+          poetry install --no-interaction
+          python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: Vanilla Installer $(date -u)
+          path: dist/*

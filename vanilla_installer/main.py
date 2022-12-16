@@ -60,7 +60,7 @@ def get_dir() -> str:
 
     try:
         path = open(PATH_FILE, encoding="utf-8").read()
-    except OSError:
+    except FileNotFoundError: # this should be the only caught error according to logs
         logger.exception("No mc_path.txt found. Calling set_dir.")
         default_dir = str(
             mll.utils.get_minecraft_directory()
@@ -252,7 +252,7 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version() -> str:
-    __version__ = "v1.0.0-dev16"
+    __version__ = "v1.0.0b1"
     return __version__
 
 

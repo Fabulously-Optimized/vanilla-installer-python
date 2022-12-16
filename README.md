@@ -47,7 +47,7 @@ These binaries are part of Python's package index (abbreviated PyPi), which can 
 
 **Requirements**: [Python](https://python.org) installed and access to a command line (Command Prompt, PowerShell, or Windows Terminal on Windows, Terminal on macOS, whatever your desktop environment provides on Linux (e.g. GNOME Terminal, Konsole, etc))
 
-**Downsides**: Requires you to go and install another program and you have to use a command line every time
+**Downsides**: Requires you to go and install another program and you have to use a command line every time, unless you make a shortcut.
 
 **Recommended for**: Linux users, anyone who already has Python >=3.8 installed
 
@@ -67,9 +67,15 @@ Here's a list of package managers that VI is in and the operating systems they s
 
 **Recommended for**: Most Windows/macOS users that will use VI a lot but don't want to go through the extra pain of installing Python
 -->
-### Scripts (for advanced users)
+### Scripts
 
-These are usually not difficult to install as well. However, you may run into problems because of stability issues because it can always be used with the latest commit. Use at your own risk.
+There are scripts in the `install/` directory that will install everything you need. However, these can always be used with the latest commit, like you were installing it manually.
+
+**Requirements**: Access to a command line and the Internet
+
+**Downsides**: Can always be used with the latest commit
+
+**Recommended for**: Contributors and testers
 
 **[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
 
@@ -80,7 +86,7 @@ These are usually not difficult to install as well. However, you may run into pr
 - **[Information for developers](docs/for-devs.md)**: Useful information for developers
 - **[FO issue (#110)](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)**: The issue in FO, which explains the situation
 
-## Contributors
+## Contributors ✨
 
 Thanks to all these wonderful people!
 See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/contributors) for an overview of code contributors.
