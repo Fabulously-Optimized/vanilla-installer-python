@@ -111,6 +111,7 @@ jobs:
           version: 6.2.*
           setup-python: false
           aqtversion: ==3.1.*
+          py7zrversion: ==0.20.*
       - name: Install dependencies and build
         run: |
           poetry install --no-interaction --with compile
@@ -150,6 +151,11 @@ jobs:
         # this GHA wrapper around aqtinstall
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
+        with:
+          version: 6.2.*
+          setup-python: false
+          aqtversion: ==3.1.*
+          py7zrversion: ==0.20.*
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --with compile
