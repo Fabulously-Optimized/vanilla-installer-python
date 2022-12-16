@@ -90,11 +90,11 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v3
-      # nuitka currently only supports Python <=3.10 right now
-      - name: Set up Python 3.10
+      # Nuitka currently only supports Python <=3.10 right now, but their development branch has 3.11 support
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
         with:
@@ -160,7 +160,7 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
-         pip install -U https://github.com/Nuitka/Nuitka/archive/factory.zip"
+         pip install -U "https://github.com/Nuitka/Nuitka/archive/factory.zip"
          poetry install -E gui --no-interaction --with compile
       - name: Build app bundle
         run: python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
