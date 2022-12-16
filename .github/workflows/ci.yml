@@ -49,6 +49,7 @@ jobs:
           flake8 ./vanilla_installer/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --ignore=E501,E722,E266
 
   build-python:
+    name: Build Python wheels
     runs-on: ubuntu-22.04
     needs: lint
     steps:
@@ -68,19 +69,20 @@ jobs:
         with:
           path: .venv
           key: ci-build-python-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies and build
+      - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: |
-          source $VENV
-          poetry install --no-interaction
-          poetry build --no-interaction
+        run: poetry install --no-interaction --no-root
+      - name: Build
+        run: poetry build --no-interaction
+        
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
-          name: Vanilla Installer $(date -u)
+          name: Vanilla Installer $(date -u) (Python)
           path: dist/*
 
   build-windows:
+    name: Build Windows exe
     runs-on: windows-2022
     needs: [lint, build-python]
     defaults:
@@ -111,11 +113,16 @@ jobs:
           aqtversion: ==3.1.*
       - name: Install dependencies and build
         run: |
-          source $VENV
           poetry install --no-interaction --with compile
           python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: Vanilla Installer $(date -u) (Windows)
+          path: "*.exe"
 
   build-macos:
+    name: Build macOS app bundle
     runs-on: macos-12
     needs: [lint, build-python]
     steps:
@@ -143,14 +150,14 @@ jobs:
         # this GHA wrapper around aqtinstall
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
-      - name: Install dependencies and build
+      - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: |
-          source $VENV
-          poetry install --no-interaction
-          python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+        run: poetry install --no-interaction --with compile
+        
+      - name: Build app bundle
+        run: python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
-          name: Vanilla Installer $(date -u)
-          path: dist/*
+          name: Vanilla Installer $(date -u) (macOS)
+          path: "*.app"
