@@ -115,11 +115,14 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "darkdetect"
-version = "0.7.1"
+version = "0.8.0"
 description = "Detect OS Dark Mode from Python"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
+
+[package.extras]
+macos-listener = ["pyobjc-framework-Cocoa"]
 
 [[package]]
 name = "dill"
@@ -472,7 +475,7 @@ gui = ["pyside6"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.1,<=3.11.1"
-content-hash = "6af8aacda589a2d00219095812b6ebcc7307f69d8af03cd6bcdd7dac70829862"
+content-hash = "e69da68b046993f27b5dd2983dd06b48a304721b776e248e23efdb04d5ee39db"
 
 [metadata.files]
 anyio = [
@@ -584,8 +587,8 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 darkdetect = [
-    {file = "darkdetect-0.7.1-py2.py3-none-any.whl", hash = "sha256:3efe69f8ecd5f1b7f4fbb0d1d93f656b0e493c45cc49222380ffe2a529cbc866"},
-    {file = "darkdetect-0.7.1.tar.gz", hash = "sha256:47be3cf5134432ddb616bbffc927237718407914993c82809983e7ccebf49013"},
+    {file = "darkdetect-0.8.0-py3-none-any.whl", hash = "sha256:a7509ccf517eaad92b31c214f593dbcf138ea8a43b2935406bbd565e15527a85"},
+    {file = "darkdetect-0.8.0.tar.gz", hash = "sha256:b5428e1170263eb5dea44c25dc3895edd75e6f52300986353cd63533fe7df8b1"},
 ]
 dill = [
     {file = "dill-0.3.6-py3-none-any.whl", hash = "sha256:a07ffd2351b8c678dfc4a856a3005f8067aea51d6ba6c700796a4d9e280f39f0"},
