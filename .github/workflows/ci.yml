@@ -115,55 +115,55 @@ jobs:
       - name: Install dependencies and build
         run: |
           poetry install --no-interaction --with compile
-          poetry run python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+          source $VENV && python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
           name: Vanilla Installer $(date -u) (Windows)
           path: "*.exe"
 
-  build-macos:
-    name: Build macOS app bundle
-    runs-on: macos-12
-    needs: [lint, build-python]
-    steps:
-      - uses: actions/checkout@v3
+  # build-macos:
+    # name: Build macOS app bundle
+    # runs-on: macos-12
+    # needs: [lint, build-python]
+    # steps:
+      # - uses: actions/checkout@v3
       # same as above
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-          installer-parallel: true
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: ci-build-macos-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
-        id: short-sha
+      # - name: Set up Python 3.10
+        # uses: actions/setup-python@v4
+        # with:
+          # python-version: "3.10"
+      # - name: Install and configure Poetry
+        # uses: snok/install-poetry@v1
+        # with:
+          # virtualenvs-in-project: true
+          # installer-parallel: true
+      # - name: Load cached venv
+        # id: cached-poetry-dependencies
+        # uses: actions/cache@v3
+        # with:
+          # path: .venv
+          # key: ci-build-macos-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      # - name: Shorten commit SHA
+        # uses: benjlevesque/short-sha@v2.1
+        # id: short-sha
         # was having issues without installing Qt, so install it using
         # this GHA wrapper around aqtinstall
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: 6.2.*
-          setup-python: false
-          aqtversion: ==3.1.*
-          py7zrversion: ==0.20.*
-      - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --with compile
+      # - name: Install Qt
+        # uses: jurplel/install-qt-action@v3
+        # with:
+          # version: 6.2.*
+          # setup-python: false
+          # aqtversion: ==3.1.*
+          # py7zrversion: ==0.20.*
+      # - name: Install dependencies
+        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        # run: poetry install --no-interaction --with compile
         
-      - name: Build app bundle
-        run: poetry run python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
-      - name: Upload built wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: Vanilla Installer $(date -u) (macOS)
-          path: "*.app"
+      # - name: Build app bundle
+        # run: poetry run python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+      # - name: Upload built wheels
+        # uses: actions/upload-artifact@v3
+        # with:
+          # name: Vanilla Installer $(date -u) (macOS)
+          # path: "*.app"
