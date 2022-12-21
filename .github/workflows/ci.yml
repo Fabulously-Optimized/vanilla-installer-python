@@ -115,7 +115,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           poetry install --no-interaction --with compile
-          python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+          poetry run python3 -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
@@ -161,7 +161,7 @@ jobs:
         run: poetry install --no-interaction --with compile
         
       - name: Build app bundle
-        run: python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+        run: poetry run python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
