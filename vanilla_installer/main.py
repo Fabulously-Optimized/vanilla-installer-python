@@ -27,7 +27,7 @@ else:
     import tomli as toml
 
 # Local
-from . import log
+from vanilla_installer import log
 
 logger = log.logger
 

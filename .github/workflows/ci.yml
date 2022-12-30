@@ -78,49 +78,49 @@ jobs:
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
-          name: Vanilla Installer $(date -u) (Python)
+          name: Vanilla Installer $(date -u) (Python binaries)
           path: dist/*
 
-  build-windows:
-    name: Build Windows exe
-    runs-on: windows-2022
-    needs: [lint, build-python]
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v3
+  # build-windows:
+    # name: Build Windows exe
+    # runs-on: windows-2022
+    # needs: [lint, build-python]
+    # defaults:
+      # run:
+        # shell: bash
+    # steps:
+      # - uses: actions/checkout@v3
       # nuitka currently only supports Python <=3.10 right now
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-          installer-parallel: true
-      - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
-        id: short-sha
+      # - name: Set up Python 3.10
+      #   uses: actions/setup-python@v4
+      #   with:
+          # python-version: "3.10"
+      # - name: Install and configure Poetry
+        # uses: snok/install-poetry@v1
+        # with:
+          # virtualenvs-in-project: true
+          # installer-parallel: true
+      # - name: Shorten commit SHA
+        # uses: benjlevesque/short-sha@v2.1
+        # id: short-sha
         # was having issues without installing Qt, so install it using
         # this GHA wrapper around aqtinstall
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: 6.2.*
-          setup-python: false
-          aqtversion: ==3.1.*
-          py7zrversion: ==0.20.*
-      - name: Install dependencies and build
-        run: |
-          poetry install --no-interaction --with compile
-          source $VENV && python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
-      - name: Upload built wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: Vanilla Installer $(date -u) (Windows)
-          path: "*.exe"
+      # - name: Install Qt
+        # uses: jurplel/install-qt-action@v3
+        # with:
+          # version: 6.2.*
+          # setup-python: false
+          # aqtversion: ==3.1.*
+          # py7zrversion: ==0.20.*
+      # - name: Install dependencies and build
+        # run: |
+          # poetry install --no-interaction --with compile
+          # source $VENV && python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
+      # - name: Upload built wheels
+        # uses: actions/upload-artifact@v3
+        # with:
+          # name: Vanilla Installer $(date -u) (Windows)
+          # path: "*.exe"
 
   # build-macos:
     # name: Build macOS app bundle

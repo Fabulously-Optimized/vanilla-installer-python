@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (
 )
 
 # LOCAL
-from . import main, theme
+from vanilla_installer import main, theme
 
 # ARGUMENTS
 FONT = "Inter"

@@ -12,8 +12,8 @@ import asyncclick as click
 import minecraft_launcher_lib as mll
 
 # Local
-from . import gui as external_gui
-from . import main
+from vanilla_installer import gui as external_gui
+from vanilla_installer import main
 
 logging.getLogger("asyncio").setLevel(logging.DEBUG)
 
