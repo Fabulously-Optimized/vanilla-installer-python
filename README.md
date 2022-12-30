@@ -31,7 +31,7 @@
 ### Binaries
 
 These are quite simple to use and should be stable.
-Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system.
+Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system. Then, open your **Downloads** folder and double-click the file.
 However, you have to manually install updates.
 
 **Requirements**: Ability to download a file and double-click it.
@@ -66,7 +66,7 @@ Here's a list of package managers that VI is in and the operating systems they s
 **Downsides**: You may have delayed updates of VI
 
 **Recommended for**: Most Windows/macOS users that will use VI a lot but don't want to go through the extra pain of installing Python
--->
+
 ### Scripts
 
 There are scripts in the `install/` directory that will install everything you need. However, these can always be used with the latest commit, like you were installing it manually.
@@ -78,6 +78,7 @@ There are scripts in the `install/` directory that will install everything you n
 **Recommended for**: Contributors and testers
 
 **[Windows](/install/windows.bat) · [MacOS](/install/macos.sh) · [Linux](/install/linux.sh)**
+-->
 
 ## Links
 
