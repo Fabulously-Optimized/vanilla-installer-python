@@ -4,7 +4,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
-[![Lint](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/lint.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/lint.yml)
+[![Lint](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/lint.yml)
 [![Release](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml)
 
 ## Download
