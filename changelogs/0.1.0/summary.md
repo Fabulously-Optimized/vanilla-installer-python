@@ -1,4 +1,4 @@
-# v1.0.0-b1 (summary)
+# v0.1.0 (summary)
 
 The first beta for Fabulously Optimized's Vanilla Installer has been released! Most features are complete, however there's still some bugs and lots of testing to do before a full 1.0.0 release. Please report any bugs you find on the [issue tracker](https://github.com/Fabulously-Optimized/vanilla-installer/issues/new/choose)
 
@@ -12,4 +12,4 @@ The workaround is to switch the theme twice (it works to just do it once but if 
 
 ![Font applied](assets/normal_font.png)
 
-**Full Changelog on [the wiki](https://fabulously-optimized.gitbook.io/vanilla-installer/1.0.0-b1/full)!**
+**Full Changelog on [the wiki](https://fabulously-optimized.gitbook.io/vanilla-installer/0.1.0/full)!**
