@@ -18,7 +18,7 @@
 
 <a target="_blank" href="https://discord.gg/yxaXtaQqdB"><img alt="Chat with us on Discord!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/discord-plural_vector.svg"></a>
 <a target="_blank" href="https://fabulously-optimized.gitbook.io/vanilla-installer/"><img alt="Read the documentation!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/documentation/gitbook_vector.svg"></a>
-<a href="https://github.com/Fabulously-Optimized/issues/new/choose"><img alt="Report an issue!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/github-plural_vector.svg">
+<a href="https://github.com/Fabulously-Optimized/vanilla-installer/issues/new/choose"><img alt="Report an issue!" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/compact/social/github-plural_vector.svg">
 
 ## Abbreviations
 
@@ -82,9 +82,8 @@ There are scripts in the `install/` directory that will install everything you n
 
 ## Links
 
-- **[Support](docs/support.md)**: Troubleshooting, compatibility notices & more
-- **[Credits](docs/credits.md)**: Credits for the source code of VI
-- **[Information for developers](docs/for-devs.md)**: Useful information for developers
+- **[Credits](https://fabulously-optimized.gitbook.io/vanilla-installer/credits)**: Credits for the source code of VI
+- **[Information for developers](https://fabulously-optimized.gitbook.io/vanilla-installer/for-devs)**: Useful information for developers
 - **[FO issue (#110)](https://github.com/Fabulously-Optimized/fabulously-optimized/issues/110)**: The issue in FO, which explains the situation
 
 ## Contributors ✨
