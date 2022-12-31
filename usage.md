@@ -25,8 +25,8 @@ It's recommended to install Python using [Homebrew](https://brew.sh), however in
 Because of Linux having many different package managers, we've decided to make the way to install on Linux via `pip`, or building from source using `python` and `poetry`.
 
 1. Install Python 3.8 or higher (3.11 recommended) from your package manager - for example `sudo apt install python3` or `sudo pacman -S python`
-2. Run `pip3 install vanilla-installer`. If you want the GUI - run `pip3 install vanilla-installer[gui]`.
-3. Then you can run `vanilla-installer` for the CLI or `vanilla-installer-gui` for the GUI if you installed it. Prefix it with `python3 -m` if you have issues.
+2. Run `pip3 install vanilla-installer[gui]`.
+3. Then you can run `vanilla-installer-gui` for the GUI if you installed it. Prefix it with `python3 -m` if you have issues.
 
 [1]: https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest
 [2]: https://discord.gg/fabulously-optimized-859124104644788234
