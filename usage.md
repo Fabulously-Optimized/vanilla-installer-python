@@ -26,7 +26,7 @@ Because of Linux having many different package managers, we've decided to make t
 
 1. Install Python 3.8 or higher (3.11 recommended) from your package manager - for example `sudo apt install python3` or `sudo pacman -S python`
 2. Run `pip3 install vanilla-installer[gui]`.
-3. Then you can run `vanilla-installer-gui` for the GUI if you installed it. Prefix it with `python3 -m` if you have issues.
+3. Then you can run `vanilla-installer-gui` to launch the program. Prefix it with `python3 -m` if you have issues.
 
 [1]: https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest
 [2]: https://discord.gg/fabulously-optimized-859124104644788234
