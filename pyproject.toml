@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vanilla-installer"
-version = "v1.0.0b1"
+version = "v0.1.0"
 description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
