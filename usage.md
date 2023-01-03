@@ -10,6 +10,7 @@ For most users on Windows, we recommend the binary version.
 1. Open the [releases page][1] and download the file with the `.exe` extension. (Example: `Vanilla Installer-GUI v0.1.0.exe`)
 2. If it asks you where to save your file, select your Downloads folder (`C:\Users\username\Downloads`)
 3. Navigate to the Downloads folder and double-click the file you just downloaded.
+   * If you see a Microsoft Defender SmartScreen prompt, click `Run Anyway`.
 4. Select the Minecraft version and directory, and click `Install`.
 5. You're all done!
 
