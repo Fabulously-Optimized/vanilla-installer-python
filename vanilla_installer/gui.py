@@ -7,7 +7,7 @@ import webbrowser
 
 import minecraft_launcher_lib as mll
 from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
-from PySide6.QtGui import QFont, QIcon
+from PySide6.QtGui import QFont, QIcon, QFontDatabase
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication,
@@ -43,8 +43,14 @@ def run() -> None:
             FONT_FILE.write_text("Inter")
     else:
         FONT_FILE.write_text("Inter")
+    try:
+        from . import fonts
+    except:
+        print("resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.")
 
     app = QApplication([])
+    QFontDatabase.addApplicationFont(":Inter-Regular.otf")
+    QFontDatabase.addApplicationFont(":OpenDyslexic-Regular.otf")
     window = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(window)
@@ -71,48 +77,35 @@ class Ui_MainWindow(object):
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        fontSize24 = QFont()
-        fontSize24.setPointSize(24)
         self.title = QLabel(self.centralwidget)
         self.title.setObjectName("title")
-        self.title.setGeometry(QRect(117, 42, 366, 40))
-        self.title.setFont(fontSize24)
+        self.title.setGeometry(QRect(0, 42, 600, 40))
         self.title.setAlignment(Qt.AlignCenter)
         self.subtitle = QLabel(self.centralwidget)
         self.subtitle.setObjectName("subtitle")
         self.subtitle.setGeometry(QRect(0, 100, 600, 30))
-        fontSize15 = QFont()
-        fontSize15.setPointSize(15)
-        self.subtitle.setFont(fontSize15)
         self.subtitle.setAlignment(Qt.AlignCenter)
         self.installButton = QPushButton(self.centralwidget)
         self.installButton.setObjectName("installButton")
         self.installButton.setGeometry(QRect(225, 164, 150, 50))
-        self.installButton.setFont(fontSize15)
         self.installButton.clicked.connect(
             lambda: self.threadpool.start(Worker(self.startInstall))
         )
-        fontSize12 = QFont()
-        fontSize12.setPointSize(12)
         self.versionSelector = QComboBox(self.centralwidget)
         self.versionSelector.setObjectName("versionSelector")
         self.versionSelector.setGeometry(QRect(326, 240, 98, 20))
-        self.versionSelector.setFont(fontSize12)
         self.versionLabel = QLabel(self.centralwidget)
         self.versionLabel.setObjectName("versionLabel")
-        self.versionLabel.setGeometry(QRect(175, 240, 149, 20))
-        self.versionLabel.setFont(fontSize12)
-        self.versionLabel.setAlignment(Qt.AlignCenter)
+        self.versionLabel.setGeometry(QRect(130, 240, 195, 25))
+        self.versionLabel.setAlignment(Qt.AlignLeft)
         self.locationLabel = QLabel(self.centralwidget)
         self.locationLabel.setObjectName("locationLabel")
-        self.locationLabel.setGeometry(QRect(130, 300, 100, 20))
-        self.locationLabel.setFont(fontSize12)
-        self.locationLabel.setAlignment(Qt.AlignCenter)
+        self.locationLabel.setGeometry(QRect(130, 300, 100, 25))
+        self.locationLabel.setAlignment(Qt.AlignLeft)
 
         self.selectedLocation = QTextEdit(self.centralwidget)
         self.selectedLocation.setObjectName("selectedLocation")
         self.selectedLocation.setGeometry(QRect(236, 295, 190, 30))
-        self.selectedLocation.setFont(fontSize12)
         self.selectedLocation.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
         self.selectedLocation.setVerticalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAlwaysOff
@@ -163,22 +156,21 @@ class Ui_MainWindow(object):
 
         self.themeToggle = QPushButton(self.centralwidget)
         self.themeToggle.setObjectName("themeToggle")
-        self.themeToggle.setGeometry(QRect(466, 366, 124, 24))
+        self.themeToggle.setGeometry(QRect(456, 366, 134, 24))
         self.themeToggle.setFlat(True)
         self.themeToggle.clicked.connect(self.toggleTheme)
         self.themeToggleIcon = QSvgWidget(self.themeToggle)
-        self.themeToggleIcon.setGeometry(100, 0, 24, 24)
+        self.themeToggleIcon.setGeometry(110, 0, 24, 24)
 
         self.settingsButton = QPushButton(self.centralwidget)
         self.settingsButton.setObjectName("settingsButton")
-        self.settingsButton.setGeometry(QRect(506, 332, 84, 24))
+        self.settingsButton.setGeometry(QRect(496, 332, 94, 24))
         self.settingsButton.setFlat(True)
         self.settingsButton.clicked.connect(self.openSettings)
         self.settingsButtonIcon = QSvgWidget(
             Ui_MainWindow.getAsset("settings.svg"), self.settingsButton
         )
-
-        self.settingsButtonIcon.setGeometry(60, 0, 24, 24)
+        self.settingsButtonIcon.setGeometry(70, 0, 24, 24)
 
         self.reloadTheme()
 
@@ -230,14 +222,14 @@ class Ui_MainWindow(object):
             f'[objectName^="centralwidget"] {{ background-color: { loaded_theme.get("base")} }}'
         )
         self.title.setStyleSheet(
-            f'color: { loaded_theme.get("text")}; font-family: "{global_font}"'
+            f'color: { loaded_theme.get("text")}; font: 24pt "{global_font}"'
         )
         self.subtitle.setStyleSheet(
-            f'color: { loaded_theme.get("subtitle") }; font-family: "{global_font}"'
+            f'color: { loaded_theme.get("subtitle") }; font: 15pt "{global_font}"'
         )
 
         self.installButton.setStyleSheet(
-            f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font-family: "{global_font}"}}'
+            f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
             f'QPushButton:hover {{ background: {loaded_theme.get("lavender")};}}'
             f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
@@ -264,16 +256,16 @@ class Ui_MainWindow(object):
         )
 
         self.versionLabel.setStyleSheet(
-            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
+            f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
         self.versionSelector.setStyleSheet(
-            f'font-family: "{global_font}"'
+            f'font: 12pt "{global_font}"'
         )
         self.locationLabel.setStyleSheet(
-            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
+            f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
         self.selectedLocation.setStyleSheet(
-            f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}; font-family: "{global_font}"'
+            f'color: {loaded_theme.get("text")}; background-color: {loaded_theme.get("crust")}; font: 12pt "{global_font}"'
         )
         self.themeToggleIcon.load(
             Ui_MainWindow.getAsset("moon.svg" if theme.is_dark() else "sun.svg")
@@ -389,9 +381,6 @@ class SettingsDialog(QDialog):
         for button in self.buttonBox.buttons():
             button.setIcon(QIcon())  # remove the button icons
 
-        fontSize12 = QFont()
-        fontSize12.setPointSize(12)
-
         self.fontDyslexicCheckbox = QCheckBox(self)
         self.fontDyslexicCheckbox.setCheckState(
             Qt.CheckState.Checked
@@ -401,10 +390,7 @@ class SettingsDialog(QDialog):
         self.fontDyslexicCheckbox.stateChanged.connect(self.changeFont)
         self.fontDyslexicCheckbox.setGeometry(QRect(10, 10, 380, 20))
 
-        fontSize8 = QFont()
-        fontSize8.setPointSize(8)
         self.errorLabel = QLabel(self)
-        self.errorLabel.setFont(fontSize8)
         self.errorLabel.setWordWrap(True)
         self.errorLabel.setGeometry(QRect(20, 200, 200, 20))
         self.reloadTheme()
@@ -445,7 +431,7 @@ class SettingsDialog(QDialog):
         )
 
         self.errorLabel.setStyleSheet(
-            f'color: {loaded_theme.get("red")}; font-family: "{global_font}"'
+            f'color: {loaded_theme.get("red")}; font: 8pt "{global_font}"'
         )
 
     def changeFont(self, state) -> None:
