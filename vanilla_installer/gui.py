@@ -43,10 +43,6 @@ def run() -> None:
             FONT_FILE.write_text("Inter Regular")
     else:
         FONT_FILE.write_text("Inter Regular")
-        if read_file == "Inter" or read_file == "OpenDyslexic":
-            global_font = read_file
-        else:
-            FONT_FILE.write_text("Inter")
     try:
         from . import fonts
     except:
