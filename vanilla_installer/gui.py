@@ -43,12 +43,17 @@ def run() -> None:
             FONT_FILE.write_text("Inter Regular")
     else:
         FONT_FILE.write_text("Inter Regular")
+        if read_file == "Inter" or read_file == "OpenDyslexic":
+            global_font = read_file
+        else:
+            FONT_FILE.write_text("Inter")
     try:
         from . import fonts
     except:
         print("resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.")
+
     app = QApplication([])
-    QFontDatabase.addApplicationFont(":Inter Regular-Regular.otf")
+    QFontDatabase.addApplicationFont(":Inter-Regular.otf")
     QFontDatabase.addApplicationFont(":OpenDyslexic-Regular.otf")
     window = QMainWindow()
     ui = Ui_MainWindow()
