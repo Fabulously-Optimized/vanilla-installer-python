@@ -29,7 +29,7 @@ from vanilla_installer import main, theme
 
 # ARGUMENTS
 FONT_FILE = pathlib.Path("data/font.txt").resolve()
-global_font = "Inter"
+global_font = "Inter Regular"
 
 
 def run() -> None:
@@ -37,19 +37,18 @@ def run() -> None:
     global global_font
     if FONT_FILE.exists():
         read_file = FONT_FILE.read_text()
-        if read_file == "Inter" or read_file == "OpenDyslexic":
+        if read_file == "Inter Regular" or read_file == "OpenDyslexic":
             global_font = read_file
         else:
-            FONT_FILE.write_text("Inter")
+            FONT_FILE.write_text("Inter Regular")
     else:
-        FONT_FILE.write_text("Inter")
+        FONT_FILE.write_text("Inter Regular")
     try:
         from . import fonts
     except:
         print("resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.")
-
     app = QApplication([])
-    QFontDatabase.addApplicationFont(":Inter-Regular.otf")
+    QFontDatabase.addApplicationFont(":Inter Regular-Regular.otf")
     QFontDatabase.addApplicationFont(":OpenDyslexic-Regular.otf")
     window = QMainWindow()
     ui = Ui_MainWindow()
@@ -437,8 +436,8 @@ class SettingsDialog(QDialog):
     def changeFont(self, state) -> None:
         global global_font
         if state == 0:
-            FONT_FILE.write_text("Inter")
-            global_font = "Inter"
+            FONT_FILE.write_text("Inter Regular")
+            global_font = "Inter Regular"
         elif state == 2:
             FONT_FILE.write_text("OpenDyslexic")
             global_font = "OpenDyslexic"
