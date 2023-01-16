@@ -4,6 +4,7 @@
 # IMPORTS
 import pathlib
 import webbrowser
+import sys
 
 import minecraft_launcher_lib as mll
 from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
@@ -29,20 +30,15 @@ from vanilla_installer import main, theme
 
 # ARGUMENTS
 FONT_FILE = pathlib.Path("data/font.txt").resolve()
-global_font = "Inter Regular"
 
 
 def run() -> None:
     """Runs the GUI."""
     global global_font
     if FONT_FILE.exists():
-        read_file = FONT_FILE.read_text()
-        if read_file == "Inter Regular" or read_file == "OpenDyslexic":
-            global_font = read_file
-        else:
-            FONT_FILE.write_text("Inter Regular")
+        setFont(FONT_FILE.read_text() == "OpenDyslexic")
     else:
-        FONT_FILE.write_text("Inter Regular")
+        setFont(False)
     try:
         from . import fonts
     except:
@@ -60,6 +56,21 @@ def run() -> None:
     app.exec()
 
 
+def setFont(opendyslexic: bool):
+    global global_font 
+    if opendyslexic:
+        global_font = "OpenDyslexic"
+    else:
+        # For some reason the Inter font on Linux is called `Inter` and on Windows it's called `Inter Regular`
+        # And thus, this janky solution
+        # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
+        # Either ways it would be a better idea to move to a font that doesn't have this issue
+        inter_name = "Inter"
+        if sys.platform.startswith("win32"):
+            inter_name = "Inter Regular"
+        global_font = inter_name
+    FONT_FILE.write_text(global_font)
+        
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow: QMainWindow) -> None:
         """Setup the PySide6 (aka Qt) UI.
@@ -435,13 +446,12 @@ class SettingsDialog(QDialog):
         )
 
     def changeFont(self, state) -> None:
-        global global_font
-        if state == 0:
-            FONT_FILE.write_text("Inter Regular")
-            global_font = "Inter Regular"
-        elif state == 2:
-            FONT_FILE.write_text("OpenDyslexic")
-            global_font = "OpenDyslexic"
+        """Toggle font between OpenDyslexic and Inter
+
+        Args:
+            state: int, 2 implies a checked state and 0 would mean unchecked
+        """
+        setFont(state == 2)
         self.reloadTheme()
         self.parentWindow.reloadTheme()
 
