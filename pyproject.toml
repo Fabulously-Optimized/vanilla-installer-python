@@ -39,7 +39,7 @@ flake8 = "^6.0.0"
 nuitka = {version = "^1.2.7", python = "<=3.10"}
 ordered-set = "^4.1.0"
 zstandard = "^0.19.0"
-imageio = "^2.22.4"
+imageio = "^2.24.0"
 
 [tool.poetry.scripts]
 vanilla-installer = {callable = "vanilla_installer:cli.vanilla_installer"}
