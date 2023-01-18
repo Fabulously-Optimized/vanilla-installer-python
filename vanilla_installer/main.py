@@ -10,8 +10,9 @@ import base64
 import io
 import json
 import os
+import platform
+import shutil
 import subprocess
-import sys
 import zipfile
 from pathlib import Path
 from time import sleep
@@ -21,19 +22,72 @@ import click
 import minecraft_launcher_lib as mll
 import requests
 
-if sys.version.startswith("3.11"):
+if platform.python_version().startswith("3.11") or platform.python_version().startswith(
+    "3.12"
+):
     import tomllib as toml
 else:
     import tomli as toml
 
 # Local
-from vanilla_installer import log
+from vanilla_installer import __version__, log
 
 logger = log.logger
 
 PATH_FILE = str(Path("data/mc-path.txt").resolve())
 TOKEN_FILE = str(Path("data/gh-token.txt").resolve())
 FOLDER_LOC = ""
+
+# This code is taken from minecraft-launcher-lib and modified to get javaw.exe on windows instead of java.exe.
+# This function is therefore licensed under the BSD 2-Clause License.
+# BSD 2-Clause License
+
+# Copyright (c) 2019-2023, JakobDev
+# All rights reserved.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+
+# * Redistributions of source code must retain the above copyright notice, this
+#  list of conditions and the following disclaimer.
+
+# * Redistributions in binary form must reproduce the above copyright notice,
+#  this list of conditions and the following disclaimer in the documentation
+#  and/or other materials provided with the distribution.
+
+
+def get_java_executable() -> str:
+    """
+    Tries the find out the path to the default java executable.
+    Licensed under the BSD-2-Clause license, as this is taken from Minecraft Launcher Lib.
+    The original source code can be found at https://gitlab.com/JakobDev/minecraft-launcher-lib
+    """
+    if platform.system() == "Windows":
+        if os.getenv("JAVA_HOME"):
+            return os.path.join(os.getenv("JAVA_HOME"), "bin", "javaw.exe")
+        elif os.path.isfile(
+            r"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\javaw.exe"
+        ):
+            return r"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\javaw.exe"
+        else:
+            return shutil.which("javaw") or "java"
+    elif os.getenv("JAVA_HOME"):
+        return os.path.join(os.getenv("JAVA_HOME"), "bin", "java")
+    elif platform.system() == "Darwin":
+        return shutil.which("java") or "java"
+    else:
+        if os.path.islink("/etc/alternatives/java"):
+            return os.readlink("/etc/alternatives/java")
+        elif os.path.islink("/usr/lib/jvm/default-runtime"):
+            return os.path.join(
+                "/usr",
+                "lib",
+                "jvm",
+                os.readlink("/usr/lib/jvm/default-runtime"),
+                "bin",
+                "java",
+            )
+        else:
+            return shutil.which("java") or "java"
 
 
 def set_dir(path: str) -> str | None:
@@ -60,7 +114,7 @@ def get_dir() -> str:
 
     try:
         path = open(PATH_FILE, encoding="utf-8").read()
-    except FileNotFoundError: # this should be the only caught error according to logs
+    except FileNotFoundError:  # this should be the only caught error according to logs
         logger.exception("No mc_path.txt found. Calling set_dir.")
         default_dir = str(
             mll.utils.get_minecraft_directory()
@@ -118,16 +172,16 @@ def newest_version() -> str:
     return get_pack_mc_versions()[0]
 
 
-def find_mc_java(java_ver: int = 17.3) -> str:
+def find_mc_java(java_ver: float = 17.3) -> str:
     """Gets the path to the Java executable downloaded from the vanilla launcher.
 
     Args:
-        java_ver (int, optional): The Java version to find. Can be 8, 16, 17.1, or 17.3 Defaults to 17.3 and falls back to it if the integer is invalid.
+        java_ver (float, optional): The Java version to find. Can be 8, 16, 17.1, or 17.3 Defaults to 17.3 and falls back to it if the integer is invalid.
 
     Returns:
         str: The complete path to the Java executable.
     """
-    if sys.platform.startswith("win32"):
+    if platform.system() == "Windows":
         program_files = os.environ["PROGRAMFILES(X86)"]
         if java_ver == 8:
             java = str(
@@ -153,7 +207,7 @@ def find_mc_java(java_ver: int = 17.3) -> str:
                     f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
                 )
             )
-    elif sys.platform.startswith("linux"):
+    elif platform.system() == "Linux":
         if java_ver == 8:
             java = str(
                 Path(
@@ -178,7 +232,7 @@ def find_mc_java(java_ver: int = 17.3) -> str:
                     f"~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
                 ).resolve()
             )
-    elif sys.platform.startswith("darwin"):  # all of this may or may not work
+    elif platform.system("Mac"):  # all of this may or may not work
         if java_ver == 8:
             java = str(
                 Path(
@@ -207,20 +261,19 @@ def find_mc_java(java_ver: int = 17.3) -> str:
     return java
 
 
-def get_java(java_ver: int = 17.3) -> str:
+def get_java(java_ver: float = 17.3) -> str:
     """Gets the path to a Java executable.
     If the user doesn't have a JRE/JDK installed on the system, it will default to the Microsoft
     OpenJDK build that the vanilla launcher installs when you run Minecraft.
 
     Args:
-        java_ver (int, optional): The Java version to find. Can be 8, 16, 17.1 (Java 17.0.1) or 17.3 (Java 17.0.3). Defaults to 17.3, and falls back to 17.3 if the integer is invalid.
+        java_ver (float, optional): The Java version to find. Can be 8, 16, 17.1 (Java 17.0.1) or 17.3 (Java 17.0.3). Defaults to 17.3, and falls back to 17.3 if the integer is invalid.
 
     Returns:
         str: The complete path to the Java executable.
     """
-    try:
-        java = mll.utils.get_java_executable()
-    except Exception:  # not sure the error that is thrown when shutil can't find java on the path (in the case of a JDK not being installed outside of MC)
+    java = get_java_executable()
+    if java is None or java == "":
         java = find_mc_java(java_ver)
     return java
 
@@ -252,7 +305,6 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 
 def get_version() -> str:
-    __version__ = "v0.1.0"
     return __version__
 
 
@@ -358,7 +410,7 @@ def install_pack(
     mc_dir: str,
     widget=None,
     interface: str = "GUI",
-    java_ver: int = 17.3,
+    java_ver: float = 17.3,
 ) -> None:
     """Installs Fabulously Optimized.
 
@@ -369,6 +421,7 @@ def install_pack(
         widget (optional): The widget to update. Defaults to None.
         interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
     """
+    logger.debug("Installing the pack now.")
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
@@ -376,15 +429,19 @@ def install_pack(
         ran = command(
             f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
         )
+        logger.info(
+            f"Completed installing Fabulously Optimized for Minecraft {mc_version}"
+        )
         text_update(
-            f"Installed Fabulously Optimized for MC {mc_version}.",
+            f"Installed Fabulously Optimized for Minecraft {mc_version}.",
             widget,
             "success",
             interface=interface,
         )
-    except Exception:
+    except Exception as e:
+        logger.exception(f"Could not install Fabulously Optimized: {e}")
         text_update(
-            f"Could not install Fabulously Optimized: {ran}",
+            f"Could not install Fabulously Optimized: {e}",
             widget,
             "error",
             interface=interface,
@@ -395,10 +452,12 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     """Creates a profile in the vanilla launcher.
 
     Args:
-        mc_dir (str): The path to the **default** Minecraft directory.
+        mc_dir (str): The path to the Minecraft directory.
         version_id (str): The version of Minecraft to create a profile for.
     """
-    launcher_profiles_path = Path(mc_dir) / "launcher_profiles.json"
+    launcher_profiles_path = (
+        Path(mll.utils.get_minecraft_directory()) / "launcher_profiles.json"
+    )
 
     try:
         profiles = json.loads(launcher_profiles_path.read_bytes())
@@ -429,10 +488,10 @@ def get_pack_mc_versions() -> dict:
                 "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
             ).json()
         except requests.exceptions.RequestException or response.status_code != "200":
-            # This should never happen unless a) there's no internet connection or b) the file was deleted or is missing in a development case.
+            # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.
             # In this case, fall back to a local file since in the latter you'll likely have the whole repo cloned.
             # For this to work, you need to be in the root directory of the repository running this, otherwise the files will not be found.
-            logger.exception("GitHub failed, falling back to local...")
+            logger.warning("GitHub failed, falling back to local...")
             local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
             response = json.loads(local_path.read_bytes())
 
@@ -462,7 +521,7 @@ def convert_version(input_mcver: str) -> str:
 def run(
     mc_dir: str = mll.utils.get_minecraft_directory(),
     version: str = None,
-    java_ver: int = 17.3,
+    java_ver: float = 17.3,
     interface: str = "GUI",
     widget=None,
 ) -> None:
@@ -475,25 +534,29 @@ def run(
         version (str, optional): The version to install. Defaults to the newest version
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
+    logger.debug("Install function called, setting given directory.")
     set_dir(mc_dir)
 
     if not Path(mc_dir).resolve().exists():
+        logger.warning("Given path did not exist; creating.")
         Path(mc_dir).resolve().mkdir()
 
     if version is None:
         # the default version is set here instead of an argument because it slows down the startup
         # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
+        logger.warning("Version was not passed, defaulting to the latest version.")
         version = newest_version()
+    logger.info("Calling install_fabric to install Fabric.")
     text_update("Installing Fabric...", widget=widget, interface=interface)
     fabric_version = install_fabric(version, mc_dir)
-
+    logger.debug("Downloading FO - calling download_pack.")
     text_update(
         "Starting the Fabulously Optimized download...",
         widget=widget,
         interface=interface,
     )
     packwiz_bootstrap = download_pack(widget=widget, interface=interface)
-
+    logger.info("Installing FO, Packwiz will run.")
     text_update(
         "Installing Fabulously Optimized...", widget=widget, interface=interface
     )
@@ -503,9 +566,11 @@ def run(
         mc_dir=mc_dir,
         java_ver=java_ver,
     )
+    logger.info("Setting the profile.")
     text_update("Setting profiles...", widget=widget, interface=interface)
     create_profile(mc_dir, fabric_version)
     text_update("Complete!", widget=widget, interface=interface)
+    logger.info("Success!")
     if interface == "GUI":
         sleep(3.5)
         text_update("Vanilla Installer", widget=widget)
