@@ -37,57 +37,6 @@ logger = log.logger
 PATH_FILE = str(Path("data/mc-path.txt").resolve())
 FOLDER_LOC = ""
 
-# This code is taken from minecraft-launcher-lib and modified to get javaw.exe on windows instead of java.exe.
-# This function is therefore licensed under the BSD 2-Clause License.
-# BSD 2-Clause License
-
-# Copyright (c) 2019-2023, JakobDev
-# All rights reserved.
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-
-# * Redistributions of source code must retain the above copyright notice, this
-#  list of conditions and the following disclaimer.
-
-# * Redistributions in binary form must reproduce the above copyright notice,
-#  this list of conditions and the following disclaimer in the documentation
-#  and/or other materials provided with the distribution.
-
-
-def get_java_executable() -> str:
-    """
-    Tries the find out the path to the default java executable.
-    Licensed under the BSD-2-Clause license, as this is taken from Minecraft Launcher Lib.
-    The original source code can be found at https://gitlab.com/JakobDev/minecraft-launcher-lib
-    """
-    if platform.system() == "Windows":
-        if os.getenv("JAVA_HOME"):
-            return os.path.join(os.getenv("JAVA_HOME"), "bin", "javaw.exe")
-        elif os.path.isfile(
-            r"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\javaw.exe"
-        ):
-            return r"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\javaw.exe"
-        else:
-            return shutil.which("javaw") or "java"
-    elif os.getenv("JAVA_HOME"):
-        return os.path.join(os.getenv("JAVA_HOME"), "bin", "java")
-    elif platform.system() == "Darwin":
-        return shutil.which("java") or "java"
-    else:
-        if os.path.islink("/etc/alternatives/java"):
-            return os.readlink("/etc/alternatives/java")
-        elif os.path.islink("/usr/lib/jvm/default-runtime"):
-            return os.path.join(
-                "/usr",
-                "lib",
-                "jvm",
-                os.readlink("/usr/lib/jvm/default-runtime"),
-                "bin",
-                "java",
-            )
-        else:
-            return shutil.which("java") or "java"
-
 
 def set_dir(path: str) -> str | None:
     """Sets the Minecraft game directory.
@@ -230,7 +179,7 @@ def get_java(java_ver: float = 17.3) -> str:
     Returns:
         str: The complete path to the Java executable.
     """
-    java = get_java_executable()
+    java = mll.utils.get_java_executable()
     if java is None or java == "":
         java = find_mc_java(java_ver)
     return java
