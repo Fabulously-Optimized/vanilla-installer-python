@@ -9,6 +9,9 @@ disticon.png
 *.whl
 cx_Logging-doc/
 
+# Configuration
+vanilla_installer.toml
+
 # Editors
 .vscode/launch.json
 

@@ -4,40 +4,27 @@
 Theme & design of the PySide6 GUI.
 """
 
-import os
 import pathlib
-
-import darkdetect
+from vanilla_installer import config
+from vanilla_installer.log import logger
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 
 
-def init():
-    """Checks if the theme file exists and creates it if not.
-    Also checks the theme of the OS and edits the file accordingly.
-    """
-    if not os.path.exists("data/"):
-        os.mkdir("data/")
-
-    if not os.path.exists(FILE):
-        with open(FILE, "w", encoding="utf-8") as file:
-            file.write("dark" if darkdetect.isDark() is True else "light")
-
-
-def is_dark(to_dark: bool = None) -> bool:
+def is_dark(to_dark: bool = None) -> str:
     """Change or get the status of dark mode.
 
     Args:
         to_dark (bool, optional): Status. Defaults to None (just get status, without editing it).
 
     Returns:
-        bool: theme
+        str: The theme.
     """
     if to_dark is False:
-        return open(FILE, "w", encoding="utf-8").write("light")
+        return config.write("theme", "light")
     if to_dark is True:
-        return open(FILE, "w", encoding="utf-8").write("dark")
-    return open(FILE, encoding="utf-8").read() == "dark"
+        return config.write("theme", "dark")
+    return config.read["config"]["font"]
 
 
 # colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin
@@ -88,8 +75,7 @@ def toggle() -> None:
     is_dark(to_dark=not is_dark())
 
 
-init()
-
 if __name__ == "__main__":
-    print("Dark Mode?", is_dark())
-    print("Theme dictionary:", load())
+    logger.debug("theme module being initialized.")
+    logger.debug("Dark Mode?", is_dark())
+    logger.debug("Theme dictionary:", load())

@@ -3,15 +3,17 @@
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
 import pathlib
-import webbrowser
+import platform
 import sys
+import webbrowser
 
 import minecraft_launcher_lib as mll
 from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
-from PySide6.QtGui import QFont, QIcon, QFontDatabase
+from PySide6.QtGui import QFontDatabase, QIcon
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication,
+    QCheckBox,
     QComboBox,
     QDialog,
     QDialogButtonBox,
@@ -22,11 +24,11 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTextEdit,
     QWidget,
-    QCheckBox,
 )
 
 # LOCAL
-from vanilla_installer import main, theme
+from vanilla_installer import config, main, theme
+from vanilla_installer.log import logger
 
 # ARGUMENTS
 FONT_FILE = pathlib.Path("data/font.txt").resolve()
@@ -35,16 +37,18 @@ FONT_FILE = pathlib.Path("data/font.txt").resolve()
 def run() -> None:
     """Runs the GUI."""
     global global_font
-    if FONT_FILE.exists():
-        setFont(FONT_FILE.read_text() == "OpenDyslexic")
+    if config.read()[config]["font"]:
+        setFont(config.read()[config]["font"] == "OpenDyslexic")
     else:
         setFont(False)
     try:
-        from . import fonts
+        from vanilla_installer import fonts
     except:
-        print("resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.")
+        logger.exception(
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv."
+        )
 
-    app = QApplication([])
+    app = QApplication(sys.argv)
     QFontDatabase.addApplicationFont(":Inter-Regular.otf")
     QFontDatabase.addApplicationFont(":OpenDyslexic-Regular.otf")
     window = QMainWindow()
@@ -56,8 +60,8 @@ def run() -> None:
     app.exec()
 
 
-def setFont(opendyslexic: bool):
-    global global_font 
+def setFont(opendyslexic: bool = False):
+    global global_font
     if opendyslexic:
         global_font = "OpenDyslexic"
     else:
@@ -66,11 +70,12 @@ def setFont(opendyslexic: bool):
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
         # Either ways it would be a better idea to move to a font that doesn't have this issue
         inter_name = "Inter"
-        if sys.platform.startswith("win32"):
+        if platform.system("Windows"):
             inter_name = "Inter Regular"
         global_font = inter_name
-    FONT_FILE.write_text(global_font)
-        
+    config.write("font", global_font)
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow: QMainWindow) -> None:
         """Setup the PySide6 (aka Qt) UI.
@@ -269,9 +274,7 @@ class Ui_MainWindow(object):
         self.versionLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
-        self.versionSelector.setStyleSheet(
-            f'font: 12pt "{global_font}"'
-        )
+        self.versionSelector.setStyleSheet(f'font: 12pt "{global_font}"')
         self.locationLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )

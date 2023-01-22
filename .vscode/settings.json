@@ -16,15 +16,5 @@
     },
     "hide-files.files": [
         "vanilla_installer/__pycache__"
-    ],
-    "cSpell.words": [
-        "authdata",
-        "modpack",
-        "nobackslash"
-    ]// ,
-    // "python.testing.pytestArgs": [
-    //    "."
-    // ],
-    // "python.testing.unittestEnabled": false,
-    // "python.testing.pytestEnabled": true .
+    ]
 }
