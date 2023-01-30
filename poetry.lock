@@ -503,13 +503,13 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "1.4"
+version = "1.4.1"
 description = "Python compiler with full language support and CPython compatibility"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "Nuitka-1.4.tar.gz", hash = "sha256:9016acd8a9311f830be90c162d517c1d890fa95b2670a9d6b3c64114be7cbe17"},
+    {file = "Nuitka-1.4.1.tar.gz", hash = "sha256:38573f0604ac5bb460ac67af54be8ec3cfab4639303002eb6b3f2a923e701367"},
 ]
 
 [[package]]
