@@ -24,7 +24,8 @@ def is_dark(to_dark: bool = None) -> str:
         return config.write("theme", "light")
     if to_dark is True:
         return config.write("theme", "dark")
-    return config.read["config"]["font"]
+    output = config.read()
+    return output["config"]["theme"]
 
 
 # colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin

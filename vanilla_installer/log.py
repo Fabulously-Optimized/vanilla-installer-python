@@ -17,8 +17,8 @@ try:
     )
 except FileNotFoundError:
     print("WARNING | Log file not found, creating...")
-    pathlib.Path("../logs").mkdir(exist_ok=True)
-    with pathlib.Path("../logs").resolve() / "vanilla_installer.log" as file:
+    pathlib.Path("./logs").mkdir(exist_ok=True)
+    with pathlib.Path("./logs").resolve() / "vanilla_installer.log" as file:
         open(file, "x", encoding="utf-8").write("")
     handler = logging.handlers.RotatingFileHandler(
         filename=logfile_path,

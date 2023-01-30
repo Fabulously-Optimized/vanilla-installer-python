@@ -37,8 +37,8 @@ FONT_FILE = pathlib.Path("data/font.txt").resolve()
 def run() -> None:
     """Runs the GUI."""
     global global_font
-    if config.read()[config]["font"]:
-        setFont(config.read()[config]["font"] == "OpenDyslexic")
+    if config.read()["config"]["font"]:
+        setFont(config.read()["config"]["font"] == "OpenDyslexic")
     else:
         setFont(False)
     try:
@@ -70,7 +70,7 @@ def setFont(opendyslexic: bool = False):
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
         # Either ways it would be a better idea to move to a font that doesn't have this issue
         inter_name = "Inter"
-        if platform.system("Windows"):
+        if platform.system() == "Windows":
             inter_name = "Inter Regular"
         global_font = inter_name
     config.write("font", global_font)
