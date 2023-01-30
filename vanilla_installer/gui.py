@@ -3,15 +3,17 @@
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
 import pathlib
-import webbrowser
 import sys
+import webbrowser
+from time import sleep
 
 import minecraft_launcher_lib as mll
 from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
-from PySide6.QtGui import QFont, QIcon, QFontDatabase
+from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication,
+    QCheckBox,
     QComboBox,
     QDialog,
     QDialogButtonBox,
@@ -22,7 +24,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTextEdit,
     QWidget,
-    QCheckBox,
 )
 
 # LOCAL
@@ -42,7 +43,9 @@ def run() -> None:
     try:
         from . import fonts
     except:
-        print("resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.")
+        print(
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv."
+        )
 
     app = QApplication([])
     QFontDatabase.addApplicationFont(":Inter-Regular.otf")
@@ -57,7 +60,7 @@ def run() -> None:
 
 
 def setFont(opendyslexic: bool):
-    global global_font 
+    global global_font
     if opendyslexic:
         global_font = "OpenDyslexic"
     else:
@@ -70,7 +73,8 @@ def setFont(opendyslexic: bool):
             inter_name = "Inter Regular"
         global_font = inter_name
     FONT_FILE.write_text(global_font)
-        
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow: QMainWindow) -> None:
         """Setup the PySide6 (aka Qt) UI.
@@ -269,9 +273,7 @@ class Ui_MainWindow(object):
         self.versionLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
-        self.versionSelector.setStyleSheet(
-            f'font: 12pt "{global_font}"'
-        )
+        self.versionSelector.setStyleSheet(f'font: 12pt "{global_font}"')
         self.locationLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
@@ -345,9 +347,14 @@ class Ui_MainWindow(object):
 
     def startInstall(self) -> None:
         """Start the installation process."""
+        loaded_theme = theme.load()
         # make sure the installation process is only running once
         if self.installing is True:
             return
+        self.installButton.setDisabled(True)
+        self.installButton.setStyleSheet(
+            f'QPushButton {{ border: none; background: {loaded_theme.get("installbuttonpressed")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+        )
         version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
         self.installing = True
@@ -357,8 +364,14 @@ class Ui_MainWindow(object):
             java_ver = 16
         else:
             java_ver = 17.3
-        main.run(location, version, java_ver, widget=self.subtitle)
+        main.run(location, version, java_ver, "GUI", self.subtitle)
         self.installing = False
+        self.installButton.setDisabled(False)
+        self.installButton.setStyleSheet(
+            f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+        )
+        sleep(3.5)
+        main.text_update("Vanilla Installer", self.subtitle)
 
 
 class SettingsDialog(QDialog):

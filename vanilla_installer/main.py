@@ -70,6 +70,7 @@ def get_dir() -> str:
         path = set_dir(default_dir)
     return path
 
+
 def newest_version() -> str:
     """Returns the latest version of Minecraft that FO supports.
 
@@ -478,6 +479,3 @@ def run(
     create_profile(mc_dir, fabric_version)
     text_update("Complete!", widget=widget, interface=interface)
     logger.info("Success!")
-    if interface == "GUI":
-        sleep(3.5)
-        text_update("Vanilla Installer", widget=widget)
