@@ -238,7 +238,6 @@ def command(text: str) -> str:
     """
     command_output = subprocess.check_output(text.split()).decode("utf-8")
     output = logger.debug(command_output)
-    text_update(output, mode="fg")
     return output
 
 

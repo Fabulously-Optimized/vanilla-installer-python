@@ -324,10 +324,10 @@ class Ui_MainWindow(object):
         self.reloadTheme()
 
     def selectDirectory(self, parent) -> None:
-        """Select a directory
+        """Select a directory.
 
         Args:
-            parent (str): The parent directory.
+            parent (str): The parent window.
         """
         dialog = QFileDialog(
             parent,
@@ -337,6 +337,7 @@ class Ui_MainWindow(object):
         current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
             current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute()
+        config.write("path", str(current_path))
         dialog.setDirectory(str(current_path))
         if dialog.exec():
             self.selectedLocation.setText(dialog.selectedFiles()[0])
@@ -449,7 +450,7 @@ class SettingsDialog(QDialog):
         )
 
     def changeFont(self, state) -> None:
-        """Toggle font between OpenDyslexic and Inter
+        """Toggle font between OpenDyslexic and Inter.
 
         Args:
             state: int, 2 implies a checked state and 0 would mean unchecked
