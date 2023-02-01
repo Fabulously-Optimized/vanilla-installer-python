@@ -25,13 +25,11 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QWidget,
 )
-
+import platform
 # LOCAL
 from vanilla_installer import config, main, theme
 from vanilla_installer.log import logger
 
-# ARGUMENTS
-FONT_FILE = pathlib.Path("data/font.txt").resolve()
 
 
 def run() -> None:

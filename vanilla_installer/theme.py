@@ -68,12 +68,12 @@ def load() -> dict:
     Returns:
         dict: The colors palette.
     """
-    return dark_theme if is_dark("dark") else light_theme
+    return dark_theme if is_dark() == "dark" else light_theme
 
 
 def toggle() -> None:
     """Switches between dark and light theme."""
-    is_dark(is_dark() == "dark")
+    is_dark(is_dark() != "dark")
 
 
 if __name__ == "__main__":
