@@ -1,4 +1,4 @@
-<!--markdownlint-ignore-->
+<!-- markdownlint-ignore -->
 # Template
 
 This page serves as a template for new changelogs.
