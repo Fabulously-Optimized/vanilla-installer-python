@@ -7,11 +7,14 @@ Theme & design of the PySide6 GUI.
 import pathlib
 from vanilla_installer import config
 from vanilla_installer.log import logger
+from typing import Optional
+
+import darkdetect
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 
 
-def is_dark(to_dark: bool = None) -> str:
+def is_dark(to_dark: Optional[bool] = None) -> str:
     """Change or get the status of dark mode.
 
     Args:
@@ -20,6 +23,13 @@ def is_dark(to_dark: bool = None) -> str:
     Returns:
         str: The theme.
     """
+    try:
+        config.read()["config"]["theme"]
+    except KeyError:
+        if darkdetect.isDark() is True:
+            return config.write("theme", "dark")
+        else:
+            return config.write("theme", "light")
     if to_dark is False:
         return config.write("theme", "light")
     if to_dark is True:
