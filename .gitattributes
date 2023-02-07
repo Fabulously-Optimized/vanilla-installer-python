@@ -6,4 +6,5 @@
 *.sh eol=lf
 *.pyc binary
 
+.vscode/*.json linguist-language=jsonc
 *.all-contributorsrc linguist-language=json

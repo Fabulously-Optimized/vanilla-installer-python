@@ -19,35 +19,24 @@ from typing import Optional
 import click
 import minecraft_launcher_lib as mll
 import requests
-
-if platform.python_version().startswith("3.11") or platform.python_version().startswith(
-    "3.12"
-):
-    import tomllib as toml
-else:
-    import tomli as toml
+import tomlkit as toml
 
 # Local
-from vanilla_installer import __version__, log
+from vanilla_installer import __version__, config, log
 
 logger = log.logger
 
-PATH_FILE = str(Path("data/mc-path.txt").resolve())
 FOLDER_LOC = ""
 
 
-def set_dir(path: str) -> str | None:
+def set_dir(path: str = mll.utils.get_minecraft_directory()) -> str | None:
     """Sets the Minecraft game directory.
 
     Args:
         path (str): The path to the Minecraft game directory.
     """
     path_pl = Path(path).resolve()
-    if path is not None and path != "":
-        with open(PATH_FILE, "w", encoding="utf-8") as file:
-            file.write(str(path_pl))
-    else:
-        path_pl = Path(mll.utils.get_minecraft_directory()).resolve()
+    config.write("path", str(path_pl))
     return str(path_pl)
 
 
@@ -58,15 +47,9 @@ def get_dir() -> str:
         str: Path
     """
 
-    try:
-        path = open(PATH_FILE, encoding="utf-8").read()
-    except FileNotFoundError:  # this should be the only caught error according to logs
-        logger.exception("No mc_path.txt found. Calling set_dir.")
-        default_dir = str(
-            mll.utils.get_minecraft_directory()
-        )  # Without this, it gives an error every time
-        path = set_dir(default_dir)
-    return path
+    path = config.read()
+    return path["config"]["path"]
+
 
 
 def newest_version() -> str:
@@ -256,7 +239,6 @@ def command(text: str) -> str:
     """
     command_output = subprocess.check_output(text.split()).decode("utf-8")
     output = logger.debug(command_output)
-    text_update(output, mode="fg")
     return output
 
 

@@ -25,29 +25,28 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QWidget,
 )
-
+import platform
 # LOCAL
-from vanilla_installer import main, theme
+from vanilla_installer import config, main, theme
+from vanilla_installer.log import logger
 
-# ARGUMENTS
-FONT_FILE = pathlib.Path("data/font.txt").resolve()
 
 
 def run() -> None:
     """Runs the GUI."""
     global global_font
-    if FONT_FILE.exists():
-        setFont(FONT_FILE.read_text() == "OpenDyslexic")
+    if config.read()["config"]["font"]:
+        setFont(config.read()["config"]["font"] == "OpenDyslexic")
     else:
         setFont(False)
     try:
-        from . import fonts
+        from vanilla_installer import fonts
     except:
-        print(
-            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv."
+        logger.exception(
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
         )
 
-    app = QApplication([])
+    app = QApplication(sys.argv)
     QFontDatabase.addApplicationFont(":Inter-Regular.otf")
     QFontDatabase.addApplicationFont(":OpenDyslexic-Regular.otf")
     window = QMainWindow()
@@ -69,10 +68,10 @@ def setFont(opendyslexic: bool):
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
         # Either ways it would be a better idea to move to a font that doesn't have this issue
         inter_name = "Inter"
-        if sys.platform.startswith("win32"):
+        if platform.system() == "Windows":
             inter_name = "Inter Regular"
         global_font = inter_name
-    FONT_FILE.write_text(global_font)
+    config.write("font", global_font)
 
 
 class Ui_MainWindow(object):
@@ -323,11 +322,12 @@ class Ui_MainWindow(object):
         self.reloadTheme()
 
     def selectDirectory(self, parent) -> None:
-        """Select a directory
+        """Select a directory.
 
         Args:
-            parent (str): The parent directory.
+            parent (str): The parent window.
         """
+        print("creating dialog")
         dialog = QFileDialog(
             parent,
             QCoreApplication.translate("MainWindow", "Select .minecraft folder", None),
@@ -335,10 +335,12 @@ class Ui_MainWindow(object):
         dialog.setFileMode(QFileDialog.FileMode.Directory)
         current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
-            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute()
+            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute().mkdir()
         dialog.setDirectory(str(current_path))
+        config.write("path", str(current_path))
         if dialog.exec():
             self.selectedLocation.setText(dialog.selectedFiles()[0])
+            config.write("path", dialog.selectedFiles()[0])
 
     def openSettings(self) -> None:
         """Open the settings."""
@@ -459,7 +461,7 @@ class SettingsDialog(QDialog):
         )
 
     def changeFont(self, state) -> None:
-        """Toggle font between OpenDyslexic and Inter
+        """Toggle font between OpenDyslexic and Inter.
 
         Args:
             state: int, 2 implies a checked state and 0 would mean unchecked

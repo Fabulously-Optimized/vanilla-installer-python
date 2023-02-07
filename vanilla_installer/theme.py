@@ -4,8 +4,9 @@
 Theme & design of the PySide6 GUI.
 """
 
-import os
 import pathlib
+from vanilla_installer import config
+from vanilla_installer.log import logger
 from typing import Optional
 
 import darkdetect
@@ -13,32 +14,28 @@ import darkdetect
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 
 
-def init():
-    """Checks if the theme file exists and creates it if not.
-    Also checks the theme of the OS and edits the file accordingly.
-    """
-    if not os.path.exists("data/"):
-        os.mkdir("data/")
-
-    if not os.path.exists(FILE):
-        with open(FILE, "w", encoding="utf-8") as file:
-            file.write("dark" if darkdetect.isDark() is True else "light")
-
-
-def is_dark(to_dark: Optional[bool] = None) -> bool:
+def is_dark(to_dark: Optional[bool] = None) -> str:
     """Change or get the status of dark mode.
 
     Args:
         to_dark (bool, optional): Status. Defaults to None (just get status, without editing it).
 
     Returns:
-        bool: theme
+        str: The theme.
     """
+    try:
+        config.read()["config"]["theme"]
+    except KeyError:
+        if darkdetect.isDark() is True:
+            return config.write("theme", "dark")
+        else:
+            return config.write("theme", "light")
     if to_dark is False:
-        return open(FILE, "w", encoding="utf-8").write("light")
+        return config.write("theme", "light")
     if to_dark is True:
-        return open(FILE, "w", encoding="utf-8").write("dark")
-    return open(FILE, encoding="utf-8").read() == "dark"
+        return config.write("theme", "dark")
+    output = config.read()
+    return output["config"]["theme"]
 
 
 # colors from catppuccin latte and mocha https://github.com/catppuccin/catppuccin
@@ -81,16 +78,15 @@ def load() -> dict:
     Returns:
         dict: The colors palette.
     """
-    return dark_theme if is_dark() else light_theme
+    return dark_theme if is_dark() == "dark" else light_theme
 
 
 def toggle() -> None:
     """Switches between dark and light theme."""
-    is_dark(to_dark=not is_dark())
+    is_dark(is_dark() != "dark")
 
-
-init()
 
 if __name__ == "__main__":
-    print("Dark Mode?", is_dark())
-    print("Theme dictionary:", load())
+    logger.debug("theme module being initialized.")
+    logger.debug("Dark Mode?", is_dark())
+    logger.debug("Theme dictionary:", load())
