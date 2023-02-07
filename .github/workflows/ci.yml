@@ -77,7 +77,7 @@ jobs:
         
       - name: Get normalized branch name
         run: |
-          RAW_BRANCH=${{ github.ref_name | github.head_ref }}
+          RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV          
       - name: Upload built wheels
@@ -117,7 +117,7 @@ jobs:
           py7zrversion: ==0.20.*
       - name: Get normalized branch name
         run: |
-          RAW_BRANCH=${{ github.ref_name | github.head_ref }}
+          RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV   
       - name: Install dependencies and build
