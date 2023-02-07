@@ -11,12 +11,10 @@ import io
 import json
 import os
 import platform
-import shutil
 import subprocess
 import zipfile
 from pathlib import Path
-from time import sleep
-from typing import Tuple
+from typing import Optional
 
 import click
 import minecraft_launcher_lib as mll
@@ -428,7 +426,7 @@ def convert_version(input_mcver: str) -> str:
 
 def run(
     mc_dir: str = mll.utils.get_minecraft_directory(),
-    version: str = None,
+    version: Optional[str] = None,
     java_ver: float = 17.3,
     interface: str = "GUI",
     widget=None,

@@ -6,6 +6,7 @@ Theme & design of the PySide6 GUI.
 
 import os
 import pathlib
+from typing import Optional
 
 import darkdetect
 
@@ -24,7 +25,7 @@ def init():
             file.write("dark" if darkdetect.isDark() is True else "light")
 
 
-def is_dark(to_dark: bool = None) -> bool:
+def is_dark(to_dark: Optional[bool] = None) -> bool:
     """Change or get the status of dark mode.
 
     Args:
