@@ -17,6 +17,7 @@
 
 - Updated various dependencies
 - Updated issue templates
+- Added dev builds for Windows back and updated Python builds to include new
 
 [#46]: https://github.com/Fabulously-Optimized/vanilla-installer/pull/46
 [#59]: https://github.com/Fabulously-Optimized/vanilla-installer/issues/59
