@@ -115,6 +115,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction --with compile
+          pip install nuitka
           source $VENV && python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
         uses: actions/upload-artifact@v3
