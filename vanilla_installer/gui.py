@@ -43,7 +43,7 @@ def run() -> None:
         from vanilla_installer import fonts
     except:
         logger.exception(
-            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv."
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
         )
 
     app = QApplication(sys.argv)
@@ -327,6 +327,7 @@ class Ui_MainWindow(object):
         Args:
             parent (str): The parent window.
         """
+        print("creating dialog")
         dialog = QFileDialog(
             parent,
             QCoreApplication.translate("MainWindow", "Select .minecraft folder", None),
@@ -334,11 +335,12 @@ class Ui_MainWindow(object):
         dialog.setFileMode(QFileDialog.FileMode.Directory)
         current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
-            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute()
-        config.write("path", str(current_path))
+            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute().mkdir()
         dialog.setDirectory(str(current_path))
+        config.write("path", str(current_path))
         if dialog.exec():
             self.selectedLocation.setText(dialog.selectedFiles()[0])
+            config.write("path", dialog.selectedFiles()[0])
 
     def openSettings(self) -> None:
         """Open the settings."""
