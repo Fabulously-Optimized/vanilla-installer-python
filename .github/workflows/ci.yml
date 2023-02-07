@@ -78,7 +78,7 @@ jobs:
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
         with:
-          name: Vanilla Installer $(date -u) (Python binaries)
+          name: Vanilla Installer ${{ github.head_ref || github.ref_name }}+{{ steps.short-sha.outputs.sha }} (Python binaries)
           path: dist/*
 
   build-windows:
@@ -113,15 +113,16 @@ jobs:
           aqtversion: ==3.1.*
           py7zrversion: ==0.20.*
       - name: Install dependencies
+        shell: pwsh
         run: |
           poetry install --no-interaction --with compile
-          source $VENV
-          pip install nuitka
-          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py --assume-yes-for-downloads
+          source .venv/Scripts/activate
+          pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
+          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ github.head_ref || github.ref_name }}+{{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
         uses: actions/upload-artifact@v3
         with:
-          name: Vanilla Installer (Windows)
+          name: Vanilla Installer ${{ github.head_ref || github.ref_name }}+{{ steps.short-sha.outputs.sha }} (Windows)
           path: "*.exe"
 
   # build-macos:
