@@ -111,10 +111,9 @@ jobs:
           aqtversion: ==3.1.*
           py7zrversion: ==0.20.*
       - name: Install dependencies
-        shell: pwsh
         run: |
           pipx run poetry install --no-interaction --with compile
-          source .venv/Scripts/activate
+          ./.venv/Scripts/activate.ps1
           pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ github.head_ref || github.ref_name }}+{{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
