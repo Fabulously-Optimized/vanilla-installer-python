@@ -79,7 +79,6 @@ jobs:
         run: poetry build --no-interaction
         
       - name: Get normalized branch name
-        shell: bash
         run: |
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
@@ -120,6 +119,7 @@ jobs:
           aqtversion: ==3.1.*
           py7zrversion: ==0.20.*
       - name: Get normalized branch name
+        shell: bash
         run: |
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
