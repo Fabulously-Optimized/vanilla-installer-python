@@ -131,7 +131,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Vanilla Installer ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }} (Windows)
-          path: "*.exe"
+          path: "build/*.exe"
 
   # build-macos:
     # name: Build macOS app bundle
