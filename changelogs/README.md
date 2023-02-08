@@ -8,4 +8,5 @@ All changelogs are backed up to this directory.
 
 | Version             | Changelog links                                    | Release date        |
 | ---                 | ---                                                | ---                 |
-| [v0.1.0-b1](0.1.0/) | [Full](0.1.0/full.md), [Summary](0.1.0/summary.md) | December 30th, 2022 |
+| [v0.1.0](0.1.0/)    | [Full](0.1.0/full.md), [Summary](0.1.0/summary.md) | December 30th, 2022 |
+| [v0.2.0](0.2.0/)    | [Full](0.2.0/full.md), [Summary](0.2.0/summary.md) | February 7th, 2022  |
