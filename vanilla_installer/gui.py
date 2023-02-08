@@ -327,7 +327,6 @@ class Ui_MainWindow(object):
         Args:
             parent (str): The parent window.
         """
-        print("creating dialog")
         dialog = QFileDialog(
             parent,
             QCoreApplication.translate("MainWindow", "Select .minecraft folder", None),

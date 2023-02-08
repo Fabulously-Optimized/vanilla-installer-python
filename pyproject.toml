@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vanilla-installer"
-version = "v0.1.0"
+version = "0.2.0"
 description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
@@ -55,11 +55,10 @@ vanilla-installer-gui = {callable = "vanilla_installer:gui.run", extras = ["gui"
 gui = ["pyside6"]
 
 [tool.poetry_bumpversion.file."vanilla_installer/__init__.py"]
-[tool.poetry_bumpversion.file."vanilla_installer/main.py"]
 
 [tool.pyproject-appimage]
 script = "vanilla-installer"
-output = "VanillaInstaller-v0.1.1.AppImage"
+output = "VanillaInstaller-v0.2.0.AppImage"
 
 [tool.isort]
 profile = "black"
