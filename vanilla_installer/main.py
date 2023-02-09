@@ -51,7 +51,6 @@ def get_dir() -> str:
     return path["config"]["path"]
 
 
-
 def newest_version() -> str:
     """Returns the latest version of Minecraft that FO supports.
 
@@ -381,7 +380,9 @@ def get_pack_mc_versions() -> dict:
             # For this to work, you need to be in the root directory of the repository running this, otherwise the files will not be found.
             logger.warning("GitHub failed, falling back to local...")
             try:
-                local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+                local_path = (
+                    Path("vanilla_installer/assets").resolve() / "versions.json"
+                )
             except:
                 local_path = Path("assets").resolve() / "versions.json"
             response = json.loads(local_path.read_bytes())

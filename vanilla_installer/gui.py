@@ -3,6 +3,7 @@
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
 import pathlib
+import platform
 import sys
 import webbrowser
 from time import sleep
@@ -25,11 +26,10 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QWidget,
 )
-import platform
+
 # LOCAL
 from vanilla_installer import config, main, theme
 from vanilla_installer.log import logger
-
 
 
 def run() -> None:
@@ -186,6 +186,9 @@ class Ui_MainWindow(object):
         )
         self.settingsButtonIcon.setGeometry(70, 0, 24, 24)
 
+        self.windowIcon = Ui_MainWindow.getAsset("icon.png")
+        MainWindow.setWindowIcon(QIcon(self.windowIcon))
+
         self.reloadTheme()
 
         MainWindow.setCentralWidget(self.centralwidget)
@@ -305,7 +308,7 @@ class Ui_MainWindow(object):
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
 
-    def getAsset(asset) -> str:
+    def getAsset(asset: str) -> str:
         """Get the path to a given asset.
 
         Args:
@@ -334,7 +337,9 @@ class Ui_MainWindow(object):
         dialog.setFileMode(QFileDialog.FileMode.Directory)
         current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
-            current_path = pathlib.Path(mll.utils.get_minecraft_directory()).absolute().mkdir()
+            current_path = (
+                pathlib.Path(mll.utils.get_minecraft_directory()).absolute().mkdir()
+            )
         dialog.setDirectory(str(current_path))
         config.write("path", str(current_path))
         if dialog.exec():
