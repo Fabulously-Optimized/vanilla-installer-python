@@ -14,7 +14,7 @@ import platform
 import subprocess
 import zipfile
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 import click
 import minecraft_launcher_lib as mll
@@ -253,20 +253,20 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
         str: The Fabric version id. Formatted as `fabric-loader-{fabric_version}-{game_version}`.
     """
     meta_placeholder = "https://meta.fabricmc.net/v2/versions/loader/{}/{}/profile/zip"
-    pack_toml_url = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
+    pack_toml_url = convert_version(mc_version)
 
-    if (response := requests.get(pack_toml_url)).status_code == 200:
+    # if (response := requests.get(pack_toml_url)).status_code == 200:
+    response = requests.get(pack_toml_url)
+    pack_info = toml.parse(response.text)
+    game_version = pack_info["versions"]["minecraft"]
+    fabric_version = pack_info["versions"]["fabric"]
+    meta_url = meta_placeholder.format(game_version, fabric_version)
 
-        pack_info: dict = toml.loads(response.text)
-        game_version = pack_info.get("versions", {}).get("minecraft")
-        fabric_version = pack_info.get("versions", {}).get("fabric")
-        meta_url = meta_placeholder.format(game_version, fabric_version)
-
-        if (response := requests.get(meta_url)).status_code == 200:
-            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
-                version_id = f"fabric-loader-{fabric_version}-{game_version}"
-                path = str(Path(mc_dir).resolve() / "versions")
-                archive.extractall(path)
+    response = requests.get(meta_url)
+    version_id = f"fabric-loader-{fabric_version}-{game_version}"
+    with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+        path = str(Path(mc_dir).resolve() / "versions")
+        archive.extractall(path)
 
     return version_id
 
@@ -312,7 +312,7 @@ def install_pack(
     logger.debug("Installing the pack now.")
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
-    pack_toml = f"https://raw.githubusercontent.com/Fabulously-Optimized/Fabulously-Optimized/main/Packwiz/{mc_version}/pack.toml"
+    pack_toml = convert_version(mc_version)
     try:
         ran = command(
             f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
@@ -380,7 +380,10 @@ def get_pack_mc_versions() -> dict:
             # In this case, fall back to a local file since in the latter you'll likely have the whole repo cloned.
             # For this to work, you need to be in the root directory of the repository running this, otherwise the files will not be found.
             logger.warning("GitHub failed, falling back to local...")
-            local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+            try:
+                local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+            except:
+                local_path = Path("assets").resolve() / "versions.json"
             response = json.loads(local_path.read_bytes())
 
         return_value = dict(response)

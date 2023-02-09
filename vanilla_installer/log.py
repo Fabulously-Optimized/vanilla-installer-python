@@ -7,7 +7,7 @@ import pathlib
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-logfile_path = str(pathlib.Path("../logs").resolve() / "vanilla_installer.log")
+logfile_path = str(pathlib.Path("./logs").resolve() / "vanilla_installer.log")
 try:
     handler = logging.handlers.RotatingFileHandler(
         filename=logfile_path,
