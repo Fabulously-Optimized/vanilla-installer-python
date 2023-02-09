@@ -120,13 +120,13 @@ jobs:
         run: |
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV   
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
       - name: Install dependencies and build
         run: |
           pipx run poetry install --no-interaction --with compile
           ./.venv/Scripts/activate.ps1
           pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
-          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py --assume-yes-for-downloads
+          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
         uses: actions/upload-artifact@v3
         with:
