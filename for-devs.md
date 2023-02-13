@@ -24,3 +24,22 @@ We have a [`gitpod`](https://gitpod.io) configuration, so click this to be autom
 ## Avoiding 404s
 
 This one might be obvious, but please keep in mind to ALWAYS `Ctrl+F` before renaming a file!
+
+## Tested on...
+
+- Linux → Debian → Ubuntu → PopOS:
+  - My main system, should work 100% fine
+- Windows 11
+  - [osfanbuff63](https://github.com/osfanbuff63)'s main system, should work fine
+
+## Recommendations
+
+The program is optimized for Python 3.8 and above, as well as Linux and Windows.
+
+- `darkdetect`
+  - Used to check whether the OS theme is dark or not
+    - Supports:
+      - macOS 10.14+
+      - Windows 10 1607+
+      - Linux with a dark GTK theme.
+    - Don't meed these requirements? Don't worry! The code will still work, just dark mode will not be detected.
