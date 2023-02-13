@@ -440,7 +440,7 @@ def run(
         version = newest_version()
     logger.info("Calling install_fabric to install Fabric.")
     text_update("Installing Fabric...", widget=widget, interface=interface)
-    fabric_version = install_fabric(version, mc_dir)
+    fabric_version = install_fabric(version, mll.utils.get_minecraft_directory())
     logger.debug("Downloading FO - calling download_pack.")
     text_update(
         "Starting the Fabulously Optimized download...",
