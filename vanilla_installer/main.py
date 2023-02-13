@@ -74,25 +74,25 @@ def find_mc_java(java_ver: float = 17.3) -> str:
         if java_ver == 8:
             java = str(
                 Path(
-                    "{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
                 )
             )
         elif java_ver == 16:
             java = str(
                 Path(
-                    "{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
+                   f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
                 )
             )
         elif java_ver == 17.1:
             java = str(
                 Path(
-                    "{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
                 )
             )
         else:
             java = str(
                 Path(
-                    "{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
                 )
             )
     elif platform.system() == "Linux":
