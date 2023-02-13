@@ -1,4 +1,4 @@
-# Usage
+# Installation
 
 This varies between platform, so select your OS here:
 **[Windows](#windows)** - **[macOS](#macos)** - **[Linux](#linux)**
