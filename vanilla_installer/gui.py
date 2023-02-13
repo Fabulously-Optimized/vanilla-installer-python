@@ -10,7 +10,7 @@ from time import sleep
 
 import minecraft_launcher_lib as mll
 from PySide6.QtCore import QCoreApplication, QRect, QRunnable, Qt, QThreadPool, Slot
-from PySide6.QtGui import QFont, QFontDatabase, QIcon
+from PySide6.QtGui import QFontDatabase, QIcon
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtWidgets import (
     QApplication,

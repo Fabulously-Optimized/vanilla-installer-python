@@ -14,7 +14,7 @@ import platform
 import subprocess
 import zipfile
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 import click
 import minecraft_launcher_lib as mll
@@ -74,50 +74,50 @@ def find_mc_java(java_ver: float = 17.3) -> str:
         if java_ver == 8:
             java = str(
                 Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
+                    "{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
                 )
             )
         elif java_ver == 16:
             java = str(
                 Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
+                    "{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
                 )
             )
         elif java_ver == 17.1:
             java = str(
                 Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
+                    "{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
                 )
             )
         else:
             java = str(
                 Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
+                    "{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
                 )
             )
     elif platform.system() == "Linux":
         if java_ver == 8:
             java = str(
                 Path(
-                    f"~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java"
+                    "~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java"
                 ).resolve()
             )
         elif java_ver == 16:
             java = str(
                 Path(
-                    f"~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java"
+                    "~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java"
                 ).resolve()
             )
         elif java_ver == 17.1:
             java = str(
                 Path(
-                    f"~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java"
+                    "~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java"
                 ).resolve()
             )
         else:
             java = str(
                 Path(
-                    f"~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
+                    "~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
                 ).resolve()
             )
     elif platform.system("Mac"):  # all of this may or may not work
@@ -278,7 +278,7 @@ def download_pack(widget, interface: str = "GUI") -> str:
     Returns:
         str: The path to the packwiz_installer_bootstrap.jar.
     """
-    text_update(f"Fetching Pack...", widget=widget, interface=interface)
+    text_update("Fetching Pack...", widget, "info", interface)
     download_bootstrap = requests.get(
         "https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar"
     )
@@ -313,9 +313,7 @@ def install_pack(
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = convert_version(mc_version)
     try:
-        ran = command(
-            f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
-        )
+        command(f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}")
         logger.info(
             f"Completed installing Fabulously Optimized for Minecraft {mc_version}"
         )
