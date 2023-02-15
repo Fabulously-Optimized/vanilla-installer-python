@@ -1,4 +1,4 @@
-name: Lint VanillaInstaller and build a dev build
+name: Lint Vanilla Installer and build a dev build
 
 on: [push, pull_request]
 

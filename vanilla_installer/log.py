@@ -1,6 +1,6 @@
 # Copyright (C) Fabulously Optimized 2022
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""Starts logging for VanillaInstaller."""
+"""Starts logging for Vanilla Installer."""
 import logging
 import logging.handlers  # pylance moment
 import pathlib
@@ -33,5 +33,5 @@ formatter = logging.Formatter(
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-logging.info("Starting VanillaInstaller")
-logger = logging.getLogger("VanillaInstaller")
+logging.info("Starting Vanilla Installer")
+logger = logging.getLogger("Vanilla Installer")

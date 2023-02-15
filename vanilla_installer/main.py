@@ -1,7 +1,7 @@
 # Copyright (C) Fabulously Optimized 2022
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """
-Most important functions of VanillaInstaller.
+Most important functions of Vanilla Installer.
 """
 # IMPORTS
 
@@ -80,7 +80,7 @@ def find_mc_java(java_ver: float = 17.3) -> str:
         elif java_ver == 16:
             java = str(
                 Path(
-                   f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
+                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
                 )
             )
         elif java_ver == 17.1:
@@ -307,13 +307,16 @@ def install_pack(
         mc_dir (str): The directory to install to.
         widget (optional): The widget to update. Defaults to None.
         interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
+        java_ver (float): The Java version to use. Defaults to 17.3
     """
     logger.debug("Installing the pack now.")
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = convert_version(mc_version)
     try:
-        command(f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}")
+        command(
+            f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
+        )
         logger.info(
             f"Completed installing Fabulously Optimized for Minecraft {mc_version}"
         )
@@ -329,7 +332,7 @@ def install_pack(
             f"Could not install Fabulously Optimized: {e}",
             widget,
             "error",
-            interface=interface,
+            interface,
         )
 
 
@@ -437,27 +440,29 @@ def run(
         logger.warning("Version was not passed, defaulting to the latest version.")
         version = newest_version()
     logger.info("Calling install_fabric to install Fabric.")
-    text_update("Installing Fabric...", widget=widget, interface=interface)
+    text_update("Installing Fabric...", widget, "info", interface)
     fabric_version = install_fabric(version, mll.utils.get_minecraft_directory())
     logger.debug("Downloading FO - calling download_pack.")
     text_update(
         "Starting the Fabulously Optimized download...",
-        widget=widget,
-        interface=interface,
+        widget,
+        "info",
+        interface,
     )
-    packwiz_bootstrap = download_pack(widget=widget, interface=interface)
+    packwiz_bootstrap = download_pack(widget, interface)
     logger.info("Installing FO, Packwiz will run.")
     text_update(
-        "Installing Fabulously Optimized...", widget=widget, interface=interface
+        "Installing Fabulously Optimized...", widget, "info", interface
     )
     install_pack(
-        mc_version=version,
-        packwiz_installer_bootstrap=packwiz_bootstrap,
-        mc_dir=mc_dir,
-        java_ver=java_ver,
+        packwiz_bootstrap,
+        version,
+        mc_dir,
+        widget,
+        java_ver,
     )
     logger.info("Setting the profile.")
-    text_update("Setting profiles...", widget=widget, interface=interface)
+    text_update("Setting profiles...", widget, "info", interface)
     create_profile(mc_dir, fabric_version)
-    text_update("Complete!", widget=widget, interface=interface)
+    text_update("Complete!", widget, "info", interface)
     logger.info("Success!")

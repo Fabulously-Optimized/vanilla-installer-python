@@ -1,6 +1,6 @@
 # Copyright (C) Fabulously Optimized 2022
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""A CLI interface for VanillaInstaller."""
+"""A CLI interface for Vanilla Installer."""
 ## Imports
 
 import asyncio
@@ -67,12 +67,12 @@ async def install(minecraft_dir, version, java_ver):
 @vanilla_installer.command("version", help="Show the version number and exit.")
 async def version():
     version = main.get_version()
-    click.echo(f"VanillaInstaller {version}")
+    click.echo(f"Vanilla Installer {version}")
 
 
-@vanilla_installer.command("gui", help="Launch the GUI.")
+@vanilla_installer.command("gui", help="Launch the GUI.", deprecated=True)
 async def gui():
-    click.echo(f"Running VanillaInstaller-GUI {main.get_version()}")
+    click.echo(f"Running Vanilla Installer-GUI {main.get_version()}")
     try:
         await external_gui.run()
     except TypeError:
@@ -87,7 +87,7 @@ async def about():
     pass
 
 
-@about.command("bug-report", help="Report a bug or crash in VanillaInstaller.")
+@about.command("bug-report", help="Report a bug or crash in Vanilla Installer.")
 async def bug():
     click.echo(
         "Press any key to open GitHub with the bug template in your web browser..."
@@ -102,7 +102,7 @@ async def bug():
             pass
 
 
-@about.command("feature", help="Request a feature of VanillaInstaller.")
+@about.command("feature", help="Request a feature of Vanilla Installer.")
 async def feature():
     click.echo(
         "Press any key to open GitHub with the feature request template in your web browser..."
@@ -120,7 +120,7 @@ async def feature():
 @about.command("licensing", help="Shows licensing details on the program.")
 async def licensing():
     click.echo(
-        "VanillaInstaller is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
+        "Vanilla Installer is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
     )
 
 

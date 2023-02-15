@@ -1,6 +1,6 @@
 # Copyright (C) Fabulously Optimized 2022
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""Runs the GUI for VanillaInstaller."""
+"""Runs the GUI for Vanilla Installer."""
 # IMPORTS
 import pathlib
 import platform

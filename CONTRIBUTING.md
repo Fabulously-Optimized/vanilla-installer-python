@@ -1,4 +1,4 @@
-# Contributing to VanillaInstaller
+# Contributing to Vanilla Installer
 
 - You can support this project by:
   - Finding bugs
@@ -16,7 +16,7 @@
   
 - As of right now, we do not support **translations**, but you are welcome to implement such feature if you're a developer!
 
-- As FO does not accept monetary contributions besides browsing or downloading on [Modrinth](https://modrinth.com/modpack/fabulously-optimized) or [CurseForge](https://curseforge.com/minecraft/modpacks/fabulously-optimized) (respectively), VanillaInstaller does not accept them either.
+- As FO does not accept monetary contributions besides browsing or downloading on [Modrinth](https://modrinth.com/modpack/fabulously-optimized) or [CurseForge](https://curseforge.com/minecraft/modpacks/fabulously-optimized) (respectively), Vanilla Installer does not accept them either.
 
 [More ways to support (some of them involve the modpack itself)](https://github.com/Fabulously-Optimized/fabulously-optimized/blob/main/CONTRIBUTING.md)
 
@@ -37,5 +37,5 @@ Here's the information you can file it under:
 | Alternate slug     | VanillaInstaller                                 |
 | App ID (D-Bus-type)| io.github.fabulously_optimized.vanilla_installer |
 
-Once it's been submitted, feel free to [join our Discord](https://discord.gg/yxaXtaQqdB) and let us know in #not-minecraft!
+Once it's been submitted, feel free to [join our Discord](https://discord.gg/yxaXtaQqdB) and let us know in #offtopic or #devlog!
 -->

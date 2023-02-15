@@ -28,7 +28,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of VanillaInstaller are you running?
+      description: What version of Vanilla Installer are you running?
       options:
       # Needs to be updated every release
         - Beta release
