@@ -11,13 +11,13 @@
   * Python scripts (GUI etc.)
 
 * [@RaptaG](https://github.com/RaptaG)
-  * [Shell installation scripts](/install/) (sh) for MacOS and Linux
+  * [Shell installation scripts](/install/) (sh) for macOS and Linux
 
 * [@osfanbuff63](https://github.com/osfanbuff63)
   * Updated [Batchfile installation script](/install/windows.bat) for Windows
   * Updated various files for formatting improvements and various fixes
 
-* ...other (see README)
+* ...others *(see README)*
 
 ## Libraries used (and legal notices)
 
@@ -275,6 +275,6 @@ SOFTWARE.
 
 * [https://docs.python.org/3.10/library/sys.html#sys.platform](https://docs.python.org/3.10/library/sys.html#sys.platform)
 
-### Other
+### Others
 
 * [https://linuxhint.com/rm-rf-command-equivalent-windows/](https://linuxhint.com/rm-rf-command-equivalent-windows/)

@@ -27,10 +27,12 @@ This one might be obvious, but please keep in mind to ALWAYS `Ctrl+F` before ren
 
 ## Tested on...
 
-- Linux → Debian → Ubuntu → PopOS:
-  - My main system, should work 100% fine
+- Debian → Ubuntu → Pop! OS:
+  - [nsde](https://github.com/nsde)'s main distros,
 - Windows 11
-  - [osfanbuff63](https://github.com/osfanbuff63)'s main system, should work fine
+  - [osfanbuff63](https://github.com/osfanbuff63)'s main system,
+- Windows 10 LTSC + KUbuntu's Latest Beta
+  - [Kichura](https://github.com/Kichura)'s virtual machine and host system.
 
 ## Recommendations
 
