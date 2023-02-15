@@ -1,6 +1,6 @@
 # Changelogs
 
-The changelogs for Vanilla Installer follows a similar format to [Iris](https://irisshaders.net)' format, with a full changelog and a summary.
+The changelogs for Vanilla Installer follow a similar format to [Iris](https://irisshaders.net)' format, with a full changelog and a summary.
 
 All changelogs are backed up to this directory.
 
