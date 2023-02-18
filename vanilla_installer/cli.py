@@ -6,13 +6,17 @@
 import asyncio
 import logging
 import webbrowser
+import sys
 
 # External
 import asyncclick as click
 import minecraft_launcher_lib as mll
 
 # Local
-from vanilla_installer import gui as external_gui
+try:
+    from vanilla_installer import gui as external_gui
+except ImportError:
+    pass
 from vanilla_installer import main
 
 logging.getLogger("asyncio").setLevel(logging.DEBUG)
@@ -72,6 +76,12 @@ async def version():
 
 @vanilla_installer.command("gui", help="Launch the GUI.", deprecated=True)
 async def gui():
+    try:
+        if external_gui: pass
+        else: pass
+    except NameError:
+        click.echo("The GUI is not installed, so this command will not function.")
+        sys.exit(1)
     click.echo(f"Running Vanilla Installer-GUI {main.get_version()}")
     try:
         await external_gui.run()

@@ -112,7 +112,7 @@ jobs:
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
       - name: Install dependencies and build
         run: |
-          pipx run poetry install --no-interaction --with compile
+          pipx run poetry install --no-interaction --with compile -E gui
           ./.venv/Scripts/activate.ps1
           pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
           pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
@@ -122,6 +122,46 @@ jobs:
         with:
           name: Vanilla Installer ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }} (Windows)
           path: "build/*.exe"
+
+
+  build-windows-cli:
+    name: Build CLI for Windows
+    runs-on: windows-2022
+    needs: [lint, build-python, build-windows]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Shorten commit SHA
+        uses: benjlevesque/short-sha@v2.1
+        id: short-sha
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: build/cli.build
+          key: ci-build-source-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+      - name: Get normalized branch name
+        shell: bash
+        run: |
+          RAW_BRANCH=${{ github.ref_name || github.head_ref }}
+          BRANCH=${RAW_BRANCH//\//-}
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+      - name: Install dependencies and build
+        run: |
+          pipx run poetry install --no-interaction --with compile
+          ./.venv/Scripts/activate.ps1
+          pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
+          pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
+          echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
+          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,asyncclick,click,tomli,darkdetect -o "vanilla-installer.exe" --enable-console --include-data-dir=vanilla_installer/assets=assets/ vanilla_installer/cli.py --assume-yes-for-downloads
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: Vanilla Installer ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }} (Windows CLI)
+          path: build/*.exe
+
 
   # build-macos:
     # name: Build macOS app bundle
