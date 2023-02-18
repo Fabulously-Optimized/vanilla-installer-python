@@ -315,7 +315,7 @@ def install_pack(
     pack_toml = convert_version(mc_version)
     try:
         command(
-            f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
+            f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml} --timeout 0"
         )
         logger.info(
             f"Completed installing Fabulously Optimized for Minecraft {mc_version}"
