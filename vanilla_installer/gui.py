@@ -112,6 +112,15 @@ class Ui_MainWindow(object):
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setGeometry(QRect(130, 240, 195, 25))
         self.versionLabel.setAlignment(Qt.AlignLeft)
+        self.versionHelp = QPushButton(self.centralwidget)
+        self.versionHelp.setObjectName("versionHelp")
+        self.versionHelp.setGeometry(480, 240, 20, 20)
+        self.versionHelp.setFlat(True)
+        self.versionHelp.clicked.connect(lambda: webbrowser.open("https://fabulously-optimized.gitbook.io/modpack/readme/version-support"))
+        self.versionHelpIcon = QSvgWidget(
+            Ui_MainWindow.getAsset("help.svg"), self.versionHelp
+        )
+        self.versionHelpIcon.setGeometry(QRect(0, 0, 20, 20))
         self.locationLabel = QLabel(self.centralwidget)
         self.locationLabel.setObjectName("locationLabel")
         self.locationLabel.setGeometry(QRect(130, 300, 100, 25))
@@ -228,6 +237,10 @@ class Ui_MainWindow(object):
         self.themeToggle.setText(
             QCoreApplication.translate("MainWindow", "Toggle theme", None)
         )
+        self.versionHelpString = "Vanilla Installer allows easy installation of all supported versions of Fabulously Optimized. \nFor legacy versions, download the respective MultiMC version from CurseForge and unpack it manually."
+        self.versionHelpIcon.setToolTip(
+            QCoreApplication.translate("MainWindow", self.versionHelpString, None)
+        )
         self.settingsButton.setText(
             QCoreApplication.translate("MainWindow", "Settings", None)
         )
@@ -301,6 +314,9 @@ class Ui_MainWindow(object):
         effect5 = QGraphicsColorizeEffect(self.centralwidget)
         effect5.setColor(loaded_theme.get("icon"))
         self.settingsButtonIcon.setGraphicsEffect(effect5)
+        effect6 = QGraphicsColorizeEffect(self.centralwidget)
+        effect6.setColor(loaded_theme.get("icon"))
+        self.versionHelpIcon.setGraphicsEffect(effect6)
 
     def addVersions(self) -> None:
         """Adds the versions to the version selector."""

@@ -451,9 +451,7 @@ def run(
     )
     packwiz_bootstrap = download_pack(widget, interface)
     logger.info("Installing FO, Packwiz will run.")
-    text_update(
-        "Installing Fabulously Optimized...", widget, "info", interface
-    )
+    text_update("Installing Fabulously Optimized...", widget, "info", interface)
     install_pack(
         packwiz_bootstrap,
         version,
