@@ -5,7 +5,6 @@
 
 [![CodeQL](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/codeql.yml)
 [![Lint](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/lint.yml)
-[![Release](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml/badge.svg)](https://github.com/Fabulously-Optimized/vanilla-installer/actions/workflows/release.yml)
 
 ## Download
 
@@ -31,7 +30,7 @@
 ### Binaries
 
 These are quite simple to use and should be stable.
-Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system. Then, open your **Downloads** folder and double-click the file.
+<!-- Just [head to the **Releases** tab](https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest) and download the correct file for your operating system. Then, open your **Downloads** folder and double-click the file. -->
 However, you have to manually install updates.
 
 **Requirements**: Ability to download a file and double-click it.
