@@ -16,5 +16,10 @@
     },
     "hide-files.files": [
         "vanilla_installer/__pycache__"
+    ],
+    // this is for the font RCC
+    "qtForPython.rcc.options": [
+      "-o",
+      "${workspaceFolder}${pathSeparator}vanilla_installer${pathSeparator}${resourceBasenameNoExtension}.py"
     ]
 }

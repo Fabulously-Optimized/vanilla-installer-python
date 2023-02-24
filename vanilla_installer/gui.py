@@ -117,6 +117,8 @@ class Ui_MainWindow(object):
         self.versionHelp.setGeometry(480, 240, 20, 20)
         self.versionHelp.setFlat(True)
         self.versionHelp.clicked.connect(lambda: webbrowser.open("https://fabulously-optimized.gitbook.io/modpack/readme/version-support"))
+        self.versionHelpLabel = QLabel(self.centralwidget)
+        self.versionHelpLabel.setGeometry(QRect(442, 265, 150, 20))
         self.versionHelpIcon = QSvgWidget(
             Ui_MainWindow.getAsset("help.svg"), self.versionHelp
         )
@@ -238,9 +240,10 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Toggle theme", None)
         )
         self.versionHelpString = "Vanilla Installer allows easy installation of all supported versions of Fabulously Optimized. \nFor legacy versions, download the respective MultiMC version from CurseForge and unpack it manually."
-        self.versionHelpIcon.setToolTip(
+        self.versionHelp.setToolTip(
             QCoreApplication.translate("MainWindow", self.versionHelpString, None)
         )
+        self.versionHelpLabel.setText(QCoreApplication.translate("MainWindow", "Hover for more", None))
         self.settingsButton.setText(
             QCoreApplication.translate("MainWindow", "Settings", None)
         )
@@ -284,12 +287,19 @@ class Ui_MainWindow(object):
             f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
+        self.versionHelp.setStyleSheet(
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
+            f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
+        )
 
         self.versionLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
         self.versionSelector.setStyleSheet(f'font: 12pt "{global_font}"')
         self.locationLabel.setStyleSheet(
+            f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
+        )
+        self.versionHelpLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
         self.selectedLocation.setStyleSheet(
