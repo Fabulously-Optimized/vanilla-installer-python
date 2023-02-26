@@ -116,7 +116,11 @@ class Ui_MainWindow(object):
         self.versionHelp.setObjectName("versionHelp")
         self.versionHelp.setGeometry(480, 240, 20, 20)
         self.versionHelp.setFlat(True)
-        self.versionHelp.clicked.connect(lambda: webbrowser.open("https://fabulously-optimized.gitbook.io/modpack/readme/version-support"))
+        self.versionHelp.clicked.connect(
+            lambda: webbrowser.open(
+                "https://fabulously-optimized.gitbook.io/modpack/readme/version-support"
+            )
+        )
         self.versionHelpIcon = QSvgWidget(
             Ui_MainWindow.getAsset("help.svg"), self.versionHelp
         )
