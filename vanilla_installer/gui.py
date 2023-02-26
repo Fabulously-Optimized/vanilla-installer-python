@@ -117,8 +117,6 @@ class Ui_MainWindow(object):
         self.versionHelp.setGeometry(480, 240, 20, 20)
         self.versionHelp.setFlat(True)
         self.versionHelp.clicked.connect(lambda: webbrowser.open("https://fabulously-optimized.gitbook.io/modpack/readme/version-support"))
-        self.versionHelpLabel = QLabel(self.centralwidget)
-        self.versionHelpLabel.setGeometry(QRect(442, 265, 150, 20))
         self.versionHelpIcon = QSvgWidget(
             Ui_MainWindow.getAsset("help.svg"), self.versionHelp
         )
@@ -243,7 +241,6 @@ class Ui_MainWindow(object):
         self.versionHelp.setToolTip(
             QCoreApplication.translate("MainWindow", self.versionHelpString, None)
         )
-        self.versionHelpLabel.setText(QCoreApplication.translate("MainWindow", "Hover for more", None))
         self.settingsButton.setText(
             QCoreApplication.translate("MainWindow", "Settings", None)
         )
@@ -297,9 +294,6 @@ class Ui_MainWindow(object):
         )
         self.versionSelector.setStyleSheet(f'font: 12pt "{global_font}"')
         self.locationLabel.setStyleSheet(
-            f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
-        )
-        self.versionHelpLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
         )
         self.selectedLocation.setStyleSheet(
@@ -386,6 +380,8 @@ class Ui_MainWindow(object):
         self.installButton.setDisabled(True)
         self.installButton.setStyleSheet(
             f'QPushButton {{ border: none; background: {loaded_theme.get("installbuttonpressed")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+            f'QPushButton:hover {{ background: {loaded_theme.get("installbuttonpressed")};}}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
@@ -401,6 +397,8 @@ class Ui_MainWindow(object):
         self.installButton.setDisabled(False)
         self.installButton.setStyleSheet(
             f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+            f'QPushButton:hover {{ background: {loaded_theme.get("lavender")};}}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         sleep(3.5)
         main.text_update("Vanilla Installer", self.subtitle)
