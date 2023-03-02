@@ -751,14 +751,14 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyproject-appimage"
-version = "1.0"
+version = "2.0"
 description = "Generate AppImages from your Python projects"
 category = "dev"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pyproject-appimage-1.0.tar.gz", hash = "sha256:eead6add71ead6ee646fed0d27d586e79e077f68aeec9fe807b0f5d9441f2e8f"},
-    {file = "pyproject_appimage-1.0-py3-none-any.whl", hash = "sha256:7008e364d633f9047faeaf0036921391005fccc142bf0460b3bb6e5d6252ac7b"},
+    {file = "pyproject-appimage-2.0.tar.gz", hash = "sha256:f66c6f00f220fc5000266d92cdc1f3d33d020f263cac148f19dea358a45651d2"},
+    {file = "pyproject_appimage-2.0-py3-none-any.whl", hash = "sha256:97973e397df5ab9a32df6aa62f02cefb9b10bbb54a95c4f93b9e03e273abf041"},
 ]
 
 [package.dependencies]
@@ -1075,4 +1075,4 @@ gui = ["pyside6", "darkdetect"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "f27496257bb1ab4ff6d5150e363b18b6b67e098571647cb739523bca5cd70993"
+content-hash = "23f99557634336832d231a2d7c6ef953ce564708c561ff434c607a4dcdb0529f"
