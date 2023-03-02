@@ -42,7 +42,7 @@ nuitka = {version = "^1.4", python = "<=3.10"}
 ordered-set = "^4.1.0"
 zstandard = "^0.19.0"
 imageio = "^2.26.0"
-pyproject-appimage = {version = "^1.0", python = ">=3.9,<3.12"}
+pyproject-appimage = {version = "^2.0", python = ">=3.9,<3.12"}
 
 [tool.poetry.scripts]
 vanilla-installer = {callable = "vanilla_installer:cli.vanilla_installer"}
