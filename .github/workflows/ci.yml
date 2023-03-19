@@ -68,7 +68,7 @@ jobs:
         run: |
           source .venv/bin/activate
           pip install pyside6
-          pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
+          pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py
           pipx run poetry build --no-interaction
       - name: Get normalized branch name
         run: |
@@ -115,7 +115,7 @@ jobs:
           pipx run poetry install --no-interaction --with compile -E gui
           ./.venv/Scripts/activate.ps1
           pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
-          pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
+          pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
         uses: actions/upload-artifact@v3
