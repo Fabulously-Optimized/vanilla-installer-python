@@ -107,7 +107,7 @@ class Ui_MainWindow(object):
         )
         self.versionSelector = QComboBox(self.centralwidget)
         self.versionSelector.setObjectName("versionSelector")
-        self.versionSelector.setGeometry(QRect(355, 240, 115, 20))
+        self.versionSelector.setGeometry(QRect(355, 240, 120, 20))
         self.versionLabel = QLabel(self.centralwidget)
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setGeometry(QRect(130, 240, 195, 25))
