@@ -4,13 +4,15 @@
 Theme & design of the PySide6 GUI.
 """
 
+import logging
 import pathlib
 from typing import Optional
 
 import darkdetect
 
 from vanilla_installer import config
-from vanilla_installer.log import logger
+
+logger = logging.getLogger("vanilla_installer")
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 

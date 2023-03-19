@@ -5,8 +5,8 @@
 
 import asyncio
 import logging
-import webbrowser
 import sys
+import webbrowser
 
 # External
 import asyncclick as click
@@ -77,8 +77,10 @@ async def version():
 @vanilla_installer.command("gui", help="Launch the GUI.", deprecated=True)
 async def gui():
     try:
-        if external_gui: pass
-        else: pass
+        if external_gui:
+            pass
+        else:
+            pass
     except NameError:
         click.echo("The GUI is not installed, so this command will not function.")
         sys.exit(1)

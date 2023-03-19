@@ -1,0 +1,9 @@
+{
+  "vanilla_installer.gui.subtitle": "Vanilla Installer",
+  "vanilla_installer.gui.install_button": "Install",
+  "vanilla_installer.gui.mc_version": "Minecraft version:",
+  "vanilla_installer.gui.location": "Location:",
+  "vanilla_installer.gui.issues_button": "Report bugs",
+  "vanilla_installer.gui.theme_toggle": "Toggle theme",
+  "vanilla_installer.gui.settings": "Settings"
+}

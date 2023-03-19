@@ -5,7 +5,7 @@ import logging
 import logging.handlers  # pylance moment
 import pathlib
 
-logger = logging.getLogger()
+logger = logging.getLogger("vanilla_installer")
 logger.setLevel(logging.DEBUG)
 logfile_path = str(pathlib.Path("./logs").resolve() / "vanilla_installer.log")
 try:
@@ -34,4 +34,4 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 logging.info("Starting Vanilla Installer")
-logger = logging.getLogger("Vanilla Installer")
+logger = logging.getLogger("vanilla_installer")
