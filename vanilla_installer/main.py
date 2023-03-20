@@ -208,7 +208,6 @@ def text_update(
         interface (str, optional): The interface to display to. Defaults to "GUI", possible values are "GUI" and "CLI".
     """
     if interface != "CLI":
-
         if widget:
             widget.setText(text)
 
@@ -418,7 +417,6 @@ def run(
     interface: str = "GUI",
     widget=None,
 ) -> None:
-
     """Runs Fabric's installer and then installs Fabulously Optimized.
 
     Args:
