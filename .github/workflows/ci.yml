@@ -4,6 +4,10 @@ on: [push, pull_request]
 
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 
 jobs:
   lint:
@@ -172,7 +176,7 @@ jobs:
           ./.venv/Scripts/activate.ps1
           # pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
-          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,asyncclick,click,tomli,darkdetect -o "vanilla-installer.exe" --enable-console --include-data-dir=vanilla_installer/assets=assets/ vanilla_installer/cli.py --assume-yes-for-downloads
+          python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,asyncclick,click,tomli -o "vanilla-installer.exe" --enable-console --include-data-dir=vanilla_installer/assets=assets/ vanilla_installer/cli.py --assume-yes-for-downloads
       - name: Upload binaries
         uses: actions/upload-artifact@v3
         with:
