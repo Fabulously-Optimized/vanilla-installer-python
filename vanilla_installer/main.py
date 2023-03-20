@@ -208,7 +208,6 @@ def text_update(
         interface (str, optional): The interface to display to. Defaults to "GUI", possible values are "GUI" and "CLI".
     """
     if interface != "CLI":
-
         if widget:
             widget.setText(text)
 
@@ -418,7 +417,6 @@ def run(
     interface: str = "GUI",
     widget=None,
 ) -> None:
-
     """Runs Fabric's installer and then installs Fabulously Optimized.
 
     Args:
@@ -451,9 +449,7 @@ def run(
     )
     packwiz_bootstrap = download_pack(widget, interface)
     logger.info("Installing FO, Packwiz will run.")
-    text_update(
-        "Installing Fabulously Optimized...", widget, "info", interface
-    )
+    text_update("Installing Fabulously Optimized...", widget, "info", interface)
     install_pack(
         packwiz_bootstrap,
         version,
