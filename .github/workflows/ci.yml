@@ -102,8 +102,13 @@ jobs:
       - name: Cache
         uses: actions/cache@v3
         with:
-          path: build/gui.build
+          path: build
           key: ci-build-source-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+      - name: Cache venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ci-build-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
       - name: Get normalized branch name
         shell: bash
         run: |
@@ -112,9 +117,12 @@ jobs:
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
       - name: Install dependencies and build
         run: |
-          pipx run poetry install --no-interaction --with compile -E gui
+          # required to use `python3` here as otherwise the venv is created with python 3.9
+          python3 -m pip install pipx
+          python3 -m pipx run poetry install --no-interaction --with compile -E gui
           ./.venv/Scripts/activate.ps1
-          pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
+          # pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
+          echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
           pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
@@ -127,7 +135,10 @@ jobs:
   build-windows-cli:
     name: Build CLI for Windows
     runs-on: windows-2022
-    needs: [lint, build-python, build-windows]
+    needs: [lint, build-python]
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
@@ -140,8 +151,13 @@ jobs:
       - name: Cache
         uses: actions/cache@v3
         with:
-          path: build/cli.build
+          path: build
           key: ci-build-source-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+      - name: Cache venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
       - name: Get normalized branch name
         shell: bash
         run: |
@@ -150,9 +166,11 @@ jobs:
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
       - name: Install dependencies and build
         run: |
-          pipx run poetry install --no-interaction --with compile
+          # required to use `python3` here as otherwise the venv is created with python 3.9
+          python3 -m pip install pipx
+          python3 -m pipx run poetry install --no-interaction --with compile
           ./.venv/Scripts/activate.ps1
-          pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
+          # pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,asyncclick,click,tomli,darkdetect -o "vanilla-installer.exe" --enable-console --include-data-dir=vanilla_installer/assets=assets/ vanilla_installer/cli.py --assume-yes-for-downloads
       - name: Upload binaries
@@ -160,50 +178,3 @@ jobs:
         with:
           name: Vanilla Installer ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }} (Windows CLI)
           path: build/*.exe
-
-
-  # build-macos:
-    # name: Build macOS app bundle
-    # runs-on: macos-12
-    # needs: [lint, build-python]
-    # steps:
-      # - uses: actions/checkout@v3
-      # same as above
-      # - name: Set up Python 3.10
-        # uses: actions/setup-python@v4
-        # with:
-          # python-version: "3.10"
-      # - name: Install and configure Poetry
-        # uses: snok/install-poetry@v1
-        # with:
-          # virtualenvs-in-project: true
-          # installer-parallel: true
-      # - name: Load cached venv
-        # id: cached-poetry-dependencies
-        # uses: actions/cache@v3
-        # with:
-          # path: .venv
-          # key: ci-build-macos-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      # - name: Shorten commit SHA
-        # uses: benjlevesque/short-sha@v2.1
-        # id: short-sha
-        # was having issues without installing Qt, so install it using
-        # this GHA wrapper around aqtinstall
-      # - name: Install Qt
-        # uses: jurplel/install-qt-action@v3
-        # with:
-          # version: 6.2.*
-          # setup-python: false
-          # aqtversion: ==3.1.*
-          # py7zrversion: ==0.20.*
-      # - name: Install dependencies
-        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        # run: poetry install --no-interaction --with compile
-        
-      # - name: Build app bundle
-        # run: poetry run python3 -m nuitka --macos-create-app-bundle --macos-app-icon=media/icon.icns --macos-app-version="dev+${{ steps.short-sha.outputs.sha }}" --macos-signed-app-name="io.github.fabulously_optimized.vanilla_installer" --standalone --onefile --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI v1.0.0b1.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console vanilla_installer/gui.py
-      # - name: Upload built wheels
-        # uses: actions/upload-artifact@v3
-        # with:
-          # name: Vanilla Installer $(date -u) (macOS)
-          # path: "*.app"
