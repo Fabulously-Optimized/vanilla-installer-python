@@ -38,11 +38,11 @@ flake8 = "^6.0.0"
 
 
 [tool.poetry.group.compile.dependencies]
-nuitka = {version = "^1.5", python = "<=3.10"}
+nuitka = "^1.5"
 ordered-set = "^4.1.0"
 zstandard = "^0.20.0"
 imageio = "^2.26.0"
-pyproject-appimage = {version = "^2.0", python = ">=3.9,<3.12"}
+# pyproject-appimage = {version = "^2.0", python = ">=3.9,<3.12"}
 
 [tool.poetry.scripts]
 vanilla-installer = {callable = "vanilla_installer:cli.vanilla_installer"}
@@ -56,9 +56,9 @@ gui = ["pyside6", "darkdetect"]
 
 [tool.poetry_bumpversion.file."vanilla_installer/__init__.py"]
 
-[tool.pyproject-appimage]
-script = "vanilla-installer"
-output = "VanillaInstaller-v0.2.0.AppImage"
+# [tool.pyproject-appimage]
+# script = "vanilla-installer"
+# output = "VanillaInstaller-v0.2.0.AppImage"
 
 [tool.isort]
 profile = "black"

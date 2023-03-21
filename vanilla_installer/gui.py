@@ -109,11 +109,24 @@ class Ui_MainWindow(object):
         )
         self.versionSelector = QComboBox(self.centralwidget)
         self.versionSelector.setObjectName("versionSelector")
-        self.versionSelector.setGeometry(QRect(355, 240, 115, 20))
+        self.versionSelector.setGeometry(QRect(355, 240, 120, 20))
         self.versionLabel = QLabel(self.centralwidget)
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setGeometry(QRect(130, 240, 195, 25))
         self.versionLabel.setAlignment(Qt.AlignLeft)
+        self.versionHelp = QPushButton(self.centralwidget)
+        self.versionHelp.setObjectName("versionHelp")
+        self.versionHelp.setGeometry(480, 240, 20, 20)
+        self.versionHelp.setFlat(True)
+        self.versionHelp.clicked.connect(
+            lambda: webbrowser.open(
+                "https://fabulously-optimized.gitbook.io/modpack/readme/version-support"
+            )
+        )
+        self.versionHelpIcon = QSvgWidget(
+            Ui_MainWindow.getAsset("help.svg"), self.versionHelp
+        )
+        self.versionHelpIcon.setGeometry(QRect(0, 0, 20, 20))
         self.locationLabel = QLabel(self.centralwidget)
         self.locationLabel.setObjectName("locationLabel")
         self.locationLabel.setGeometry(QRect(130, 300, 100, 25))
@@ -244,6 +257,10 @@ class Ui_MainWindow(object):
                 "MainWindow", i18n_strings["vanilla_installer.gui.theme_toggle"], None
             )
         )
+        self.versionHelpString = "Vanilla Installer allows easy installation of all supported versions of Fabulously Optimized. \nFor legacy versions, download the respective MultiMC version from CurseForge and unpack it manually."
+        self.versionHelp.setToolTip(
+            QCoreApplication.translate("MainWindow", self.versionHelpString, None)
+        )
         self.settingsButton.setText(
             QCoreApplication.translate(
                 "MainWindow", i18n_strings["vanilla_installer.gui.settings"], None
@@ -289,6 +306,10 @@ class Ui_MainWindow(object):
             f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
             f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
         )
+        self.versionHelp.setStyleSheet(
+            f'QPushButton{{ color: #00000000; font-family: "{global_font}"}}'
+            f'QPushButton:hover {{ color: {loaded_theme.get("label")}; text-align: right; padding-right: 30px}}'
+        )
 
         self.versionLabel.setStyleSheet(
             f'color: {loaded_theme.get("label")}; font: 12pt "{global_font}"'
@@ -319,6 +340,9 @@ class Ui_MainWindow(object):
         effect5 = QGraphicsColorizeEffect(self.centralwidget)
         effect5.setColor(loaded_theme.get("icon"))
         self.settingsButtonIcon.setGraphicsEffect(effect5)
+        effect6 = QGraphicsColorizeEffect(self.centralwidget)
+        effect6.setColor(loaded_theme.get("icon"))
+        self.versionHelpIcon.setGraphicsEffect(effect6)
 
     def addVersions(self) -> None:
         """Adds the versions to the version selector."""
@@ -378,6 +402,8 @@ class Ui_MainWindow(object):
         self.installButton.setDisabled(True)
         self.installButton.setStyleSheet(
             f'QPushButton {{ border: none; background: {loaded_theme.get("installbuttonpressed")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+            f'QPushButton:hover {{ background: {loaded_theme.get("installbuttonpressed")};}}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
@@ -393,6 +419,8 @@ class Ui_MainWindow(object):
         self.installButton.setDisabled(False)
         self.installButton.setStyleSheet(
             f'QPushButton {{ border: none; background: {loaded_theme.get("blue")}; color: {loaded_theme.get("base")}; border-radius: 5px; font: 15pt "{global_font}"}}'
+            f'QPushButton:hover {{ background: {loaded_theme.get("lavender")};}}'
+            f'QPushButton:pressed {{ background: {loaded_theme.get("installbuttonpressed")};}}'
         )
         sleep(3.5)
         main.text_update("Vanilla Installer", self.subtitle)
