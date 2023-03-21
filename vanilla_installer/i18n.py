@@ -3,7 +3,7 @@ import json
 import logging
 from pathlib import Path
 
-logger = logging.getLogger("vanilla_installer")
+logger = logging.getLogger(__name__)
 
 if Path("vanilla_installer").exists():
     # This is a development environment, being run from the root directory

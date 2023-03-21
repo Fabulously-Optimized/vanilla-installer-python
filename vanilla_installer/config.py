@@ -7,7 +7,7 @@ import minecraft_launcher_lib as mll
 import tomlkit
 from tomlkit import toml_file
 
-logger = logging.getLogger("vanilla_installer")
+logger = logging.getLogger(__name__)
 
 FILE_PATH = str(Path("vanilla_installer.toml").resolve())
 

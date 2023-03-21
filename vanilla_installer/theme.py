@@ -12,7 +12,7 @@ import darkdetect
 
 from vanilla_installer import config
 
-logger = logging.getLogger("vanilla_installer")
+logger = logging.getLogger(__name__)
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 

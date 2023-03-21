@@ -25,7 +25,7 @@ import tomlkit as toml
 # Local
 from vanilla_installer import __version__, config
 
-logger = logging.getLogger("vanilla_installer")
+logger = logging.getLogger(__name__)
 
 FOLDER_LOC = ""
 

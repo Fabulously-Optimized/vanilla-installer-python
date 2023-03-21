@@ -31,7 +31,7 @@ from PySide6.QtWidgets import (
 # LOCAL
 from vanilla_installer import config, i18n, main, theme
 
-logger = logging.getLogger("vanilla_installer")
+logger = logging.getLogger(__name__)
 
 
 def run() -> None:
