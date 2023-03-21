@@ -2,7 +2,7 @@
     "recommendations": [
       "ms-python.python",
       "editorconfig.editorconfig",
-      "seatonjiang.gitmoji-vscode",
+      "vivaxy.vscode-conventional-commits",
       "seanwu.vscode-qt-for-python"
     ]
 }
