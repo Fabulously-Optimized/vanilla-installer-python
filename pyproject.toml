@@ -25,7 +25,7 @@ minecraft-launcher-lib = "^5.3"
 pyside6 = {version = "^6.4.3", optional = true}
 asyncclick = "^8.1.3.4"
 anyio = "^3.6.2" # asyncclick seems to bug without anyio, despite being a dep
-tomlkit = "^0.11.6"
+tomlkit = "^0.11.7"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^2.17.1"
