@@ -110,5 +110,3 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer#15/11/2022)
