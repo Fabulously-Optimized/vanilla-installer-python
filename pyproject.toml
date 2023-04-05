@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "vanilla-installer"
-version = "0.2.1"
+version = "0.2.2"
 description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
-    "nsde <mail@onlix.me>"
+    "nsde <mail@onlix.me>",
+    "Kichura <blobfox.coffee/@Kichura>"
 ]
 documentation = "https://fabulously-optimized.gitbook.io/vanilla-installer"
 homepage = "https://fabulously-optimized.gitbook.io/vanilla-installer"
@@ -32,10 +33,8 @@ pylint = "^2.17.2"
 black = "^23.3.0"
 isort = "^5.12.0"
 
-
 [tool.poetry.group.ci.dependencies]
 flake8 = "^6.0.0"
-
 
 [tool.poetry.group.compile.dependencies]
 nuitka = "^1.5"
@@ -58,7 +57,7 @@ gui = ["pyside6", "darkdetect"]
 
 # [tool.pyproject-appimage]
 # script = "vanilla-installer"
-# output = "VanillaInstaller-v0.2.0.AppImage"
+# output = "VanillaInstaller-v0.2.2.AppImage"
 
 [tool.isort]
 profile = "black"
