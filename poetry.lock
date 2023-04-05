@@ -513,7 +513,7 @@ files = [
 ]
 
 [package.dependencies]
-orderedset = ">=4.1.0"
+ordered-set = ">=4.1.0"
 zstandard = ">=0.20.0"
 
 [[package]]
@@ -558,14 +558,14 @@ files = [
 dev = ["black", "mypy", "pytest"]
 
 [[package]]
-name = "orderedset"
-version = "2.0.3"
-description = "An Ordered Set implementation in Cython."
+name = "ordered-set"
+version = "4.1.0"
+description = "A MutableSet that remembers its order, so that every entry has an index"
 category = "dev"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "orderedset-2.0.3.tar.gz", hash = "sha256:b2f5ccfb5a86e7b3b3ddf18b29779cc18b24653abf9d6da4bebecf33780a6e29"},
+    {file = "ordered-set-4.1.0.tar.gz", hash = "sha256:694a8e44c87657c59292ede72891eb91d34131f6531463aab3009191c77364a8"},
 ]
 
 [[package]]
