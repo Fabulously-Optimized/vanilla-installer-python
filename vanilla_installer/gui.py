@@ -1,6 +1,9 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""Runs the GUI for Vanilla Installer."""
+"""
+Runs the GUI for Vanilla Installer.
+"""
+
 # IMPORTS
 import pathlib
 import platform
@@ -33,7 +36,9 @@ from vanilla_installer.log import logger
 
 
 def run() -> None:
-    """Runs the GUI."""
+    """
+    Runs the GUI.
+    """
     global global_font
     if config.read()["config"]["font"]:
         setFont(config.read()["config"]["font"] == "OpenDyslexic")
@@ -64,9 +69,9 @@ def setFont(opendyslexic: bool):
         global_font = "OpenDyslexic"
     else:
         # For some reason the Inter font on Linux is called `Inter` and on Windows it's called `Inter Regular`
-        # And thus, this janky solution
+        # And thus, this is a janky solution
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
-        # Either ways it would be a better idea to move to a font that doesn't have this issue
+        # Either way it would be a better idea to move to a font that doesn't have this issue
         inter_name = "Inter"
         if platform.system() == "Windows":
             inter_name = "Inter Regular"
@@ -327,13 +332,16 @@ class Ui_MainWindow(object):
         self.versionHelpIcon.setGraphicsEffect(effect6)
 
     def addVersions(self) -> None:
-        """Adds the versions to the version selector."""
+        """
+        Adds the versions to the version selector.
+        """
         for version in main.get_pack_mc_versions().keys():
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
 
     def getAsset(asset: str) -> str:
-        """Get the path to a given asset.
+        """
+        Get the path to a given asset.
 
         Args:
             asset (str): The asset to get.
@@ -349,7 +357,8 @@ class Ui_MainWindow(object):
         self.reloadTheme()
 
     def selectDirectory(self, parent) -> None:
-        """Select a directory.
+        """
+        Select a directory.
 
         Args:
             parent (str): The parent window.
@@ -371,12 +380,16 @@ class Ui_MainWindow(object):
             config.write("path", dialog.selectedFiles()[0])
 
     def openSettings(self) -> None:
-        """Open the settings."""
+        """
+        Open the settings.
+        """
         dialog = SettingsDialog(self)
         dialog.exec()
 
     def startInstall(self) -> None:
-        """Start the installation process."""
+        """
+        Start the installation process.
+        """
         loaded_theme = theme.load()
         # make sure the installation process is only running once
         if self.installing is True:
@@ -409,7 +422,8 @@ class Ui_MainWindow(object):
 
 
 class SettingsDialog(QDialog):
-    """The settings dialog.
+    """
+    The settings dialog.
 
     Args:
         QDialog (QDialog): The dialog.
@@ -457,11 +471,14 @@ class SettingsDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def accept(self) -> None:
-        """Accept Button actions"""
+        """
+        Accept Button actions.
+        """
         super().accept()
 
     def retranslateUi(self, Dialog) -> None:
-        """Retranslate UI for the set dialog.
+        """
+        Retranslate UI for the set dialog.
 
         Args:
             Dialog: The dialog.
@@ -470,11 +487,13 @@ class SettingsDialog(QDialog):
             QCoreApplication.translate("Dialog", "Vanilla Installer Settings", None)
         )
         self.fontDyslexicCheckbox.setText(
-            QCoreApplication.translate("Dialog", "Enable dyselxia friendly font", None)
+            QCoreApplication.translate("Dialog", "Enable dyslexia friendly font", None)
         )
 
     def reloadTheme(self) -> None:
-        """Reload the theme."""
+        """
+        Reload the theme.
+        """
         loaded_theme = theme.load()
         self.setStyleSheet(
             f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}'
@@ -493,7 +512,8 @@ class SettingsDialog(QDialog):
         )
 
     def changeFont(self, state) -> None:
-        """Toggle font between OpenDyslexic and Inter.
+        """
+        Toggle font between OpenDyslexic and Inter.
 
         Args:
             state: int, 2 implies a checked state and 0 would mean unchecked
