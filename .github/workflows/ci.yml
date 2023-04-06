@@ -66,7 +66,7 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: pipx run poetry install --no-interaction --no-root
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Build
         run: |
@@ -94,14 +94,13 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v3
-      # nuitka currently only supports Python <=3.10 right now
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Cache
         uses: actions/cache@v3
@@ -145,12 +144,12 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Cache
         uses: actions/cache@v3

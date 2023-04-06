@@ -35,7 +35,7 @@ However, you have to manually install updates.
 
 **Requirements**: Ability to download a file and double-click it.
 
-**Downsides**: No easy updating
+**Downsides**: No easy updating.
 
 **Recommended for**: People that aren't too well versed in technology, and probably don't care about updating VI.
 
