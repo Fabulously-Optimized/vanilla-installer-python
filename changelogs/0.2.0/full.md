@@ -17,7 +17,11 @@
 
 - Updated various dependencies
 - Updated issue templates
-- Added dev builds for Windows back and updated Python builds to include new
+- Added dev builds for Windows back and updated Python builds to include new font files
+
+## 0.2.1
+
+0.2.1 was a patch release fixing a crash making some versions not install correctly.
 
 [#46]: https://github.com/Fabulously-Optimized/vanilla-installer/pull/46
 [#59]: https://github.com/Fabulously-Optimized/vanilla-installer/issues/59
