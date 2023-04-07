@@ -1,6 +1,9 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""Starts logging for Vanilla Installer."""
+"""
+Starts logging for Vanilla Installer.
+"""
+
 import logging
 import logging.handlers  # pylance moment
 import sys
