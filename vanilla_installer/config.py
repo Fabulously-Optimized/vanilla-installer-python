@@ -1,3 +1,4 @@
+import logging
 import os
 import platform
 from pathlib import Path
@@ -6,7 +7,7 @@ import minecraft_launcher_lib as mll
 import tomlkit
 from tomlkit import toml_file
 
-from vanilla_installer.log import logger
+logger = logging.getLogger(__name__)
 
 FILE_PATH = str(Path("vanilla_installer.toml").resolve())
 
@@ -23,8 +24,15 @@ def init():
 
     config = tomlkit.table()
     # maybe call darkdetect from here?
-    # might want to just leave this alone to be
+    # might want to just leave this alone to be honest
     config.add("theme", "dark")
+    config.add(
+        tomlkit.comment(
+            "Whether to use FO's directory or ask the user for a custom one."
+        )
+    )
+    config.add("fo_dir", True)
+    config.add(tomlkit.comment("This is only used is fo_dir (above) is false."))
     config.add("path", mll.utils.get_minecraft_directory())
     if platform.system() == "Windows":
         font = "Inter Regular"

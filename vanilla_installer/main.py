@@ -5,7 +5,6 @@ Most important functions of Vanilla Installer.
 """
 # IMPORTS
 
-
 import base64
 import io
 import json
@@ -14,7 +13,7 @@ import platform
 import subprocess
 import zipfile
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import click
 import minecraft_launcher_lib as mll
@@ -194,6 +193,29 @@ def fo_to_base64(png_dir: str = ".") -> str:
 
 def get_version() -> str:
     return __version__
+
+
+def get_fo_dir() -> str:
+    """Get the default directory to use when the independent FO directory is selected.
+
+    Returns:
+        str: The path.
+    """
+    if platform.system() == "Windows":
+        fo_dir_path = (
+            Path("~/AppData/Roaming/Fabulously Optimized").expanduser().resolve()
+        )
+    elif platform.system() == "macOS":
+        fo_dir_path = (
+            Path("~/Library/Application Support/Fabulously Optimized")
+            .expanduser()
+            .resolve()
+        )
+    else:
+        fo_dir_path = Path("~/.local/share/Fabulously Optimized").expanduser().resolve()
+    if fo_dir_path.exists() is False:
+        fo_dir_path.mkdir()
+    return str(fo_dir_path)
 
 
 def text_update(
