@@ -123,6 +123,7 @@ jobs:
         with:
           repository: Nuitka/Nuitka
           path: nutika
+          fetch-depth: '0'
       - name: Checkout Nutika on latest tag and install
         working-directory: ./nutika
         run: |
