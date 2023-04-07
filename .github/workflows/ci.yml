@@ -118,14 +118,14 @@ jobs:
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-      - name: Checkout Nutika
+      - name: Checkout Nuitka
         uses: actions/checkout@v3
         with:
           repository: Nuitka/Nuitka
-          path: nutika
+          path: Nuitka
           fetch-depth: '0'
-      - name: Checkout Nutika on latest tag and install
-        working-directory: ./nutika
+      - name: Checkout Nuitka on latest tag and install
+        working-directory: ./Nuitka
         run: |
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
           python3 -m pip install -e .
