@@ -35,7 +35,7 @@ However, you have to manually install updates.
 
 **Requirements**: Ability to download a file and double-click it.
 
-**Downsides**: No easy updating
+**Downsides**: No easy updating.
 
 **Recommended for**: People that aren't too well versed in technology, and probably don't care about updating VI.
 
@@ -110,5 +110,3 @@ See [here](https://github.com/Fabulously-Optimized/vanilla-installer/graphs/cont
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-![Contribution Overview](https://orbit.onlix.me/contribview/Fabulously-Optimized/vanilla-installer#15/11/2022)

@@ -1,3 +1,8 @@
+# Copyright (C) Fabulously Optimized 2023
+# Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
+"""
+The Configuration System for Vanilla Installer.
+"""
 import logging
 import os
 import platform
@@ -13,7 +18,8 @@ FILE_PATH = str(Path("vanilla_installer.toml").resolve())
 
 
 def init():
-    """Initialise the config file with the default values.
+    """
+    Initialise the config file with the default values.
     This should **only** be run if the config file does not exist, as it will delete the file
     if it already exists, which will overwrite any user-set settings - which you don't want to do for obvious reasons.
     """
@@ -49,7 +55,8 @@ def init():
 
 
 def read() -> dict:
-    """Read from the config file.
+    """
+    Read from the config file.
 
     Returns:
         dict: The config file, reformatted into a dict-like format.
@@ -64,7 +71,8 @@ def read() -> dict:
 
 
 def write(key: str, value: str) -> None:
-    """Write to the config file.
+    """
+    Write to the config file.
     This is a mostly internal function used to write to the config file from a user interface.
 
     Args:
