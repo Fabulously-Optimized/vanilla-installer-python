@@ -126,8 +126,7 @@ jobs:
       - name: Checkout Nutika on latest tag and install
         working-directory: ./nutika
         run: |
-          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-          git checkout $LATEST_TAG
+          git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
           python3 -m pip install -e .
       - name: Install other dependencies and build
         run: |
