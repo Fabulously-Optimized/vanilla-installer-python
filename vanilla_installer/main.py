@@ -8,6 +8,7 @@ Most important functions of Vanilla Installer.
 import base64
 import io
 import json
+import logging
 import os
 import platform
 import subprocess
@@ -21,9 +22,9 @@ import requests
 import tomlkit as toml
 
 # Local
-from vanilla_installer import __version__, config, log
+from vanilla_installer import __version__, config
 
-logger = log.logger
+logger = logging.getLogger(__name__)
 
 FOLDER_LOC = ""
 

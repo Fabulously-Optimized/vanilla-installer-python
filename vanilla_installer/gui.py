@@ -5,6 +5,7 @@ Runs the GUI for Vanilla Installer.
 """
 
 # IMPORTS
+import logging
 import pathlib
 import platform
 import sys
@@ -31,8 +32,9 @@ from PySide6.QtWidgets import (
 )
 
 # LOCAL
-from vanilla_installer import config, main, theme
-from vanilla_installer.log import logger
+from vanilla_installer import config, i18n, main, theme
+
+logger = logging.getLogger(__name__)
 
 
 def run() -> None:
@@ -48,7 +50,7 @@ def run() -> None:
         from vanilla_installer import fonts
     except:
         logger.exception(
-            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
         )
 
     app = QApplication(sys.argv)
@@ -219,6 +221,8 @@ class Ui_MainWindow(object):
         Args:
             MainWindow (QMainWindow): The main window.
         """
+        # This is currently hardcoded as the actual i18n support isn't here, just the backend changes needed
+        i18n_strings = i18n.get_i18n_values("en_us")
         MainWindow.setWindowTitle(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
@@ -226,32 +230,46 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Fabulously Optimized", None)
         )
         self.subtitle.setText(
-            QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.subtitle"], None
+            )
         )
         self.installButton.setText(
-            QCoreApplication.translate("MainWindow", "Install", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.install_button"], None
+            )
         )
         self.versionLabel.setText(
-            QCoreApplication.translate("MainWindow", "Minecraft version:", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.mc_version"], None
+            )
         )
         self.locationLabel.setText(
-            QCoreApplication.translate("MainWindow", "Location:", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.location"], None
+            )
         )
         self.infoButton.setText(
             QCoreApplication.translate("MainWindow", "GitHub", None)
         )
         self.issuesButton.setText(
-            QCoreApplication.translate("MainWindow", "Report bugs", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.issues_button"], None
+            )
         )
         self.themeToggle.setText(
-            QCoreApplication.translate("MainWindow", "Toggle theme", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.theme_toggle"], None
+            )
         )
         self.versionHelpString = "Vanilla Installer allows easy installation of all supported versions of Fabulously Optimized. \nFor legacy versions, download the respective MultiMC version from CurseForge and unpack it manually."
         self.versionHelp.setToolTip(
             QCoreApplication.translate("MainWindow", self.versionHelpString, None)
         )
         self.settingsButton.setText(
-            QCoreApplication.translate("MainWindow", "Settings", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.settings"], None
+            )
         )
 
     def reloadTheme(self) -> None:
