@@ -160,7 +160,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-1
       - name: Get normalized branch name
         shell: bash
         run: |
