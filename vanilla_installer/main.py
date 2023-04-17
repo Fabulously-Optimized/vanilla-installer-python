@@ -13,7 +13,7 @@ import platform
 import subprocess
 import zipfile
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import click
 import minecraft_launcher_lib as mll
@@ -26,6 +26,12 @@ from vanilla_installer import __version__, config, log
 logger = log.logger
 
 FOLDER_LOC = ""
+
+
+class UnsupportedFormatVersion(Exception):
+    """The format version is not supported by this program version."""
+
+    pass
 
 
 def set_dir(path: str = mll.utils.get_minecraft_directory()) -> str | None:
@@ -376,34 +382,79 @@ def create_profile(mc_dir: str, version_id: str) -> None:
     launcher_profiles_path.write_text(profiles_json)
 
 
+def log_installed_version(
+    version: Union[str, int, float], install_dir: Union[str, bytes, os.PathLike]
+) -> None:
+    """Log the version of Minecraft that FO has been installed for. Used to find out later
+
+    Args:
+        version (Union[str, int, float]): The version to log.
+        install_dir (Union[str, bytes, os.PathLike]): The directory that FO was installed to.
+    """
+    dir_path = Path(install_dir).resolve() / ".fabulously-optimized"
+    dir_path.mkdir(exist_ok=True)
+    file_path = dir_path / "mc_version.txt"
+    if file_path.exists() is False:
+        file_path.touch()
+    with file_path.open("w") as file:
+        file.write(str(version))
+
+
+def read_versions() -> dict:
+    """Reads the versions.json file, either over the Internet, or locally.
+
+    Returns:
+        dict: The JSON file, formatted as a dictionary.
+    """
+    SUPPORTED_FORMAT_VERSION = 2
+
+    try:
+        response = requests.get(
+            "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
+        ).json()
+        format_version = response["format_version"]
+        if response["format_version"] != SUPPORTED_FORMAT_VERSION:
+            raise UnsupportedFormatVersion(
+                f"Format version {format_version} is not supported by this version."
+            )
+    except requests.exceptions.RequestException or response.status_code != "200":
+        # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.
+        # In this case, fall back to a local file.
+        logger.warning("GitHub failed, falling back to local...")
+        try:
+            local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+        except:
+            local_path = Path("assets").resolve() / "versions.json"
+        response = json.loads(local_path.read_bytes())
+    except UnsupportedFormatVersion:
+        logger.exception(
+            "Format version was not supported - using local file. Update Vanilla Installer to fix this."
+        )
+        try:
+            local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+        except:
+            local_path = Path("assets").resolve() / "versions.json"
+        response = json.loads(local_path.read_bytes())
+    return dict(response)
+
+
 def get_pack_mc_versions() -> dict:
     """
     Gets a list of all the versions FO currently supports.
     """
-
     return_value = dict()
-    try:
+    raw_dict = read_versions()
+    for version in raw_dict["versions"]:
+        raw_version = raw_dict["versions"][version]
+        if raw_version["enabled"] is True or raw_version["enabled"] == "true":
+            return_value[version] = raw_version
+    for key in return_value.keys():
         try:
-            response = requests.get(
-                "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
-            ).json()
-        except requests.exceptions.RequestException or response.status_code != "200":
-            # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.
-            # In this case, fall back to a local file since in the latter you'll likely have the whole repo cloned.
-            # For this to work, you need to be in the root directory of the repository running this, otherwise the files will not be found.
-            logger.warning("GitHub failed, falling back to local...")
-            try:
-                local_path = (
-                    Path("vanilla_installer/assets").resolve() / "versions.json"
-                )
-            except:
-                local_path = Path("assets").resolve() / "versions.json"
-            response = json.loads(local_path.read_bytes())
-
-        return_value = dict(response)
-        return return_value
-    except requests.exceptions.RequestException as e:
-        logger.exception(f"Couldn't get minecraft versions: {e}")
+            if key["packwiz"] != "":
+                pass
+        except KeyError:
+            return_value.pop(key)
+    return return_value
 
 
 def convert_version(input_mcver: str) -> str:
@@ -414,7 +465,7 @@ def convert_version(input_mcver: str) -> str:
         input_mcver (str): The Minecraft version to find.
 
     Returns:
-        str: The converted version as a direct JSDelivr URL.
+        str: The converted version as a URL.
     """
     versions = get_pack_mc_versions()
     return_value = versions.get(input_mcver)
@@ -422,6 +473,18 @@ def convert_version(input_mcver: str) -> str:
         raise TypeError("Invalid or unsupported Minecraft version.")
     else:
         return return_value
+
+
+def downgrade_check(version: Union[str, int, float]) -> bool:
+    """Checks whether the given version is a downgrade from the one currently installed.
+
+    Args:
+        version (Union[str, int, float]): _description_
+
+    Returns:
+        bool: Whether this is a downgrade.
+    """
+    version_dict = read_versions()
 
 
 def run(

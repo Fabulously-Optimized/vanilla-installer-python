@@ -203,7 +203,6 @@ class Ui_MainWindow(object):
             Ui_MainWindow.getAsset("settings.svg"), self.settingsButton
         )
         self.settingsButtonIcon.setGeometry(70, 0, 24, 24)
-
         self.windowIcon = Ui_MainWindow.getAsset("icon.png")
         MainWindow.setWindowIcon(QIcon(self.windowIcon))
 

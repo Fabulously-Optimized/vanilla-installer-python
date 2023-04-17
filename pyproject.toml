@@ -5,7 +5,7 @@ description = "An installer of Fabulously Optimized for the vanilla launcher."
 authors = [
     "osfanbuff63 <osfanbuff63@osfanbuff63.tech>",
     "nsde <mail@onlix.me>",
-    "Kichura <blobfox.coffee/@Kichura>"
+    "Kichura <Kichura@blobfox.coffee>"
 ]
 documentation = "https://fabulously-optimized.gitbook.io/vanilla-installer"
 homepage = "https://fabulously-optimized.gitbook.io/vanilla-installer"

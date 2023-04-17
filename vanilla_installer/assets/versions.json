@@ -1,6 +1,69 @@
 {
-  "1.19.4": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.19.4/pack.toml",
-  "1.18.2": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.18.2/pack.toml",
-  "1.17.1": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.17.1/pack.toml",
-  "1.16.5": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.16.5/pack.toml"
+  "format_version": 2,
+  "versions": {
+    "1.19.4": {
+      "packwiz": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.19.4/pack.toml",
+      "major_version": 4,
+      "enabled": true
+    },
+    "1.19.3": {
+      "major_version": 4,
+      "enabled": false
+    },
+    "1.19.2": {
+      "major_version": 4,
+      "enabled": false
+    },
+    "1.19.1": {
+      "major_version": 4,
+      "enabled": false
+    },
+    "1.19": {
+      "major_version": 4,
+      "enabled": false
+    },
+    "1.18.2": {
+      "packwiz": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.18.2/pack.toml",
+      "major_version": 3,
+      "enabled": true
+    },
+    "1.18.1": {
+      "major_version": 3,
+      "enabled": false
+    },
+    "1.18": {
+      "major_version": 3,
+      "enabled": false
+    },
+    "1.17.1": {
+      "packwiz": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.17.1/pack.toml",
+      "major_version": 2,
+      "enabled": true
+    },
+    "1.17": {
+      "major_version": 2,
+      "enabled": false
+    },
+    "1.16.5": {
+      "packwiz": "https://raw.githubusercontent.com/Fabulously-Optimized/fabulously-optimized/main/Packwiz/1.16.5/pack.toml",
+      "major_version": 1,
+      "enabled": true
+    },
+    "1.16.4": {
+      "major_version": 1,
+      "enabled": false
+    },
+    "1.16.3": {
+      "major_version": 1,
+      "enabled": false
+    },
+    "1.16.2": {
+      "major_version": 1,
+      "enabled": false
+    },
+    "1.16.1": {
+      "major_version": 1,
+      "enabled": false
+    }
+  }
 }
