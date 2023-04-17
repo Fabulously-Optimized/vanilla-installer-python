@@ -27,7 +27,7 @@ class LoggerWriter:
         pass
 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logfile_path = Path("./logs").resolve() / "vanilla_installer.log"
 if logfile_path.exists() is False:
@@ -53,4 +53,4 @@ sys.stdout = LoggerWriter(logger.info)
 sys.stderr = LoggerWriter(logger.error)
 
 logging.info("Starting Vanilla Installer")
-logger = logging.getLogger("Vanilla Installer")
+logger = logging.getLogger(__name__)

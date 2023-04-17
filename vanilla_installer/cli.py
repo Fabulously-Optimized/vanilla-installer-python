@@ -7,7 +7,7 @@ A CLI interface for Vanilla Installer.
 ## Imports
 
 import asyncio
-import logging
+# import logging
 import sys
 import webbrowser
 
@@ -22,7 +22,7 @@ except ImportError:
     pass
 from vanilla_installer import main
 
-logging.getLogger("asyncio").setLevel(logging.DEBUG)
+# logging.getLogger("asyncio").setLevel(logging.DEBUG)
 
 
 @click.group(

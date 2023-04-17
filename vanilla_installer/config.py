@@ -3,7 +3,7 @@
 """
 The Configuration System for Vanilla Installer.
 """
-
+import logging
 import os
 import platform
 from pathlib import Path
@@ -12,7 +12,7 @@ import minecraft_launcher_lib as mll
 import tomlkit
 from tomlkit import toml_file
 
-from vanilla_installer.log import logger
+logger = logging.getLogger(__name__)
 
 FILE_PATH = str(Path("vanilla_installer.toml").resolve())
 
