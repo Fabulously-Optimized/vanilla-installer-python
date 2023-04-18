@@ -1,4 +1,4 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """
 Most important functions of Vanilla Installer.
@@ -8,6 +8,7 @@ Most important functions of Vanilla Installer.
 import base64
 import io
 import json
+import logging
 import os
 import platform
 import subprocess
@@ -21,15 +22,16 @@ import requests
 import tomlkit as toml
 
 # Local
-from vanilla_installer import __version__, config, log
+from vanilla_installer import __version__, config
 
-logger = log.logger
+logger = logging.getLogger(__name__)
 
 FOLDER_LOC = ""
 
 
 def set_dir(path: str = mll.utils.get_minecraft_directory()) -> str | None:
-    """Sets the Minecraft game directory.
+    """
+    Sets the Minecraft game directory.
 
     Args:
         path (str): The path to the Minecraft game directory.
@@ -40,7 +42,8 @@ def set_dir(path: str = mll.utils.get_minecraft_directory()) -> str | None:
 
 
 def get_dir() -> str:
-    """Returns the Minecraft game directory.
+    """
+    Returns the Minecraft game directory.
 
     Returns:
         str: Path
@@ -51,7 +54,8 @@ def get_dir() -> str:
 
 
 def newest_version() -> str:
-    """Returns the latest version of Minecraft that FO supports.
+    """
+    Returns the latest version of Minecraft that FO supports.
 
     Returns:
       str: The latest Minecraft version that FO supports.
@@ -60,7 +64,8 @@ def newest_version() -> str:
 
 
 def find_mc_java(java_ver: float = 17.3) -> str:
-    """Gets the path to the Java executable downloaded from the vanilla launcher.
+    """
+    Gets the path to the Java executable downloaded from the vanilla launcher.
 
     Args:
         java_ver (float, optional): The Java version to find. Can be 8, 16, 17.1, or 17.3 Defaults to 17.3 and falls back to it if the integer is invalid.
@@ -149,9 +154,10 @@ def find_mc_java(java_ver: float = 17.3) -> str:
 
 
 def get_java(java_ver: float = 17.3) -> str:
-    """Gets the path to a Java executable.
+    """
+    Gets the path to a Java executable.
     If the user doesn't have a JRE/JDK installed on the system, it will default to the Microsoft
-    OpenJDK build that the vanilla launcher installs when you run Minecraft.
+    OpenJDK / Microsoft JDK build that the vanilla launcher installs when you run Minecraft.
 
     Args:
         java_ver (float, optional): The Java version to find. Can be 8, 16, 17.1 (Java 17.0.1) or 17.3 (Java 17.0.3). Defaults to 17.3, and falls back to 17.3 if the integer is invalid.
@@ -166,7 +172,8 @@ def get_java(java_ver: float = 17.3) -> str:
 
 
 def fo_to_base64(png_dir: str = ".") -> str:
-    """Converts the Fabulously Optimized logo from PNG format into base64.
+    """
+    Converts the Fabulously Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
 
     Args:
@@ -221,7 +228,8 @@ def get_fo_dir() -> str:
 def text_update(
     text: str, widget=None, mode: str = "info", interface: str = "GUI"
 ) -> None:
-    """Updates the text shown on the GUI window or echoes using Click.
+    """
+    Updates the text shown on the GUI window or echoes using Click.
 
     Args:
         text (str): The text to display
@@ -252,7 +260,8 @@ def text_update(
 
 
 def command(text: str) -> str:
-    """Runs a command with subprocess.
+    """
+    Runs a command with subprocess.
 
     Returns:
         str: The output of the command.
@@ -263,7 +272,8 @@ def command(text: str) -> str:
 
 
 def install_fabric(mc_version: str, mc_dir: str) -> str:
-    """Installs Fabric to the vanilla launcher.
+    """
+    Installs Fabric to the vanilla launcher.
 
     Args:
         mc_version (str): The version of Minecraft to get information from FO's files for.
@@ -292,7 +302,8 @@ def install_fabric(mc_version: str, mc_dir: str) -> str:
 
 
 def download_pack(widget, interface: str = "GUI") -> str:
-    """Downloads the packwiz_install_bootstrap jar.
+    """
+    Downloads the packwiz_install_bootstrap jar.
 
     Args:
         interface (str, optional): The interface to pass to text_update, either "CLI" or "GUI". Defaults to "GUI".
@@ -320,7 +331,8 @@ def install_pack(
     interface: str = "GUI",
     java_ver: float = 17.3,
 ) -> None:
-    """Installs Fabulously Optimized.
+    """
+    Installs Fabulously Optimized.
 
     Args:
         packwiz_installer_bootstrap (str): The path to the packwiz installer bootstrap.
@@ -358,7 +370,8 @@ def install_pack(
 
 
 def create_profile(mc_dir: str, version_id: str) -> None:
-    """Creates a profile in the vanilla launcher.
+    """
+    Creates a profile in the vanilla launcher.
 
     Args:
         mc_dir (str): The path to the Minecraft directory.
@@ -388,7 +401,9 @@ def create_profile(mc_dir: str, version_id: str) -> None:
 
 
 def get_pack_mc_versions() -> dict:
-    """Gets a list of all the versions FO currently supports."""
+    """
+    Gets a list of all the versions FO currently supports.
+    """
 
     return_value = dict()
     try:
@@ -416,7 +431,8 @@ def get_pack_mc_versions() -> dict:
 
 
 def convert_version(input_mcver: str) -> str:
-    """Converts a version string to the appropriate FO pack.toml
+    """
+    Converts a version string to the appropriate FO pack.toml
 
     Args:
         input_mcver (str): The Minecraft version to find.
@@ -439,7 +455,8 @@ def run(
     interface: str = "GUI",
     widget=None,
 ) -> None:
-    """Runs Fabric's installer and then installs Fabulously Optimized.
+    """
+    Runs Fabric's installer and then installs Fabulously Optimized.
 
     Args:
         widget (optional): The widget to update. This is only used when interface is set to GUI. Defaults to None.

@@ -1,7 +1,11 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""Runs the GUI for Vanilla Installer."""
+"""
+Runs the GUI for Vanilla Installer.
+"""
+
 # IMPORTS
+import logging
 import pathlib
 import platform
 import sys
@@ -28,12 +32,15 @@ from PySide6.QtWidgets import (
 )
 
 # LOCAL
-from vanilla_installer import config, main, theme
-from vanilla_installer.log import logger
+from vanilla_installer import config, i18n, main, theme
+
+logger = logging.getLogger(__name__)
 
 
 def run() -> None:
-    """Runs the GUI."""
+    """
+    Runs the GUI.
+    """
     global global_font
     if config.read()["config"]["font"]:
         setFont(config.read()["config"]["font"] == "OpenDyslexic")
@@ -43,7 +50,7 @@ def run() -> None:
         from vanilla_installer import fonts
     except:
         logger.exception(
-            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
+            "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
         )
 
     app = QApplication(sys.argv)
@@ -64,9 +71,9 @@ def setFont(opendyslexic: bool):
         global_font = "OpenDyslexic"
     else:
         # For some reason the Inter font on Linux is called `Inter` and on Windows it's called `Inter Regular`
-        # And thus, this janky solution
+        # And thus, this is a janky solution
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
-        # Either ways it would be a better idea to move to a font that doesn't have this issue
+        # Either way it would be a better idea to move to a font that doesn't have this issue
         inter_name = "Inter"
         if platform.system() == "Windows":
             inter_name = "Inter Regular"
@@ -214,6 +221,8 @@ class Ui_MainWindow(object):
         Args:
             MainWindow (QMainWindow): The main window.
         """
+        # This is currently hardcoded as the actual i18n support isn't here, just the backend changes needed
+        i18n_strings = i18n.get_i18n_values("en_us")
         MainWindow.setWindowTitle(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
@@ -221,32 +230,46 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Fabulously Optimized", None)
         )
         self.subtitle.setText(
-            QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.subtitle"], None
+            )
         )
         self.installButton.setText(
-            QCoreApplication.translate("MainWindow", "Install", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.install_button"], None
+            )
         )
         self.versionLabel.setText(
-            QCoreApplication.translate("MainWindow", "Minecraft version:", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.mc_version"], None
+            )
         )
         self.locationLabel.setText(
-            QCoreApplication.translate("MainWindow", "Location:", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.location"], None
+            )
         )
         self.infoButton.setText(
             QCoreApplication.translate("MainWindow", "GitHub", None)
         )
         self.issuesButton.setText(
-            QCoreApplication.translate("MainWindow", "Report bugs", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.issues_button"], None
+            )
         )
         self.themeToggle.setText(
-            QCoreApplication.translate("MainWindow", "Toggle theme", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.theme_toggle"], None
+            )
         )
         self.versionHelpString = "Vanilla Installer allows easy installation of all supported versions of Fabulously Optimized. \nFor legacy versions, download the respective MultiMC version from CurseForge and unpack it manually."
         self.versionHelp.setToolTip(
             QCoreApplication.translate("MainWindow", self.versionHelpString, None)
         )
         self.settingsButton.setText(
-            QCoreApplication.translate("MainWindow", "Settings", None)
+            QCoreApplication.translate(
+                "MainWindow", i18n_strings["vanilla_installer.gui.settings"], None
+            )
         )
 
     def reloadTheme(self) -> None:
@@ -327,13 +350,16 @@ class Ui_MainWindow(object):
         self.versionHelpIcon.setGraphicsEffect(effect6)
 
     def addVersions(self) -> None:
-        """Adds the versions to the version selector."""
+        """
+        Adds the versions to the version selector.
+        """
         for version in main.get_pack_mc_versions().keys():
             self.versionSelector.addItem(version)
         self.versionSelector.setCurrentIndex(0)
 
     def getAsset(asset: str) -> str:
-        """Get the path to a given asset.
+        """
+        Get the path to a given asset.
 
         Args:
             asset (str): The asset to get.
@@ -349,7 +375,8 @@ class Ui_MainWindow(object):
         self.reloadTheme()
 
     def selectDirectory(self, parent) -> None:
-        """Select a directory.
+        """
+        Select a directory.
 
         Args:
             parent (str): The parent window.
@@ -371,12 +398,16 @@ class Ui_MainWindow(object):
             config.write("path", dialog.selectedFiles()[0])
 
     def openSettings(self) -> None:
-        """Open the settings."""
+        """
+        Open the settings.
+        """
         dialog = SettingsDialog(self)
         dialog.exec()
 
     def startInstall(self) -> None:
-        """Start the installation process."""
+        """
+        Start the installation process.
+        """
         loaded_theme = theme.load()
         # make sure the installation process is only running once
         if self.installing is True:
@@ -409,7 +440,8 @@ class Ui_MainWindow(object):
 
 
 class SettingsDialog(QDialog):
-    """The settings dialog.
+    """
+    The settings dialog.
 
     Args:
         QDialog (QDialog): The dialog.
@@ -457,11 +489,14 @@ class SettingsDialog(QDialog):
         self.buttonBox.rejected.connect(self.reject)
 
     def accept(self) -> None:
-        """Accept Button actions"""
+        """
+        Accept Button actions.
+        """
         super().accept()
 
     def retranslateUi(self, Dialog) -> None:
-        """Retranslate UI for the set dialog.
+        """
+        Retranslate UI for the set dialog.
 
         Args:
             Dialog: The dialog.
@@ -470,11 +505,13 @@ class SettingsDialog(QDialog):
             QCoreApplication.translate("Dialog", "Vanilla Installer Settings", None)
         )
         self.fontDyslexicCheckbox.setText(
-            QCoreApplication.translate("Dialog", "Enable dyselxia friendly font", None)
+            QCoreApplication.translate("Dialog", "Enable dyslexia friendly font", None)
         )
 
     def reloadTheme(self) -> None:
-        """Reload the theme."""
+        """
+        Reload the theme.
+        """
         loaded_theme = theme.load()
         self.setStyleSheet(
             f'[objectName^="Dialog"] {{ background-color: {loaded_theme.get("base")}}}'
@@ -493,7 +530,8 @@ class SettingsDialog(QDialog):
         )
 
     def changeFont(self, state) -> None:
-        """Toggle font between OpenDyslexic and Inter.
+        """
+        Toggle font between OpenDyslexic and Inter.
 
         Args:
             state: int, 2 implies a checked state and 0 would mean unchecked

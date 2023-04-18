@@ -1,22 +1,25 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """
 Theme & design of the PySide6 GUI.
 """
 
+import logging
 import pathlib
 from typing import Optional
 
 import darkdetect
 
 from vanilla_installer import config
-from vanilla_installer.log import logger
+
+logger = logging.getLogger(__name__)
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 
 
 def is_dark(to_dark: Optional[bool] = None) -> str:
-    """Change or get the status of dark mode.
+    """
+    Change or get the status of dark mode.
 
     Args:
         to_dark (bool, optional): Status. Defaults to None (just get status, without editing it).
@@ -74,7 +77,8 @@ light_theme = {
 
 
 def load() -> dict:
-    """Returns the current theme dictionary.
+    """
+    Returns the current theme dictionary.
 
     Returns:
         dict: The colors palette.
@@ -83,7 +87,9 @@ def load() -> dict:
 
 
 def toggle() -> None:
-    """Switches between dark and light theme."""
+    """
+    Switches between dark and light theme.
+    """
     is_dark(is_dark() != "dark")
 
 

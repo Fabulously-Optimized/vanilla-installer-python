@@ -1,10 +1,13 @@
-# Copyright (C) Fabulously Optimized 2022
+# Copyright (C) Fabulously Optimized 2023
 # Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
-"""A CLI interface for Vanilla Installer."""
+"""
+A CLI interface for Vanilla Installer.
+"""
+
 ## Imports
 
 import asyncio
-import logging
+# import logging
 import sys
 import webbrowser
 
@@ -19,7 +22,7 @@ except ImportError:
     pass
 from vanilla_installer import main
 
-logging.getLogger("asyncio").setLevel(logging.DEBUG)
+# logging.getLogger("asyncio").setLevel(logging.DEBUG)
 
 
 @click.group(

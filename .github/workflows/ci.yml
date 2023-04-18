@@ -66,13 +66,13 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: pipx run poetry install --no-interaction --no-root
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Build
         run: |
           source .venv/bin/activate
           pip install pyside6
-          pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
+          pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py
           pipx run poetry build --no-interaction
       - name: Get normalized branch name
         run: |
@@ -94,14 +94,13 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v3
-      # nuitka currently only supports Python <=3.10 right now
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Cache
         uses: actions/cache@v3
@@ -127,7 +126,7 @@ jobs:
           ./.venv/Scripts/activate.ps1
           # pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
-          pyside6-rcc vanilla_installer/assets/fonts.qrc -o vanilla_installer/fonts.py
+          pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py --assume-yes-for-downloads
       - name: Upload built executable
         uses: actions/upload-artifact@v3
@@ -145,12 +144,12 @@ jobs:
         shell: pwsh
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Shorten commit SHA
-        uses: benjlevesque/short-sha@v2.1
+        uses: benjlevesque/short-sha@v2.2
         id: short-sha
       - name: Cache
         uses: actions/cache@v3
@@ -161,7 +160,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: .venv
-          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-1
       - name: Get normalized branch name
         shell: bash
         run: |
