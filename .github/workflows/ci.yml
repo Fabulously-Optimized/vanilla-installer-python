@@ -30,7 +30,7 @@ jobs:
       - name: Load cached venv
         id: cached-poetry-dependencies
         # https://github.com/snok/install-poetry#caching-on-windows-runners
-        if: ${{ runner.os != 'Windows' }}
+        # if: ${{ runner.os != 'Windows' }}
         uses: actions/cache@v3
         with:
           path: .venv
@@ -109,20 +109,24 @@ jobs:
           key: ci-build-source-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
       - name: Cache venv
         uses: actions/cache@v3
+        id: cache-venv
         with:
           path: .venv
-          key: ci-build-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
+          key: ci-build-venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Get normalized branch name
         shell: bash
         run: |
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-      - name: Install dependencies and build
+      - name: Install dependencies
+        if: ${{ steps.cache-venv.outputs.cache-hit != 'true' }}
         run: |
           # required to use `python3` here as otherwise the venv is created with python 3.9
           python3 -m pip install pipx
           python3 -m pipx run poetry install --no-interaction --with compile -E gui
+      - name: Build
+        run: |
           ./.venv/Scripts/activate.ps1
           # pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
@@ -158,20 +162,24 @@ jobs:
           key: ci-build-source-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}
       - name: Cache venv
         uses: actions/cache@v3
+        id: cache-venv
         with:
           path: .venv
-          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-1
+          key: ci-build-venv-cli-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Get normalized branch name
         shell: bash
         run: |
           RAW_BRANCH=${{ github.ref_name || github.head_ref }}
           BRANCH=${RAW_BRANCH//\//-}
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-      - name: Install dependencies and build
+      - name: Install dependencies
+        if: ${{ steps.cache-venv.outputs.cache-hit != 'true' }}
         run: |
           # required to use `python3` here as otherwise the venv is created with python 3.9
           python3 -m pip install pipx
-          python3 -m pipx run poetry install --no-interaction --with compile
+          python3 -m pipx run poetry install --no-interaction --with compile -E gui
+      - name: Build
+        run: |
           ./.venv/Scripts/activate.ps1
           # pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
