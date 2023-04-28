@@ -73,84 +73,35 @@ def find_mc_java(java_ver: float = 17.3) -> str:
     Returns:
         str: The complete path to the Java executable.
     """
-    if platform.system() == "Windows":
-        program_files = os.environ["PROGRAMFILES(X86)"]
-        if java_ver == 8:
-            java = str(
-                Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe"
-                )
-            )
-        elif java_ver == 16:
-            java = str(
-                Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe"
-                )
-            )
-        elif java_ver == 17.1:
-            java = str(
-                Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe"
-                )
-            )
-        else:
-            java = str(
-                Path(
-                    f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
-                )
-            )
-    elif platform.system() == "Linux":
-        if java_ver == 8:
-            java = str(
-                Path(
-                    "~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java"
-                ).resolve()
-            )
-        elif java_ver == 16:
-            java = str(
-                Path(
-                    "~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java"
-                ).resolve()
-            )
-        elif java_ver == 17.1:
-            java = str(
-                Path(
-                    "~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java"
-                ).resolve()
-            )
-        else:
-            java = str(
-                Path(
-                    "~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
-                ).resolve()
-            )
-    elif platform.system("Mac"):  # all of this may or may not work
-        if java_ver == 8:
-            java = str(
-                Path(
-                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-legacy/darwin/java-runtime-legacy/bin/java"
-                )
-            )
-        elif java_ver == 16:
-            java = str(
-                Path(
-                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-alpha/darwin/java-runtime-alpha/bin/java"
-                )
-            )
-        elif java_ver == 17.1:
-            java = str(
-                Path(
-                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-beta/darwin/java-runtime-beta/bin/java"
-                )
-            )
-        else:
-            java = str(
-                Path(
-                    "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java"
-                )
-            )
 
-    return java
+    program_files = os.environ["PROGRAMFILES(X86)"]
+
+    javas = {
+        'Windows': {
+            "8": f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe",
+            "16": f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe",
+            "17.1": f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe",
+            "default": f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
+        },
+
+        'Linux': {
+            "8": "~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java",
+            "16": "~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java",
+            "17.1": "~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java",
+            "default": "~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
+        },
+
+        'Mac': {
+            "8": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-legacy/darwin/java-runtime-legacy/bin/java",
+            "16": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-alpha/darwin/java-runtime-alpha/bin/java",
+            "17.1": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-beta/darwin/java-runtime-beta/bin/java",
+            "default": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java"
+        }
+    }
+
+    default = javas[platform.system()]["default"]
+
+    return str(Path(javas[platform.system()].get(str(java_ver), default)).resolve())
 
 
 def get_java(java_ver: float = 17.3) -> str:
