@@ -37,7 +37,7 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           python3 -m pip install pipx
-          pip install --upgrade pip
+          python3 -m pip install --upgrade pip
           python3 -m pipx run poetry install --no-interaction --no-root --only ci
       - name: Lint with flake8
         # Stops the build if there are Python syntax errors or undefined names,
