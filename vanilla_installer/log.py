@@ -35,11 +35,11 @@ if logfile_path.exists() is False:
     with logfile_path as file:
         open(file, "x", encoding="utf-8").write("")
 handler = logging.handlers.RotatingFileHandler(
-        filename=logfile_path,
-        encoding="utf-8",
-        maxBytes=32 * 1024 * 1024,  # 32 MiB
-        backupCount=5,  # Rotate through 5 files
-    )
+    filename=logfile_path,
+    encoding="utf-8",
+    maxBytes=32 * 1024 * 1024,  # 32 MiB
+    backupCount=5,  # Rotate through 5 files
+)
 
 dt_fmt = "%Y-%m-%d %H:%M:%S"
 formatter = logging.Formatter(
