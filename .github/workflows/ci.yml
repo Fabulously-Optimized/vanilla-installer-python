@@ -41,11 +41,11 @@ jobs:
           python3 -m pip install pipx
           python3 -m pipx run poetry install --no-interaction --no-root --only ci
       - name: Lint with flake8
+        # Stops the build if there are Python syntax errors or undefined names,
+        # and exit-zero treats all errors as warnings, The GitHub editor is 127 chars wide.
         run: |
           source .venv/bin/activate || source .venv/Scripts/activate
-          # stop the build if there are Python syntax errors or undefined names
           flake8 ./vanilla_installer/ --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 ./vanilla_installer/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --ignore=E501,E722,E266
 
   build-python:
@@ -132,7 +132,6 @@ jobs:
       - name: Build
         run: |
           ./.venv/Scripts/activate.ps1
-          # pip install nuitka minecraft_launcher_lib PySide6 click tomli darkdetect
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
           pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "Vanilla Installer-GUI ${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py --assume-yes-for-downloads
@@ -186,7 +185,6 @@ jobs:
       - name: Build
         run: |
           ./.venv/Scripts/activate.ps1
-          # pip install nuitka minecraft_launcher_lib click tomli darkdetect asyncclick
           echo '__version__ = "${{ env.BRANCH }}+${{ steps.short-sha.outputs.sha }}"' | Out-File vanilla_installer/__init__.py
           python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --output-dir=build --include-package=minecraft_launcher_lib,asyncclick,click,tomli -o "vanilla-installer.exe" --enable-console --include-data-dir=vanilla_installer/assets=assets/ vanilla_installer/cli.py --assume-yes-for-downloads
       - name: Upload binaries
