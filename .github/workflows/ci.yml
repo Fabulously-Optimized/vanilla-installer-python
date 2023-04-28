@@ -38,6 +38,7 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
+          source .venv/bin/activate || source .venv/Scripts/activate
           python3 -m pip install pipx
           python3 -m pipx run poetry install --no-interaction --no-root --only ci
       - name: Lint with flake8
