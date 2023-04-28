@@ -47,7 +47,7 @@ def run() -> None:
     else:
         setFont(False)
     try:
-        __all__ = ('fonts')
+        from vanilla_installer import fonts
     except:
         logger.exception(
             "resource file for fonts isn't generated!\nrun `pyside6-rcc vanilla_installer/assets/fonts/fonts.qrc -o vanilla_installer/fonts.py` in the root directory of the project to generate them. you might need to source the venv.\nignore this if you are running on a compiled version."
