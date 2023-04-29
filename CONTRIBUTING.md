@@ -2,7 +2,7 @@
 
 - You can support this project by:
   - Finding bugs
-  - Discussing features/bugs others have reported
+  - Discussing features/bugs that others have reported
   - Thinking of improvements and other changes
   
   We are happy to listen to your feedback.
@@ -10,7 +10,7 @@
   You need to log into GitHub, if you haven't already.
   
 - If you're a **developer**, you can also help by either
-  [reviewing existing Pull Requests](https://github.com/Fabulously-Optimized/vanilla-installer/pulls) or
+  [reviewing existing pull requests](https://github.com/Fabulously-Optimized/vanilla-installer/pulls) or
   [forking this project](https://github.com/Fabulously-Optimized/vanilla-installer/fork) and
   [creating a new pull request](https://github.com/Fabulously-Optimized/vanilla-installer/compare).
   
