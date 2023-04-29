@@ -6,8 +6,8 @@ Starts logging for Vanilla Installer.
 
 import logging
 import logging.handlers  # pylance moment
-from pathlib import Path
 import sys
+from pathlib import Path
 
 
 class LoggerWriter:
@@ -16,9 +16,9 @@ class LoggerWriter:
         self.buf = []
 
     def write(self, msg):
-        if msg.endswith('\n'):
-            self.buf.append(msg.removesuffix('\n'))
-            self.logfct(''.join(self.buf))
+        if msg.endswith("\n"):
+            self.buf.append(msg.removesuffix("\n"))
+            self.logfct("".join(self.buf))
             self.buf = []
         else:
             self.buf.append(msg)

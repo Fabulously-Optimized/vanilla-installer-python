@@ -77,26 +77,24 @@ def find_mc_java(java_ver: float = 17.3) -> str:
     program_files = os.environ["PROGRAMFILES(X86)"]
 
     javas = {
-        'Windows': {
+        "Windows": {
             "8": f"{program_files}/Minecraft Launcher/runtime/java-runtime-legacy/windows-x64/java-runtime-legacy/bin/javaw.exe",
             "16": f"{program_files}/Minecraft Launcher/runtime/java-runtime-alpha/windows-x64/java-runtime-alpha/bin/javaw.exe",
             "17.1": f"{program_files}/Minecraft Launcher/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe",
-            "default": f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe"
+            "default": f"{program_files}/Minecraft Launcher/runtime/java-runtime-gamma/windows-x64/java-runtime-gamma/bin/javaw.exe",
         },
-
-        'Linux': {
+        "Linux": {
             "8": "~/.minecraft/runtime/java-runtime-legacy/linux/java-runtime-legacy/bin/java",
             "16": "~/.minecraft/runtime/java-runtime-alpha/linux/java-runtime-alpha/bin/java",
             "17.1": "~/.minecraft/runtime/java-runtime-beta/linux/java-runtime-beta/bin/java",
-            "default": "~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java"
+            "default": "~/.minecraft/runtime/java-runtime-gamma/linux/java-runtime-gamma/bin/java",
         },
-
-        'Mac': {
+        "Mac": {
             "8": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-legacy/darwin/java-runtime-legacy/bin/java",
             "16": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-alpha/darwin/java-runtime-alpha/bin/java",
             "17.1": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-beta/darwin/java-runtime-beta/bin/java",
-            "default": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java"
-        }
+            "default": "/Applications/Minecraft.app/Contents/MacOS/launcher/runtime/java-runtime-gamma/darwin/java-runtime-gamma/bin/java",
+        },
     }
 
     default = javas[platform.system()]["default"]
