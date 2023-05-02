@@ -22,9 +22,10 @@ import requests
 import tomlkit as toml
 
 # Local
-from vanilla_installer import __version__, config
+from vanilla_installer import __version__, config, log
 
-logger = logging.getLogger(__name__)
+logger = log.setup_logging()
+logger.info("Starting Vanilla Installer")
 
 FOLDER_LOC = ""
 

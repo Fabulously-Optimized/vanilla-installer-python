@@ -1,9 +1,10 @@
 """Provides internationalization (i18n) services to the Vanilla Installer."""
 import json
-import logging
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+from vanilla_installer import log
+
+logger = log.setup_logging()
 
 if Path("vanilla_installer").exists():
     # This is a development environment, being run from the root directory
