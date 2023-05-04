@@ -29,7 +29,7 @@ class LoggerWriter:
 
 logger = logging.getLogger(__name__)
 try:
-    if log_setup is not True:
+    if log_setup is not True: # noqa: F821
         log_setup = False
         logger.setLevel(logging.DEBUG)
         logfile_path = Path("./logs").resolve() / "vanilla_installer.log"
