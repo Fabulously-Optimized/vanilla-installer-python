@@ -336,29 +336,32 @@ def create_profile(mc_dir: str, version_id: str) -> None:
 def log_installed_version(
     version: Union[str, int, float], install_dir: Union[str, bytes, os.PathLike]
 ) -> None:
-    """Log the version of Minecraft that FO has been installed for. Used to find out later
+    """Log the version of Minecraft that FO has been installed for.
+    This is used to find out later whether this is a downgrade.
 
     Args:
         version (Union[str, int, float]): The version to log.
         install_dir (Union[str, bytes, os.PathLike]): The directory that FO was installed to.
     """
-    dir_path = Path(install_dir).resolve() / ".fabulously-optimized"
+    dir_path = Path(install_dir).resolve() / ".fovi"
     dir_path.mkdir(exist_ok=True)
     file_path = dir_path / "mc_version.txt"
     if file_path.exists() is False:
         file_path.touch()
     with file_path.open("w") as file:
-        file.write(str(version))
+        file.write(version)
 
 
-def read_versions() -> dict:
+def read_versions(force_local: bool = False) -> dict:
     """Reads the versions.json file, either over the Internet, or locally.
 
     Returns:
         dict: The JSON file, formatted as a dictionary.
     """
+    if force_local is True:
+        response = _get_versions_local()
+        return dict(response)
     SUPPORTED_FORMAT_VERSION = 2
-
     try:
         response = requests.get(
             "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
@@ -368,25 +371,23 @@ def read_versions() -> dict:
             raise UnsupportedFormatVersion(
                 f"Format version {format_version} is not supported by this version."
             )
-    except requests.exceptions.RequestException or response.status_code != "200":
-        # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.
-        # In this case, fall back to a local file.
-        logger.warning("GitHub failed, falling back to local...")
-        try:
-            local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
-        except:
-            local_path = Path("assets").resolve() / "versions.json"
-        response = json.loads(local_path.read_bytes())
-    except UnsupportedFormatVersion:
-        logger.exception(
-            "Format version was not supported - using local file. Update Vanilla Installer to fix this."
-        )
-        try:
-            local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
-        except:
-            local_path = Path("assets").resolve() / "versions.json"
-        response = json.loads(local_path.read_bytes())
+    except Exception as e:
+        if e is UnsupportedFormatVersion:
+            logger.exception(
+                "Format version was not supported - falling back to a local file. Update Vanilla Installer to fix this."
+            )
+        else:
+            logger.warning("GitHub failed, falling back to local...")
+        response = _get_versions_local()
     return dict(response)
+
+
+def _get_versions_local():
+    try:
+        local_path = Path("vanilla_installer/assets").resolve() / "versions.json"
+    except:
+        local_path = Path("assets").resolve() / "versions.json"
+    return json.loads(local_path.read_bytes())
 
 
 def get_pack_mc_versions() -> dict:
@@ -394,16 +395,18 @@ def get_pack_mc_versions() -> dict:
     Gets a list of all the versions FO currently supports.
     """
     return_value = dict()
+    all_versions = dict()
     raw_dict = read_versions()
     for version in raw_dict["versions"]:
         raw_version = raw_dict["versions"][version]
         if raw_version["enabled"] is True or raw_version["enabled"] == "true":
-            return_value[version] = raw_version
-    for key in return_value.keys():
+            all_versions[version] = raw_version
+    return_value = all_versions
+    for key in all_versions.keys():
         try:
-            if key["packwiz"] != "":
+            if all_versions[key]["packwiz"] != "":
                 pass
-        except KeyError:
+        except (KeyError, TypeError):
             return_value.pop(key)
     return return_value
 
@@ -426,7 +429,9 @@ def convert_version(input_mcver: str) -> str:
         return return_value
 
 
-def downgrade_check(version: Union[str, int, float]) -> bool:
+def downgrade_check(
+    version: Union[str, int, float], install_dir: Union[str, bytes, os.PathLike]
+) -> bool:
     """Checks whether the given version is a downgrade from the one currently installed.
 
     Args:
@@ -436,6 +441,32 @@ def downgrade_check(version: Union[str, int, float]) -> bool:
         bool: Whether this is a downgrade.
     """
     version_dict = read_versions()
+    installed_version_file = Path(install_dir).resolve() / ".fovi" / "mc_version.txt"
+    try:
+        with installed_version_file.open("r") as file:
+            current_version_file = file.read()
+    except FileNotFoundError:
+        logger.exception("No version file found. Assuming this is not a downgrade")
+        downgrade = False
+    try:
+        current_version = float(version_dict[current_version_file])
+        if float(version) < current_version:
+            downgrade = True
+        else:
+            downgrade = False
+    except KeyError:
+        logger.exception("Invalid or unknown version installed, making extra checks.")
+        install_dir_path = Path(install_dir).resolve()
+        install_dir_path.mods = install_dir_path / "mods"
+        install_dir_path.config = install_dir_path / "config"
+        install_dir_path.saves = install_dir_path / "saves"
+        if install_dir_path.mods.exists() is False and install_dir_path.config.exists() is False and install_dir_path.saves.exists() is False:
+            logger.info("No mods, config, or saves directory found, this cannot be a downgrade.")
+            downgrade = False
+        elif not any(install_dir_path.mods.iterdir()) and not any(install_dir_path.config.iterdir()) and not any(install_dir_path.saves.iterdir()):
+            logger.info("Mods, config, and saves directories were empty, this cannot be a downgrade.")
+            downgrade = False
+    return downgrade
 
 
 def run(
