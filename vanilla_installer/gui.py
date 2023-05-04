@@ -5,7 +5,6 @@ Runs the GUI for Vanilla Installer.
 """
 
 # IMPORTS
-import logging
 import pathlib
 import platform
 import sys
@@ -26,9 +25,11 @@ from PySide6.QtWidgets import (
     QGraphicsColorizeEffect,
     QLabel,
     QMainWindow,
+    QMessageBox,
     QPushButton,
     QTextEdit,
     QWidget,
+    QAbstractButton,
 )
 
 # LOCAL
@@ -68,12 +69,14 @@ def run() -> None:
 def setFont(opendyslexic: bool):
     global global_font
     if opendyslexic:
+        logger.debug("Set font to OpenDyslexic")
         global_font = "OpenDyslexic"
     else:
         # For some reason the Inter font on Linux is called `Inter` and on Windows it's called `Inter Regular`
         # And thus, this is a janky solution
         # I'm not sure what it's called on MacOS so hopefully it's the same as linux cause i can't test it
         # Either way it would be a better idea to move to a font that doesn't have this issue
+        logger.debug("Set font to Inter")
         inter_name = "Inter"
         if platform.system() == "Windows":
             inter_name = "Inter Regular"
@@ -419,6 +422,18 @@ class Ui_MainWindow(object):
         )
         version = self.versionSelector.itemText(self.versionSelector.currentIndex())
         location = self.selectedLocation.toPlainText()
+        if main.downgrade_check(version, location) is True:
+            logger.warning("Downgrade detected, opening downgrade warning.")
+            continue_on_downgrade = False
+            response = DowngradeWarning(self).exec()
+            if response == DowngradeWarning.cancelButton:
+                pass
+            if continue_on_downgrade is False:
+                return
+            else:
+                logger.warning(
+                    "User chose to continue on a version downgrade, anything past this is UNSUPPORTED."
+                )
         self.installing = True
         if version.startswith("1.16"):
             java_ver = 8
@@ -441,9 +456,6 @@ class Ui_MainWindow(object):
 class SettingsDialog(QDialog):
     """
     The settings dialog.
-
-    Args:
-        QDialog (QDialog): The dialog.
     """
 
     parentWindow: Ui_MainWindow
@@ -538,6 +550,93 @@ class SettingsDialog(QDialog):
         setFont(state == 2)
         self.reloadTheme()
         self.parentWindow.reloadTheme()
+
+
+class DowngradeWarning(QMessageBox):
+    parentWindow: Ui_MainWindow
+
+    def __init__(self, parent) -> None:
+        self.parentWindow = parent
+        super().__init__(self.parentWindow.centralwidget)
+        self.setupUi()
+
+    def setupUi(self) -> None:
+        """Setup the UI for the downgrade warning."""
+        if not self.objectName():
+            self.setObjectName("Warning")
+        self.setIcon(QMessageBox.Icon.Warning)
+        self.openFolderButton = self.addButton(
+            "Open .minecraft",
+            QMessageBox.ButtonRole.ActionRole,
+        )
+        self.installAnywayButton = self.addButton(
+            "Install anyway",
+            QMessageBox.ButtonRole.ActionRole,
+        )
+        self.installAnywayButton.setDisabled(True)
+        self.cancelButton = self.addButton(QMessageBox.Cancel)
+        self.installCheckbox = QCheckBox()
+        self.setCheckBox(self.installCheckbox)
+        self.setDefaultButton(QMessageBox.Cancel)
+        self.retranslateUi(self)
+        self.reloadTheme()
+
+    def retranslateUi(self, Warning) -> None:
+        """
+        Retranslate UI for the set dialog.
+
+        Args:
+            Warning: The dialog.
+        """
+        i18n_strings = i18n.get_i18n_values("en_us")
+        Warning.setWindowTitle(
+            QCoreApplication.translate(
+                "Warning", i18n_strings["vanilla_installer.gui.downgrade"], None
+            )
+        )
+        self.openFolderButton.setText(
+            QCoreApplication.translate(
+                "Warning",
+                i18n_strings["vanilla_installer.gui.warnings.open_folder"],
+                None,
+            )
+        )
+        self.installAnywayButton.setText(
+            QCoreApplication.translate(
+                "Warning",
+                i18n_strings["vanilla_installer.gui.warnings.install_anyway"],
+                None,
+            )
+        )
+        self.installCheckbox.setText(
+            QCoreApplication.translate(
+                "Warning",
+                i18n_strings["vanilla_installer.gui.downgrade.install_checkbox"],
+                None,
+            )
+        )
+
+    def reloadTheme(self) -> None:
+        """
+        Reload the theme.
+        """
+        loaded_theme = theme.load()
+        self.setStyleSheet(
+            f'[objectName^="Warning"] {{ background-color: {loaded_theme.get("base")}}}'
+        )
+        self.openFolderButton.setStyleSheet(
+            f'QPushButton {{ border: none; background-color: { loaded_theme.get("button") } ; color: {loaded_theme.get("text")}; padding: 8px; border-radius: 5px; font-family: "{global_font}"}}'
+            f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonhovered") }}}'
+            f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonpressed") }}}'
+        )
+        self.installAnywayButton.setStyleSheet(
+            f'QPushButton {{ border: none; background-color: { loaded_theme.get("button") } ; color: {loaded_theme.get("text")}; padding: 8px; border-radius: 5px; font-family: "{global_font}"}}'
+            f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonhovered") }}}'
+            f'QPushButton:hover {{ background-color: { loaded_theme.get("buttonpressed") }}}'
+        )
+        self.installCheckbox.setStyleSheet(
+            f'color: {loaded_theme.get("label")}; font-family: "{global_font}"'
+        )
 
 
 class Worker(QRunnable):

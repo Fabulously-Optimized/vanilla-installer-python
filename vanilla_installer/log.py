@@ -27,8 +27,12 @@ class LoggerWriter:
         pass
 
 
-def setup_logging() -> logging.Logger:
-    logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
+try:
+    if log_setup != bool:
+        pass
+except:
+    log_setup = False
     logger.setLevel(logging.DEBUG)
     logfile_path = Path("./logs").resolve() / "vanilla_installer.log"
     if logfile_path.exists() is False:
@@ -52,4 +56,8 @@ def setup_logging() -> logging.Logger:
     # To access the original stdout/stderr, use sys.__stdout__/sys.__stderr__
     sys.stdout = LoggerWriter(logger.info)
     sys.stderr = LoggerWriter(logger.error)
+    log_setup = True
+
+
+def setup_logging() -> logging.Logger:
     return logger

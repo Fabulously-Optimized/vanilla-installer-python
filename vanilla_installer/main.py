@@ -25,7 +25,7 @@ import tomlkit as toml
 from vanilla_installer import __version__, config, log
 
 logger = log.setup_logging()
-logger.info("Starting Vanilla Installer")
+
 
 FOLDER_LOC = ""
 
@@ -55,7 +55,6 @@ def get_dir() -> str:
     Returns:
         str: Path
     """
-
     path = config.read()
     return path["config"]["path"]
 
@@ -276,10 +275,10 @@ def install_pack(
         java_ver (float): The Java version to use. Defaults to 17.3
     """
     logger.debug("Installing the pack now.")
-    os.chdir(mc_dir)
-    os.makedirs(f"{get_dir()}/", exist_ok=True)
     pack_toml = convert_version(mc_version)
     try:
+        os.chdir(mc_dir)
+        os.makedirs(f"{get_dir()}/", exist_ok=True)
         command(
             f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml} --timeout 0"
         )
@@ -422,7 +421,7 @@ def convert_version(input_mcver: str) -> str:
         str: The converted version as a URL.
     """
     versions = get_pack_mc_versions()
-    return_value = versions.get(input_mcver)
+    return_value = versions[input_mcver]["packwiz"]
     if return_value is None:
         raise TypeError("Invalid or unsupported Minecraft version.")
     else:
@@ -440,6 +439,7 @@ def downgrade_check(
     Returns:
         bool: Whether this is a downgrade.
     """
+    downgrade = True
     version_dict = read_versions()
     installed_version_file = Path(install_dir).resolve() / ".fovi" / "mc_version.txt"
     try:
@@ -448,24 +448,39 @@ def downgrade_check(
     except FileNotFoundError:
         logger.exception("No version file found. Assuming this is not a downgrade")
         downgrade = False
-    try:
-        current_version = float(version_dict[current_version_file])
-        if float(version) < current_version:
-            downgrade = True
-        else:
-            downgrade = False
-    except KeyError:
-        logger.exception("Invalid or unknown version installed, making extra checks.")
-        install_dir_path = Path(install_dir).resolve()
-        install_dir_path.mods = install_dir_path / "mods"
-        install_dir_path.config = install_dir_path / "config"
-        install_dir_path.saves = install_dir_path / "saves"
-        if install_dir_path.mods.exists() is False and install_dir_path.config.exists() is False and install_dir_path.saves.exists() is False:
-            logger.info("No mods, config, or saves directory found, this cannot be a downgrade.")
-            downgrade = False
-        elif not any(install_dir_path.mods.iterdir()) and not any(install_dir_path.config.iterdir()) and not any(install_dir_path.saves.iterdir()):
-            logger.info("Mods, config, and saves directories were empty, this cannot be a downgrade.")
-            downgrade = False
+    if downgrade is not False:
+        try:
+            current_version = float(version_dict[current_version_file])
+            if float(version) < current_version:
+                downgrade = True
+            else:
+                downgrade = False
+        except KeyError:
+            logger.exception(
+                "Invalid or unknown version installed, making extra checks."
+            )
+            install_dir_path = Path(install_dir).resolve()
+            install_dir_path_mods = install_dir_path / "mods"
+            install_dir_path_config = install_dir_path / "config"
+            install_dir_path_saves = install_dir_path / "saves"
+            if (
+                install_dir_path_mods.exists() is False
+                and install_dir_path_config.exists() is False
+                and install_dir_path_saves.exists() is False
+            ):
+                logger.info(
+                    "No mods, config, or saves directory found, this cannot be a downgrade."
+                )
+                downgrade = False
+            elif (
+                not any(install_dir_path_mods.iterdir())
+                and not any(install_dir_path_config.iterdir())
+                and not any(install_dir_path_saves.iterdir())
+            ):
+                logger.info(
+                    "Mods, config, and saves directories were empty, this cannot be a downgrade."
+                )
+                downgrade = False
     return downgrade
 
 
@@ -522,3 +537,4 @@ def run(
     create_profile(mc_dir, fabric_version)
     text_update("Complete!", widget, "info", interface)
     logger.info("Success!")
+    log_installed_version(version, mc_dir)

@@ -2,6 +2,9 @@
 *.jar
 data/
 temp/
+config/
+data/
+resourcepacks/
 # tests/
 %USERPROFILE%
 logs/
