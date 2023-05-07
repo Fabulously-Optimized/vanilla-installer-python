@@ -7,6 +7,7 @@ A CLI interface for Vanilla Installer.
 ## Imports
 
 import asyncio
+
 # import logging
 import sys
 import webbrowser

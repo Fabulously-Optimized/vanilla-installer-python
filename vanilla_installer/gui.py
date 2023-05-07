@@ -32,9 +32,9 @@ from PySide6.QtWidgets import (
 )
 
 # LOCAL
-from vanilla_installer import config, i18n, main, theme
+from vanilla_installer import config, i18n, log, main, theme
 
-logger = logging.getLogger(__name__)
+logger = log.setup_logging()
 
 
 def run() -> None:

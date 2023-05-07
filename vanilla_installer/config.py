@@ -12,7 +12,9 @@ import minecraft_launcher_lib as mll
 import tomlkit
 from tomlkit import toml_file
 
-logger = logging.getLogger(__name__)
+from vanilla_installer import log
+
+logger = log.setup_logging()
 
 FILE_PATH = str(Path("vanilla_installer.toml").resolve())
 

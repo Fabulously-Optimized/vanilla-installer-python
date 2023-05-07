@@ -10,9 +10,9 @@ from typing import Optional
 
 import darkdetect
 
-from vanilla_installer import config
+from vanilla_installer import config, log
 
-logger = logging.getLogger(__name__)
+logger = log.setup_logging()
 
 FILE = str(pathlib.Path("data/theme.txt").resolve())
 
