@@ -29,7 +29,7 @@ anyio = "^3.6.2" # asyncclick seems to bug without anyio, despite being a dep
 tomlkit = "^0.11.8"
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^2.17.3"
+pylint = "^2.17.4"
 black = "^23.3.0"
 isort = "^5.12.0"
 
