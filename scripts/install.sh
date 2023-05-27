@@ -194,3 +194,5 @@ do
     exit $?
 
 done
+echoerr "Error: No compatible versions of Python could be found. Get Python from https://www.python.org/downloads or with your system package manager."
+exit 1
