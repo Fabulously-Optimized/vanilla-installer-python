@@ -1,7 +1,7 @@
 # Installation
 
 This varies between platform, so select your OS here:
-**[Windows](#windows)** - **[macOS](#macos)** - **[Linux](#linux)**
+**[Windows](#windows)** - **[macOS/Linux](#macos-and-linux)****
 
 ## Windows
 
@@ -14,24 +14,15 @@ For most users on Windows, we recommend the binary version.
 4. Select the Minecraft version and directory, and click `Install`.
 5. You're all done!
 
-## macOS
+## macOS and Linux
 
-Currently, the Vanilla Installer fails to compile on macOS, so you'll have to use the Linux method below.
-It's recommended to install Python using [Homebrew](https://brew.sh), however installers from [python.org](https://python.org) should also work fine.
+*Note: Untested on macOS.*
 
-**If** you know something about why it might fail to compile (it can't find the PySide6 Qt resources directory), please join [our discord][2] and mention it to us.
+We have a script to install the Vanilla Installer for you, instead of going through a complicated process.
 
-## Linux
-
-Because of Linux having many different package managers, we've decided to make the way to install on Linux via `pip`, or building from source using `python` and `poetry`, which isn't covered here.
-
-1. Install Python 3.8 or higher (3.11 recommended) from your package manager using one of the following examples: 
-   - Ubuntu: `sudo apt install python3`
-   - Arch Linux: `sudo pacman -S python3`
-   - Fedora: `sudo dnf install python3` 
-
-2. Run `pip3 install vanilla-installer[gui]`.
-3. Then you can run `vanilla-installer-gui` to launch the program. If you have issues, try `python3 -m vanilla_installer gui`.
+1. Open a terminal.
+2. Paste this command in (with Ctrl+Shift+V) and then press Enter: `curl https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/scripts/install.sh | bash -`.
+Be aware that this executes the script as soon as it is downloaded. If you want to look at the contents of said script first, you can look at [the source on GitHub](https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/scripts/install.sh).
 
 [1]: https://github.com/Fabulously-Optimized/vanilla-installer/releases/latest
-[2]: https://discord.gg/fabulously-optimized-859124104644788234
+<!--[2]: https://discord.gg/fabulously-optimized-859124104644788234-->
