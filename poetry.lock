@@ -368,14 +368,14 @@ files = [
 
 [[package]]
 name = "imageio"
-version = "2.28.1"
+version = "2.29.0"
 description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "imageio-2.28.1-py3-none-any.whl", hash = "sha256:b9b456146aab459e648cde633b81bf487eb45248948f79c033e55af3bf1e6d70"},
-    {file = "imageio-2.28.1.tar.gz", hash = "sha256:5db5087be5c814ecf7e2c7d30a1a15c97eca97d8c26f31ddc54d767d4a43bce8"},
+    {file = "imageio-2.29.0-py3-none-any.whl", hash = "sha256:548e93628b4c05afb29a3a0470167ff790cc9af598b5b1bd5fbec485aaf78786"},
+    {file = "imageio-2.29.0.tar.gz", hash = "sha256:5aa207ab61aca233a7a312951ac603d618b78418eac749e3dc5035010531e25b"},
 ]
 
 [package.dependencies]
@@ -503,13 +503,13 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "1.5.7"
+version = "1.5.8"
 description = "Python compiler with full language support and CPython compatibility"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "Nuitka-1.5.7.tar.gz", hash = "sha256:aa9cd2a34d64abb929e69aca4ec2018bad562c950fcac0fad2d28b61a4d522e4"},
+    {file = "Nuitka-1.5.8.tar.gz", hash = "sha256:729806f45d8a7cf45a843a92752f392e6a821653ba72d46505b6c154be0d3853"},
 ]
 
 [package.dependencies]
@@ -817,14 +817,14 @@ shiboken6 = "6.5.0"
 
 [[package]]
 name = "requests"
-version = "2.30.0"
+version = "2.31.0"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "requests-2.30.0-py3-none-any.whl", hash = "sha256:10e94cc4f3121ee6da529d358cdaeaff2f1c409cd377dbc72b825852f2f7e294"},
-    {file = "requests-2.30.0.tar.gz", hash = "sha256:239d7d4458afcb28a692cdd298d87542235f4ca8d36d03a15bfc128a6559a2f4"},
+    {file = "requests-2.31.0-py3-none-any.whl", hash = "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f"},
+    {file = "requests-2.31.0.tar.gz", hash = "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"},
 ]
 
 [package.dependencies]
@@ -1068,4 +1068,4 @@ gui = ["darkdetect", "pyside6"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "00d269ebcbd0ebe6a2d196dcd922724dde5d6367427f8bbe4480c235c4c2ed39"
+content-hash = "a063436702049173938c90207bb6124711624eedc0f315284fc5f676f311d576"
