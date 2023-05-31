@@ -519,13 +519,13 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "1.5.8"
+version = "1.6"
 description = "Python compiler with full language support and CPython compatibility"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "Nuitka-1.5.8.tar.gz", hash = "sha256:729806f45d8a7cf45a843a92752f392e6a821653ba72d46505b6c154be0d3853"},
+    {file = "Nuitka-1.6.tar.gz", hash = "sha256:f4c77d8ecddf775795f95303e1ff89be4f4378912f730ca4996fe160f2224195"},
 ]
 
 [package.dependencies]
@@ -1084,4 +1084,4 @@ gui = ["pyside6", "darkdetect"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "1315aaddd7a9ea92ed8a1d8814456c822c345c321687ccffecfc5009c4ee6f7b"
+content-hash = "fdc49474794f6b24e130f956f22d1b4b74833d78ad3bf6b44f69a2649b434cb3"
