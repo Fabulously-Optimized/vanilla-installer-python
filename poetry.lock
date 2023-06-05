@@ -384,14 +384,14 @@ files = [
 
 [[package]]
 name = "imageio"
-version = "2.30.0"
+version = "2.31.0"
 description = "Library for reading and writing a wide range of image, video, scientific, and volumetric data formats."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "imageio-2.30.0-py3-none-any.whl", hash = "sha256:e045e9593ed94af41759901d6a51d5313b1e78fc118b6befbbfbf4e9cbe7398a"},
-    {file = "imageio-2.30.0.tar.gz", hash = "sha256:7fc6ad5b5677cb1e58077875a72512aa8c392b6d40885eca0a6ab250efb4b8f4"},
+    {file = "imageio-2.31.0-py3-none-any.whl", hash = "sha256:141bbd97910fad105c179a6b344ae4e7fef0dd85411303c63cd925b4c6163bee"},
+    {file = "imageio-2.31.0.tar.gz", hash = "sha256:9e2d1dec1c74ba10d58856f2f02883b84f5cd5be937a1156cc238b539a6cf068"},
 ]
 
 [package.dependencies]
@@ -1084,4 +1084,4 @@ gui = ["pyside6", "darkdetect"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "1315aaddd7a9ea92ed8a1d8814456c822c345c321687ccffecfc5009c4ee6f7b"
+content-hash = "27c051390d25e75b6af090b40f29c137283735b93fb7ceee3139999370e07b56"
