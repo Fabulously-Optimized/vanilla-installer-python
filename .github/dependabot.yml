@@ -1,7 +1,7 @@
 # Update python dependencies daily
 
 version: 2
-updates:
+updates: []
 
   # Maintain dependencies for pip
   # - package-ecosystem: "pip"
