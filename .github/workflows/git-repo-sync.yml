@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-22.04
     name: Git Repo Sync - BitBucket
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout the Repository
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - uses: wangchucheng/git-repo-sync@v0.1.0
