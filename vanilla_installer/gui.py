@@ -540,6 +540,23 @@ class SettingsDialog(QDialog):
         self.reloadTheme()
         self.parentWindow.reloadTheme()
 
+    def setFODir(self, state: bool) -> None:
+        """Set whether the FO dir should be used.
+
+        Args:
+            state (bool): Whether the FO directory is being enabled or disabled.
+        """
+        if state is True:
+            config.write("fo_dir", True)
+            self.parentWindow.locationSelector.setDisabled(True)
+            self.parentWindow.selectedLocation.setDisabled(True)
+        else:
+            config.write("fo_dir", False)
+            self.parentWindow.locationSelector.setDisabled(False)
+            self.parentWindow.selectedLocation.setDisabled(False)
+        self.reloadTheme()
+        self.parentWindow.reloadTheme()
+
 
 class Worker(QRunnable):
     def __init__(self, fn) -> None:
