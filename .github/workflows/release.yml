@@ -7,7 +7,7 @@ jobs:
   build-pip:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repo
+      - name: Checkout the Repository
         uses: actions/checkout@v3
 
       - name: Setup Python 3.11

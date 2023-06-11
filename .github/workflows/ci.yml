@@ -22,7 +22,8 @@ jobs:
       matrix:
         os: ["ubuntu-22.04", "macos-13", "windows-2022"]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
@@ -52,7 +53,8 @@ jobs:
     runs-on: ubuntu-22.04
     needs: lint
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
@@ -95,7 +97,8 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         id: setup-python
@@ -149,7 +152,8 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout the Repository
+        uses: actions/checkout@v3
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
