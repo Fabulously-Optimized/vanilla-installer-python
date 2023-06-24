@@ -5,5 +5,10 @@
   "vanilla_installer.gui.location": "Location:",
   "vanilla_installer.gui.issues_button": "Report bugs",
   "vanilla_installer.gui.theme_toggle": "Toggle theme",
-  "vanilla_installer.gui.settings": "Settings"
+  "vanilla_installer.gui.settings": "Settings",
+  "vanilla_installer.gui.downgrade": "Downgrade Warning",
+  "vanilla_installer.gui.downgrade.text": "You are attempting to downgrade the Minecraft version. This is NOT SUPPORTED by Mojang or Fabulously Optimized and it may cause world corruption or crashes. \nIf you want to do this safely, you should backup mods, config and saves folders to a different location and delete them from your .minecraft folder.",
+  "vanilla_installer.gui.downgrade.install_checkbox": "I agree that downgrades are unsupported by Mojang and Fabulously Optimized, but I want to do this anyway.",
+  "vanilla_installer.gui.warnings.open_folder": "Open .minecraft",
+  "vanilla_installer.gui.warnings.install_anyway": "Install anyway"
 }
